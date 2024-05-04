@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "Staiged Backend"
+version = "0.1.0"
+description = "The backend for my masters project."
+authors = ["jackbeau <63471281+jackbeau@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+faster-whisper = "^0.10.0"
+loguru = "^0.7.2"
+numpy = "^1.26.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,40 @@
+name: staiged
+description: "A new Flutter project."
+
+# Prevent accidental publishing to pub.dev.
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  pdfrx: ^0.4.54
+  pdfx:
+      git:
+        url: 'https://github.com/ScerIO/packages.flutter'
+        ref: '4be9de9ffed5398fd7d5f44bbb07dcd3d3f1711b'
+        path: packages/pdfx
+  window_manager: ^0.3.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Enable generation of localized Strings from arb files.
+  generate: true
+
+  assets:
+    # Add assets from the images directory to the application.
+    - assets/images/
+    - assets/input.pdf
