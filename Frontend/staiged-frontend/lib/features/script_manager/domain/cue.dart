@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'models/cue_type.dart';
-import 'models/tag.dart';
-import '../annotation.dart';
+import '../data/models/cue_type.dart';
+import '../data/models/tag.dart';
+import '../data/models/annotation.dart';
 
 class Cue extends Annotation {
   static const double containerRadius = 2;

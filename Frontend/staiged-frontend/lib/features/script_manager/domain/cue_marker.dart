@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'cue.dart';
-import '../annotation.dart';
+import '../data/models/annotation.dart';
 
 class CueMarker extends Cue {
   static const double radius = 10;

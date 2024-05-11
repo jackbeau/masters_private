@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pdfrx/pdfrx.dart';
-import '../annotations/cues/cue.dart'; 
-import '../annotations/annotation.dart';
-import '../annotations/cues/models/tag.dart';
-import '../annotations/cues/models/cue_type.dart';
-import '../annotations/cues/cue_marker.dart';
+import 'cue.dart'; 
+import '../data/models/annotation.dart';
+import '../data/models/tag.dart';
+import '../data/models/cue_type.dart';
+import 'cue_marker.dart';
 
 abstract class Tool {
   final bool twoActions;

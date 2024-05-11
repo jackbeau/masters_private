@@ -2,8 +2,8 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:pdfrx/pdfrx.dart';
-import '../../../script_viewer_page/common/annotations/annotation.dart';
-import '../../../script_viewer_page/common/tools/tools.dart';
+import '../../data/models/annotation.dart';
+import '../../domain/tools.dart';
 import 'package:collection/collection.dart';
 import '../../../script_viewer_page/script_canvas/utils.dart';
 
