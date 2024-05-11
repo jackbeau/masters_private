@@ -43,7 +43,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -205,3 +204,4 @@ Backend/.DS_Store
 *.avi
 .DS_Store
 Backend/.DS_Store
+.DS_Store
