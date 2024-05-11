@@ -203,3 +203,5 @@ pyrightconfig.json
 Backend/.DS_Store
 Backend/.DS_Store
 *.avi
+.DS_Store
+Backend/.DS_Store
