@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+// If you are going to use settings or any service that needs to be initialized, uncomment these:
+// import 'pages/settings/settings_controller.dart';
+// import 'pages/settings/settings_service.dart';
+import 'core/theme/theme.dart';
+import 'shared/routes/app_routes.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
-import 'src/home_page.dart';
-import 'src/settings/settings_controller.dart';
-import 'src/settings/settings_service.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Assuming SettingsService is what you might use for loading and saving settings
+  // final settingsService = SettingsService();
+  // final settingsController = SettingsController(settingsService);
+  // await settingsController.loadSettings();
 
-void main() {
+  usePathUrlStrategy();
   runApp(const MyApp());
 }
 
@@ -13,13 +22,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Staiged',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: HomePage(),
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      title: 'Stage Assistant Client',
+      themeMode: ThemeMode.light, // Or ThemeMode.dark, which could be dynamically determined
+      theme: GlobalThemeData.lightThemeData, 
+      darkTheme: GlobalThemeData.darkThemeData,
+      routerConfig: AppRoutes.defineRoutes(),
     );
   }
 }

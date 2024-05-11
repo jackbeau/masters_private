@@ -10,10 +10,16 @@ environment:
   sdk: '>=3.2.3 <4.0.0'
 
 dependencies:
+  beamer: ^1.6.1
+  collection: ^1.18.0
   flutter:
     sdk: flutter
-  flutter_localizations:
+  flutter_bloc: ^8.1.5
+  flutter_web_plugins:
     sdk: flutter
+  # flutter_localizations:
+  #   sdk: flutter
+  go_router: ^14.1.0
   pdfrx: ^0.4.54
   pdfx:
       git:
