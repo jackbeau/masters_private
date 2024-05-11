@@ -5,7 +5,7 @@ import 'package:pdfrx/pdfrx.dart';
 import '../../data/models/annotation.dart';
 import '../../domain/tools.dart';
 import 'package:collection/collection.dart';
-import '../../../script_viewer_page/script_canvas/utils.dart';
+import '../../domain/pdf_utils.dart'; 
 
 class ScriptCanvas extends StatefulWidget {
   final PdfViewerController controller;
