@@ -52,31 +52,42 @@ class _ScriptCanvasState extends State<ScriptCanvas> {
     );
   }
 
-  PdfViewerParams _buildPdfViewerParams(ScriptCanvasState state) {
-    return PdfViewerParams(
-        margin: 0,
-        backgroundColor: Colors.black,
-        enableTextSelection: true,
-        maxScale: 8,
-        pagePaintCallbacks: [
-          if (state is ScriptCanvasReady)
-            (Canvas canvas, Rect pageRect, PdfPage page) =>
-                _drawAnnotations(canvas, pageRect, page, state.annotations),
-        ],
-        pageOverlaysBuilder: ((context, pageRect, page) => [
-              SizedBox.expand(
-                  child: GestureDetector(
-                onPanUpdate: (details) =>
-                    _bloc.add(PagePanUpdate(details.delta, page, pageRect)),
-                onTapDown: (details) => _bloc
-                    .add(PageTapDown(details.localPosition, page, pageRect)),
-                onPanStart: ((details) => _bloc
-                    .add(PagePanStart(details.localPosition, page, pageRect))),
-                onPanEnd: ((details) => _bloc.add(PagePanEnd())),
-              )),
-            ]),
-        viewerOverlayBuilder: (context, size) => _buildViewerOverlays());
-  }
+PdfViewerParams _buildPdfViewerParams(ScriptCanvasState state) {
+  return PdfViewerParams(
+      margin: 0,
+      backgroundColor: Colors.black,
+      enableTextSelection: true,
+      maxScale: 8,
+      pagePaintCallbacks: [
+        if (state is ScriptCanvasReady)
+          (Canvas canvas, Rect pageRect, PdfPage page) =>
+              _drawAnnotations(canvas, pageRect, page, state.annotations),
+      ],
+      pageOverlaysBuilder: ((context, pageRect, page) => [
+        Positioned.fill(  // Ensure the listener covers the whole overlay
+          child: Stack(
+            children: [
+              Listener(
+                onPointerMove: (details) => _bloc.add(PagePanUpdate(details.delta, page, pageRect)),
+                onPointerUp: (details) => _bloc.add(PagePanEnd()),
+                behavior: HitTestBehavior.translucent,
+              ),
+              GestureDetector(
+            onTapDown: (details) => 
+              _bloc.add(PageTapDown(details.localPosition, page, pageRect)),
+            onPanStart: ((details) =>
+              _bloc.add(PagePanStart(details.localPosition, page, pageRect))),
+                behavior: HitTestBehavior.translucent,
+              ),
+            ],
+          ),
+        ),
+      ]),
+      viewerOverlayBuilder: (context, size) => _buildViewerOverlays());
+}
+
+
+
 
   List<Widget> _buildViewerOverlays() {
     return [
