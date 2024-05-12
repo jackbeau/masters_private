@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../data/models/cue.dart'; // Ensure this import path matches the location of your Cue model
+import '../../../data/models/cue_TEMP.dart'; // Ensure this import path matches the location of your Cue model
 
 class CueTile extends StatelessWidget {
   final Cue cue;

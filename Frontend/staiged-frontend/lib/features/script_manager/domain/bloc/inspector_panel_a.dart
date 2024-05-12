@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/models/cue.dart';
+import '../../data/models/cue_TEMP.dart';
 
 abstract class InspectorPanelAEvent {}
 class LoadCues extends InspectorPanelAEvent {}

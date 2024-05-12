@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/bloc/inspecor_panel_a.dart';
-import '../../../data/models/cue.dart';
+import '../../../domain/bloc/inspector_panel_a.dart';
+import '../../../data/models/cue_TEMP.dart';
 import 'cue_tile.dart';
 
 class InspectorPanelA extends StatelessWidget {
