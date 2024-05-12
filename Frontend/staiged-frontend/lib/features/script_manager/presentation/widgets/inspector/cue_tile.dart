@@ -30,9 +30,9 @@ class CueTile extends StatelessWidget {
                     // Placeholder for an action - this could be linked to playing the cue or other interactions
                     print("Cue action triggered for: ${cue.title}");
                   },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.blueAccent, // Background color
-                  ),
+                  // style: ElevatedButton.styleFrom(
+                  //   primary: Colors.blueAccent, // Background color
+                  // ),
                   child: Text('GO'),
                 ),
               ],

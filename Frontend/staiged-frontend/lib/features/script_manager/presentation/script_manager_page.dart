@@ -29,10 +29,13 @@ class ScriptManagerPage extends StatelessWidget {
                 builder: (context, state) {
                   if (state is ScriptManagerLoaded) {
                     return Scaffold(
-                      appBar: CustomAppBar(
-                        appBarBloc: BlocProvider.of<AppBarBloc>(context),
-                        scriptManagerBloc: BlocProvider.of<ScriptManagerBloc>(context),
-                        currentMode: state.mode,
+                      appBar: PreferredSize(
+                        preferredSize: const Size.fromHeight(60.0), // Set the height for the toolbar
+                        child: CustomToolbar(
+                          appBarBloc: BlocProvider.of<AppBarBloc>(context),
+                          scriptManagerBloc: BlocProvider.of<ScriptManagerBloc>(context),
+                          currentMode: state.mode,
+                        ),
                       ),
                       body: Row(
                         children: [

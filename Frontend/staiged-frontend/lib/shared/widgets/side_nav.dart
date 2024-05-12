@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'custom_crossfade.dart';
 
 class SideNav extends StatefulWidget {
   final int selectedIndex;
@@ -12,11 +13,20 @@ class SideNav extends StatefulWidget {
 
 class SideNavState extends State<SideNav> {
   late List<bool> isHovering;
+  late List<int> updateCounters;
 
   @override
   void initState() {
     super.initState();
     isHovering = List.generate(6, (_) => false);
+    updateCounters = List.generate(6, (_) => 0);
+  }
+
+  void updateHoverState(int index, bool hoverState) {
+    setState(() {
+      isHovering[index] = hoverState;
+      updateCounters[index]++;
+    });
   }
 
   @override
@@ -27,17 +37,17 @@ class SideNavState extends State<SideNav> {
       child: Column(
         children: <Widget>[
           const SizedBox(height: 16),
-          buildNavItem(index: 0, assetPath: "assets/icons/home.png", route: '/', label: 'Home'),
+          buildNavItem(index: 0, assetPath: "assets/icons/home.png", route: '/', label: 'Home', iconSize: 20),
           const SizedBox(height: 32),
-          buildNavItem(index: 1, assetPath: "assets/icons/script.png", route: '/script', label: 'Script'),
+          buildNavItem(index: 1, assetPath: "assets/icons/script.png", route: '/script', label: 'Script', iconSize: 20),
           const SizedBox(height: 18),
-          buildNavItem(index: 2, assetPath: "assets/icons/cues.png", route: '/cues', label: 'Cues'),
+          buildNavItem(index: 2, assetPath: "assets/icons/cues.png", route: '/cues', label: 'Cues', iconSize: 20),
           const SizedBox(height: 18),
-          buildNavItem(index: 3, assetPath: "assets/icons/recording.png", route: '/recordings', label: 'Recordings'),
+          buildNavItem(index: 3, assetPath: "assets/icons/recording.png", route: '/recordings', label: 'Recordings', iconSize: 20),
           const SizedBox(height: 18),
-          buildNavItem(index: 4, assetPath: "assets/icons/users.png", route: '/users', label: 'Users'),
+          buildNavItem(index: 4, assetPath: "assets/icons/users.png", route: '/users', label: 'Users', iconSize: 20),
           const Spacer(),
-          buildNavItem(index: 5, assetPath: "assets/icons/settings.png", route: '/settings', label: 'Settings'),
+          buildNavItem(index: 5, assetPath: "assets/icons/settings.png", route: '/settings', label: 'Settings', iconSize: 20),
           const SizedBox(height: 16),
           buildUserIconNavItem(label: 'User'),
           const SizedBox(height: 18),
@@ -45,32 +55,30 @@ class SideNavState extends State<SideNav> {
       ),
     );
   }
-  Widget buildNavItem({required int index, required String assetPath, required String route, required String label}) {
+
+  Widget buildNavItem({required int index, required String assetPath, required String route, required String label, required double iconSize}) {
+    bool isSelected = widget.selectedIndex == index;
+
     return InkWell(
       onTap: () => context.go(route),
       child: MouseRegion(
-        onEnter: (_) => setState(() => isHovering[index] = true),
-        onExit: (_) => setState(() => isHovering[index] = false),
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            child: Container(
-                width: 32,
-                height: 32,
-                alignment: Alignment.center,
-                child: Image.asset(
-                  assetPath,
-                  key: ValueKey<bool>(widget.selectedIndex == index || isHovering[index]),
-                  colorBlendMode: BlendMode.srcIn,
-                  color: widget.selectedIndex == index
-                      ? Theme.of(context).colorScheme.onPrimary
-                      : (isHovering[index] && widget.selectedIndex != index
-                          ? Theme.of(context).colorScheme.onSurfaceVariant
-                          : const Color(0xFF50525E)),
-                  width: 20,
-                ),
-            )
-          )
-      )
+        onEnter: (_) => updateHoverState(index, true),
+        onExit: (_) => updateHoverState(index, false),
+        child: Container(
+          width: 32,
+          height: 32,
+          padding: EdgeInsets.all((32 - iconSize) / 2),
+          child: isSelected ? 
+            Image.asset(assetPath, color: Theme.of(context).colorScheme.onPrimary, width: iconSize)
+            :
+            CustomCrossfade(
+              showFirst: !isHovering[index],
+              firstChild: Image.asset(assetPath, color: Theme.of(context).colorScheme.onSurfaceVariant, width: iconSize),
+              secondChild: Image.asset(assetPath, color: const Color(0xFF50525E), width: iconSize),
+              duration: const Duration(milliseconds: 300),
+            ),
+        ),
+      ),
     );
   }
 
@@ -89,11 +97,11 @@ class SideNavState extends State<SideNav> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(4), // Slightly rounded corners
+            borderRadius: BorderRadius.circular(4),
           ),
           child: const Text(
             "JB",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
           ),
         ),
       ),
