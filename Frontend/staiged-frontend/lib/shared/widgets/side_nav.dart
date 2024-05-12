@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-class CustomSidebar extends StatefulWidget {
+class SideNav extends StatefulWidget {
   final int selectedIndex;
 
-  const CustomSidebar({Key? key, required this.selectedIndex}) : super(key: key);
+  const SideNav({Key? key, required this.selectedIndex}) : super(key: key);
 
   @override
-  CustomSidebarState createState() => CustomSidebarState();
+  SideNavState createState() => SideNavState();
 }
 
-class CustomSidebarState extends State<CustomSidebar> {
+class SideNavState extends State<SideNav> {
   late List<bool> isHovering;
 
   @override

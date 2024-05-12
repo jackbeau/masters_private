@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../widgets/navigation_bar.dart';
+import '../widgets/side_nav.dart';
 import '../../features/script_manager/presentation/script_manager_page.dart';
 
 
@@ -15,7 +15,7 @@ class AppRoutes {
             return Scaffold(
               body: Row(
                 children: [
-                  CustomSidebar(
+                  SideNav(
                     selectedIndex: currentIndex
                   ),
                   Expanded(child: child),
