@@ -15,6 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.5
+  flutter_svg: ^2.0.10+1
   flutter_web_plugins:
     sdk: flutter
   # flutter_localizations:
@@ -43,4 +44,5 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+    - assets/icons/
     - assets/input.pdf

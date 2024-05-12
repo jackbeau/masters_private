@@ -5,7 +5,7 @@ import '../domain/bloc/app_bar_bloc.dart';
 import 'widgets/script_canvas.dart';
 import 'widgets/inspector/inspector.dart';
 import 'widgets/sidebar.dart';
-import 'widgets/custom_app_bar.dart';
+import 'widgets/custom_app_bar/custom_app_bar.dart';
 
 class ScriptManagerPage extends StatelessWidget {
   ScriptManagerPage({Key? key}) : super(key: key);
@@ -29,9 +29,12 @@ class ScriptManagerPage extends StatelessWidget {
                 if (state is ScriptManagerLoaded) {
                   return Scaffold(
                     appBar: CustomAppBar(
-                      segmentedControlValue: state.segmentedControlValue,
-                      onSegmentChanged: (value) => context.read<ScriptManagerBloc>().add(SegmentChanged(value)),
-                    ),
+                    segmentedControlValue: state.segmentedControlValue,
+                    onSegmentChanged: (value) {
+                    // Do something with the new segment value
+                    },
+                  appBarBloc: BlocProvider.of<AppBarBloc>(context),
+            ),
                     body: Row(
                       children: [
                         Sidebar(),

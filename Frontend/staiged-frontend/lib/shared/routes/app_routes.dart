@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../widgets/custom_navigation_rail.dart';
+import '../widgets/navigation_bar.dart';
 import '../../features/script_manager/presentation/script_manager_page.dart';
 
 
@@ -15,7 +15,7 @@ class AppRoutes {
             return Scaffold(
               body: Row(
                 children: [
-                  CustomNavigationRail(
+                  CustomSidebar(
                     selectedIndex: currentIndex
                   ),
                   Expanded(child: child),
@@ -26,15 +26,27 @@ class AppRoutes {
           routes: [
             GoRoute(
               path: '/',
-              pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('First Page'))),
+              pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('Home'))),
             ),
             GoRoute(
-              path: '/second',
+              path: '/script',
               pageBuilder: (context, state) => NoTransitionPage(child: ScriptManagerPage()),
             ),
             GoRoute(
-              path: '/third',
-              pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('Third Page'))),
+              path: '/cues',
+              pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('Cues'))),
+            ),
+            GoRoute(
+              path: '/recordings',
+              pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('Recordings'))),
+            ),
+            GoRoute(
+              path: '/users',
+              pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('Users'))),
+            ),
+            GoRoute(
+              path: '/settings',
+              pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('settings'))),
             ),
           ],
         ),
@@ -45,10 +57,16 @@ class AppRoutes {
   static int _getCurrentIndex(String? location) {
     if (location == '/') {
       return 0;
-    } else if (location == '/second') {
+    } else if (location == '/script') {
       return 1;
-    } else if (location == '/third') {
+    } else if (location == '/cues') {
       return 2;
+    } else if (location == '/recordings') {
+      return 3;
+    } else if (location == '/users') {
+      return 4;
+    } else if (location == '/settings') {
+      return 5;
     } else {
       return 0; // default to home if no match found
     }
