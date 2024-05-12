@@ -12,7 +12,6 @@ class InitializeAppBar extends AppBarEvent {
   final PdfViewerController controller;
   InitializeAppBar(this.controller);
 }
-
 abstract class AppBarState {
   final PdfViewerController controller;
   AppBarState(this.controller);

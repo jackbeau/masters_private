@@ -8,7 +8,7 @@ import 'widgets/sidebar.dart';
 import 'widgets/custom_app_bar/custom_app_bar.dart';
 
 class ScriptManagerPage extends StatelessWidget {
-  ScriptManagerPage({Key? key}) : super(key: key);
+  const ScriptManagerPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,49 +16,52 @@ class ScriptManagerPage extends StatelessWidget {
       create: (_) => ScriptManagerBloc()..add(LoadPdf()),
       child: BlocBuilder<ScriptManagerBloc, ScriptManagerState>(
         builder: (context, state) {
-          // Provide AppBarBloc here at a higher level with the correct controller
-          return state is ScriptManagerLoaded ? BlocProvider<AppBarBloc>(
-            create: (context) => AppBarBloc(state.pdfController),
-            child: BlocConsumer<ScriptManagerBloc, ScriptManagerState>(
-              listener: (context, state) {
-                if (state is ScriptManagerLoaded) {
-                  context.read<AppBarBloc>().add(InitializeAppBar(state.pdfController));
-                }
-              },
-              builder: (context, state) {
-                if (state is ScriptManagerLoaded) {
-                  return Scaffold(
-                    appBar: CustomAppBar(
-                    segmentedControlValue: state.segmentedControlValue,
-                    onSegmentChanged: (value) {
-                    // Do something with the new segment value
-                    },
-                  appBarBloc: BlocProvider.of<AppBarBloc>(context),
-            ),
-                    body: Row(
-                      children: [
-                        Sidebar(),
-                        Expanded(
-                          flex: 4,
-                          child: ScriptCanvas(controller: state.pdfController),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Inspector(selectedPanel: state.segmentedControlValue),
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return Scaffold(
-                    body: Center(child: CircularProgressIndicator()),
-                  );
-                }
-              },
-            ),
-          ) : Scaffold(
-            body: Center(child: Text("Waiting for PDF loading")),
-          );
+          if (state is ScriptManagerLoaded && state.pdfController != null) {
+            // Ensuring the controller is not null before providing it
+            return BlocProvider<AppBarBloc>(
+              create: (context) => AppBarBloc(state.pdfController!),
+              child: BlocConsumer<ScriptManagerBloc, ScriptManagerState>(
+                listener: (context, state) {
+                  if (state is ScriptManagerLoaded && state.pdfController != null) {
+                    context.read<AppBarBloc>().add(InitializeAppBar(state.pdfController!));
+                  }
+                },
+                builder: (context, state) {
+                  if (state is ScriptManagerLoaded) {
+                    return Scaffold(
+                      appBar: CustomAppBar(
+                        appBarBloc: BlocProvider.of<AppBarBloc>(context),
+                        scriptManagerBloc: BlocProvider.of<ScriptManagerBloc>(context),
+                        currentMode: state.mode,
+                      ),
+                      body: Row(
+                        children: [
+                          Sidebar(),
+                          Expanded(
+                            flex: 4,
+                            child: ScriptCanvas(controller: state.pdfController!),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Inspector(selectedPanel: state.segmentedControlValue),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return Scaffold(
+                      body: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+                },
+              ),
+            );
+          } else {
+            // Return a loading or error state when the controller or necessary state is not loaded
+            return Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
+          }
         },
       ),
     );

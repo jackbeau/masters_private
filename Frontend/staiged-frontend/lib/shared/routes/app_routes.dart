@@ -9,8 +9,8 @@ class AppRoutes {
     return GoRouter(
       initialLocation: '/',
       routes: [
-        ShellRoute(
-          builder: (BuildContext context, GoRouterState state, Widget child) {
+        StatefulShellRoute.indexedStack(
+          builder: (BuildContext context, GoRouterState state, StatefulNavigationShell child) {
             int currentIndex = _getCurrentIndex(state.fullPath);
             return Scaffold(
               body: Row(
@@ -23,30 +23,54 @@ class AppRoutes {
               ),
             );
           },
-          routes: [
-            GoRoute(
-              path: '/',
-              pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('Home'))),
+          branches: <StatefulShellBranch>[
+            StatefulShellBranch(
+              routes: <RouteBase>[
+                GoRoute(
+                  path: '/',
+                  pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('Home'))),
+                )
+              ],
             ),
-            GoRoute(
-              path: '/script',
-              pageBuilder: (context, state) => NoTransitionPage(child: ScriptManagerPage()),
+            StatefulShellBranch(
+              routes: <RouteBase>[
+                GoRoute(
+                  path: '/script',
+                  pageBuilder: (context, state) => NoTransitionPage(child: ScriptManagerPage()),
+                )
+              ],
             ),
-            GoRoute(
-              path: '/cues',
-              pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('Cues'))),
+            StatefulShellBranch(
+              routes: <RouteBase>[
+                GoRoute(
+                  path: '/cues',
+                  pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('Cues'))),
+                )
+              ],
             ),
-            GoRoute(
-              path: '/recordings',
-              pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('Recordings'))),
+            StatefulShellBranch(
+              routes: <RouteBase>[
+                GoRoute(
+                  path: '/recordings',
+                  pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('Recordings'))),
+                )
+              ],
             ),
-            GoRoute(
-              path: '/users',
-              pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('Users'))),
+            StatefulShellBranch(
+              routes: <RouteBase>[
+                GoRoute(
+                  path: '/users',
+                  pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('Users'))),
+                )
+              ],
             ),
-            GoRoute(
-              path: '/settings',
-              pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('settings'))),
+            StatefulShellBranch(
+              routes: <RouteBase>[
+                GoRoute(
+                  path: '/settings',
+                  pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('Settings'))),
+                )
+              ],
             ),
           ],
         ),
