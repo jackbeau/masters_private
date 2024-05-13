@@ -36,29 +36,34 @@ class ModeSwitcher extends StatelessWidget {
         }
       },
       style: ButtonStyle(
+        textStyle: MaterialStateProperty.resolveWith((states) => Theme.of(context).textTheme.labelMedium),
         backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
           if (states.contains(MaterialState.selected)) {
             if (currentMode == Mode.live) {
-              return Colors.red; // Red for Live mode when selected
+              return const Color.fromARGB(255, 255, 17, 0); // Red for Live mode when selected
             } else if (currentMode == Mode.review) {
               return Colors.blue; // Blue for Review mode when selected
             } else if (currentMode == Mode.edit) {
               return Colors.green; // Green for Edit mode when selected
             }
           }
-          return Theme.of(context).colorScheme.surface; // Default non-selected color
+          return Theme.of(context).colorScheme.surfaceVariant; // Default non-selected color
         }),
         foregroundColor: MaterialStateProperty.resolveWith<Color>(
           (states) => states.contains(MaterialState.selected)
-              ? Colors.white
-              : Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              ? Theme.of(context).colorScheme.onBackground
+              : Theme.of(context).colorScheme.onSurface,
         ),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4.0),
           ),
         ),
-        padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 0, horizontal: 0)),
+      side: MaterialStateProperty.all(BorderSide.none), // Ensure no border around the segments
+      padding: MaterialStateProperty.all(
+        EdgeInsets.symmetric(vertical: 0, horizontal: 0), // Add horizontal padding for spacing
+      ),
+        // outlineColor: MaterialStateProperty.all<Color>(Colors.transparent), // Transparent gap between buttons
       ),
     );
   }

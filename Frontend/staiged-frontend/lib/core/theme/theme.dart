@@ -32,12 +32,12 @@ class GlobalThemeData {
 
     secondary: Color(0xFF33374A),
     onSecondary: Color(0xFF748AFF),
-
+    
     tertiary: Color(0xFFC8B04E),
 
     surface: Color(0xFF12141D),
     onSurface: Color(0xFFE0E0E5),
-    surfaceVariant: Color(0xFF20222E),
+    surfaceVariant: Color.fromARGB(255, 42, 44, 58),
     onSurfaceVariant: Color(0xFF8E91A3),
 
     background: Color(0xFF000000),

@@ -75,7 +75,7 @@ class SideNavState extends State<SideNav> {
               showFirst: !isHovering[index],
               firstChild: Image.asset(assetPath, color: Theme.of(context).colorScheme.onSurfaceVariant, width: iconSize),
               secondChild: Image.asset(assetPath, color: const Color(0xFF50525E), width: iconSize),
-              duration: const Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 120),
             ),
         ),
       ),

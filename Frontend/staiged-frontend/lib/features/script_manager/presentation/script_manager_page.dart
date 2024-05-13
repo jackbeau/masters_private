@@ -5,7 +5,8 @@ import '../domain/bloc/app_bar_bloc.dart';
 import 'widgets/script_canvas.dart';
 import 'widgets/inspector/inspector.dart';
 import 'widgets/sidebar.dart';
-import 'widgets/custom_app_bar/custom_app_bar.dart';
+import 'widgets/custom_toolbar/custom_toolbar.dart';
+import 'widgets/camera_widget.dart';
 
 class ScriptManagerPage extends StatelessWidget {
   const ScriptManagerPage({Key? key}) : super(key: key);
@@ -35,6 +36,8 @@ class ScriptManagerPage extends StatelessWidget {
                           appBarBloc: BlocProvider.of<AppBarBloc>(context),
                           scriptManagerBloc: BlocProvider.of<ScriptManagerBloc>(context),
                           currentMode: state.mode,
+                          selectedInspector: state.selectedInspector,
+                          isCameraActive: state.isCameraVisible,
                         ),
                       ),
                       body: Row(
@@ -42,12 +45,26 @@ class ScriptManagerPage extends StatelessWidget {
                           Sidebar(),
                           Expanded(
                             flex: 4,
-                            child: ScriptCanvas(controller: state.pdfController!),
+                            child: ScriptCanvas(
+                              controller: state.pdfController!
+                            ),
                           ),
                           Expanded(
-                            flex: 1,
-                            child: Inspector(selectedPanel: state.segmentedControlValue),
-                          ),
+                                    flex: 1,
+                                    child: Column(
+                                      children: [
+                                        if (state.isCameraVisible)
+                                          LayoutBuilder(
+                                            builder: (context, constraints) {
+                                              return CameraWidget(width: constraints.maxWidth);
+                                            }
+                                          ),
+                                        Expanded(
+                                          child: Inspector(selectedInspector: state.selectedInspector)
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                         ],
                       ),
                     );

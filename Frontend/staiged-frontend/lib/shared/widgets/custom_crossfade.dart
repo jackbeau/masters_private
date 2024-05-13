@@ -13,12 +13,12 @@ class CustomCrossfade extends StatefulWidget {
   final Duration duration;
 
   const CustomCrossfade({
-    Key? key,
+    super.key,
     required this.firstChild,
     required this.secondChild,
     required this.showFirst,
     this.duration = const Duration(milliseconds: 300),
-  }) : super(key: key);
+  });
 
   @override
   _CustomCrossfadeState createState() => _CustomCrossfadeState();

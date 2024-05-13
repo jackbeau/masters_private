@@ -3,48 +3,58 @@ import 'package:pdfrx/pdfrx.dart';
 
 abstract class ScriptManagerEvent {}
 class LoadPdf extends ScriptManagerEvent {}
-class SegmentChanged extends ScriptManagerEvent {
-  final int selectedSegment;
-  SegmentChanged(this.selectedSegment);
+class InspectorChanged extends ScriptManagerEvent {
+  final InspectorPanel selectedInspector;
+  InspectorChanged(this.selectedInspector);
 }
 class ModeChanged extends ScriptManagerEvent {
   final Mode mode;
   ModeChanged(this.mode);
 }
+class ToggleCameraView extends ScriptManagerEvent {}
 
 enum Mode { edit, review, live }
+enum InspectorPanel { show, cues, notes, comments }
 
 abstract class ScriptManagerState {
   final PdfViewerController? pdfController;
-  final int segmentedControlValue;
+  final InspectorPanel selectedInspector;
   final Mode mode;
+   final bool isCameraVisible;
 
-  ScriptManagerState({this.pdfController, this.segmentedControlValue = 0, this.mode = Mode.review});
+  ScriptManagerState({this.pdfController, this.selectedInspector = InspectorPanel.cues, this.mode = Mode.review, this.isCameraVisible = false});
 }
+
 class ScriptManagerInitial extends ScriptManagerState {}
 class ScriptManagerLoaded extends ScriptManagerState {
-  ScriptManagerLoaded(PdfViewerController controller, int segmentedControlValue, Mode mode)
-      : super(pdfController: controller, segmentedControlValue: segmentedControlValue, mode: mode);
+  ScriptManagerLoaded(PdfViewerController controller, InspectorPanel selectedInspector, Mode mode, {bool isCameraVisible = false})
+      : super(pdfController: controller, selectedInspector: selectedInspector, mode: mode, isCameraVisible: isCameraVisible);
 }
 
 class ScriptManagerBloc extends Bloc<ScriptManagerEvent, ScriptManagerState> {
   ScriptManagerBloc() : super(ScriptManagerInitial()) {
     on<LoadPdf>((event, emit) {
       final controller = PdfViewerController();
-      emit(ScriptManagerLoaded(controller, 0, Mode.review)); // Set default mode, mark as loaded once pdf is loaded
+      emit(ScriptManagerLoaded(controller, InspectorPanel.cues, Mode.review)); // Set default mode, mark as loaded once pdf is loaded
     });
-    on<SegmentChanged>((event, emit) {
+    on<InspectorChanged>((event, emit) {
       if (state is ScriptManagerLoaded) {
         // Keep the previous mode and update only the segment
-        emit(ScriptManagerLoaded((state as ScriptManagerLoaded).pdfController!, event.selectedSegment, state.mode));
+        emit(ScriptManagerLoaded((state as ScriptManagerLoaded).pdfController!, event.selectedInspector, state.mode, isCameraVisible: state.isCameraVisible));
       }
     });
     on<ModeChanged>((event, emit) {
       if (state is ScriptManagerLoaded) {
         print(event.mode);
         // Update only the mode, keeping other state aspects unchanged
-        emit(ScriptManagerLoaded((state as ScriptManagerLoaded).pdfController!, state.segmentedControlValue, event.mode));
+        emit(ScriptManagerLoaded((state as ScriptManagerLoaded).pdfController!, state.selectedInspector, event.mode, isCameraVisible: state.isCameraVisible));
       }
     });
+    on<ToggleCameraView>((event, emit) {
+    if (state is ScriptManagerLoaded) {
+      var currentState = state as ScriptManagerLoaded;
+      emit(ScriptManagerLoaded(currentState.pdfController!, currentState.selectedInspector, currentState.mode, isCameraVisible: !currentState.isCameraVisible));
+    }
+  });
   }
 }

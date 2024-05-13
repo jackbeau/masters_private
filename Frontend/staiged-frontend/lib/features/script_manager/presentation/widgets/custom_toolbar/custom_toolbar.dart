@@ -3,30 +3,35 @@ import '../../../domain/bloc/app_bar_bloc.dart';
 import '../../../domain/bloc/script_manager_bloc.dart';
 import 'tool_dropdown_button.dart'; // Ensure the file name matches your project structure
 import 'mode_switcher.dart';
+import 'inspector_switcher.dart';
 
 class CustomToolbar extends StatelessWidget {
   final AppBarBloc appBarBloc;
   final Mode currentMode;
+  final InspectorPanel selectedInspector;
   final ScriptManagerBloc scriptManagerBloc;
+  final bool isCameraActive;
 
   const CustomToolbar({
     super.key,
     required this.scriptManagerBloc,
     required this.appBarBloc,
     required this.currentMode,
+    required this.selectedInspector,
+    this.isCameraActive = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      height: 60.0,
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      height: 52,
       color: Theme.of(context).colorScheme.surface,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            flex: 2,
+          Container(
+            width: 180,
             child: ModeSwitcher(
               currentMode: currentMode,
               scriptManagerBloc: scriptManagerBloc,
@@ -54,13 +59,20 @@ class CustomToolbar extends StatelessWidget {
                   onPressed: () => appBarBloc.add(ZoomIn()),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.camera_alt, color: Colors.white),
+                  icon: Icon(isCameraActive ? Icons.camera_alt : Icons.camera_alt_outlined, color: Colors.white),
                   onPressed: () {
-                    // Implement camera view functionality
+                    scriptManagerBloc.add(ToggleCameraView());
                   },
                 ),
                 // Include other buttons and functionalities as needed
               ],
+            ),
+          ),
+          Container(
+            width: 220,
+            child: InspectorSwitcher(
+              selectedInspector: selectedInspector,
+              scriptManagerBloc: scriptManagerBloc,
             ),
           ),
         ],
