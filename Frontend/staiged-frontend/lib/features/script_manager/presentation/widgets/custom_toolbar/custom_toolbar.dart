@@ -4,6 +4,18 @@ import '../../../domain/bloc/script_manager_bloc.dart';
 import 'tool_dropdown_button.dart'; // Ensure the file name matches your project structure
 import 'mode_switcher.dart';
 import 'inspector_switcher.dart';
+import '../../../../../core/constants/app_images.dart';
+
+class IconHelper {
+  static Image getIcon(BuildContext context, String assetPath, bool isSelected) {
+    return Image.asset(
+      assetPath, 
+      color: isSelected ? Theme.of(context).colorScheme.primaryContainer : Theme.of(context).colorScheme.onSurface,
+      // fit: BoxFit.scaleDown, // Ensures the entire icon is visible within the constraints
+      width: 18
+    );
+  }
+}
 
 class CustomToolbar extends StatelessWidget {
   final AppBarBloc appBarBloc;
@@ -57,13 +69,17 @@ class CustomToolbar extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.zoom_in, color: Colors.white),
                   onPressed: () => appBarBloc.add(ZoomIn()),
+                  
                 ),
                 IconButton(
-                  icon: Icon(isCameraActive ? Icons.camera_alt : Icons.camera_alt_outlined, color: Colors.white),
+                  icon: IconHelper.getIcon(context, ThemeIcons.camera, isCameraActive),
                   onPressed: () {
                     scriptManagerBloc.add(ToggleCameraView());
                   },
+                  isSelected: isCameraActive,
+                  tooltip: "Show stage camera"
                 ),
+                SizedBox(width: 8)
                 // Include other buttons and functionalities as needed
               ],
             ),
