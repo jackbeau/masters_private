@@ -14,15 +14,32 @@ class InspectorCues extends StatelessWidget {
           if (state is InspectorPanelALoaded) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 14),
-              child: Container(
-                color: Colors.black,
-                child: ListView.separated(
-                  itemCount: state.cues.length,
-                  itemBuilder: (context, index) {
-                    return CueTile(cue: state.cues[index]);
-                  },
-                  separatorBuilder: (context, index) => Divider(color: Colors.grey[800]),
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start, // Ensure alignment is to the start
+                children: [
+                  Text(
+                    "All cues",
+                    textAlign: TextAlign.left, // Align text to the left
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onBackground)
+                  ),
+
+                  SizedBox(height: 8),
+                  
+                  Expanded(
+                    child: Container(
+                      color: Colors.black,
+                      child: ListView.builder(
+                        itemCount: state.cues.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 4.0),
+                            child: CueTile(cue: state.cues[index]),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
             );
           } else {

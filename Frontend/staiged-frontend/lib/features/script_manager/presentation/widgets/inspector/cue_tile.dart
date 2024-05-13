@@ -30,6 +30,7 @@ class CueTile extends StatelessWidget {
     Size cueSize = cue.calculateSize() * 1.1; // Get the calculated size of the cue
 
     return Card(
+      margin: EdgeInsets.zero,
       color: Theme.of(context).colorScheme.surfaceVariant,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.0),
@@ -95,13 +96,25 @@ class CueTile extends StatelessWidget {
                         print("Cue ID: ${cue.id}");
                       },
                     ),
-                    IconButton(
-                      iconSize: 20,
-                      icon: Icon(Icons.more_horiz, color: Theme.of(context).colorScheme.onSurface),
-                      onPressed: () {
-                        // Implement dropdown menu for delete, etc.
-                      },
-                    ),
+                    PopupMenuButton<String>(
+                    onSelected: (value) {
+                      if (value == 'Delete') {
+                        print('Delete action for Cue ID: ${cue.id}');
+                        // Add your delete logic here
+                      }
+                    },
+                    itemBuilder: (BuildContext context) {
+                      return <PopupMenuEntry<String>>[
+                        const PopupMenuItem<String>(
+                          value: 'Delete',
+                          child: Text('Delete'),
+                        ),
+                      ];
+                    },
+                    icon: Icon(Icons.more_horiz, color: Theme.of(context).colorScheme.onSurface),
+                    offset: Offset(0, 0),  // This offset moves the menu down by 40 pixels relative to the IconButton
+                    position: PopupMenuPosition.under, // Ensures the menu opens below the anchor
+                  ),
                   ],
                 ),
               ],
