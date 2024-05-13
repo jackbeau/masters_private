@@ -8,11 +8,11 @@ import 'inspector_switcher.dart';
 import '../../../../../core/constants/app_images.dart';
 
 class IconHelper {
-  static Image getIcon(BuildContext context, String assetPath, bool isSelected) {
+  static Image getIcon(BuildContext context, String assetPath, bool isSelected, {double width = 20}) {
     return Image.asset(
       assetPath,
       color: isSelected ? Theme.of(context).colorScheme.primaryContainer : Theme.of(context).colorScheme.onSurface,
-      width: 18
+      width: width
     );
   }
 }
@@ -23,6 +23,7 @@ class CustomToolbar extends StatelessWidget {
   final InspectorPanel selectedInspector;
   final ScriptManagerBloc scriptManagerBloc;
   final bool isCameraActive;
+  final Tool selectedTool;
 
   const CustomToolbar({
     super.key,
@@ -30,6 +31,7 @@ class CustomToolbar extends StatelessWidget {
     required this.appBarBloc,
     required this.currentMode,
     required this.selectedInspector,
+    required this.selectedTool,
     this.isCameraActive = false,
   });
 
@@ -56,12 +58,17 @@ class CustomToolbar extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                ToolDropdownButton(
-                  icon: Icons.edit,
-                  items: const ['Black', 'Red', 'Green'],
-                  onSelect: (String color) {
-                    // Handle color change
-                  },
+                // ToolDropdownButton(
+                //   icon: Icons.edit,
+                //   items: const ['Black', 'Red', 'Green'],
+                //   onSelect: (String color) {
+                //     // Handle color change
+                //   },
+                if (scriptManagerBloc.state.mode == Mode.edit) 
+                  IconButton(
+                  icon: IconHelper.getIcon(context, ThemeIcons.cue_tool, selectedTool == Tool.new_cue, width:24),
+                  onPressed: () => scriptManagerBloc.add(ToolChanged(selectedTool == Tool.new_cue ? Tool.none : Tool.new_cue)),
+                  tooltip: "Add cue",
                 ),
               ],
             ),
@@ -82,18 +89,17 @@ class CustomToolbar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 IconButton(
-                  icon: const Icon(Icons.search, color: Colors.white),
+                  icon: Icon(Icons.search, color: Theme.of(context).colorScheme.onSurface),
                   onPressed: () {
-                    // Implement search functionality
                   },
                 ),
                 IconButton(
-                  icon: const Icon(Icons.zoom_in, color: Colors.white),
-                  onPressed: () => appBarBloc.add(ZoomIn()),
+                  icon: Icon(Icons.zoom_out, color: Theme.of(context).colorScheme.onSurface),
+                  onPressed: () => appBarBloc.add(ZoomOut()),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.zoom_out, color: Colors.white),
-                  onPressed: () => appBarBloc.add(ZoomOut()),
+                  icon: Icon(Icons.zoom_in, color: Theme.of(context).colorScheme.onSurface),
+                  onPressed: () => appBarBloc.add(ZoomIn()),
                 ),
                 const SizedBox(width: 12),
                 IconButton(

@@ -38,35 +38,10 @@ class ScriptManagerPage extends StatelessWidget {
                           currentMode: state.mode,
                           selectedInspector: state.selectedInspector,
                           isCameraActive: state.isCameraVisible,
+                          selectedTool: state.selectedTool
                         ),
                       ),
-                      body: Row(
-                        children: [
-                          Sidebar(),
-                          Expanded(
-                            flex: 4,
-                            child: ScriptCanvas(
-                              controller: state.pdfController!
-                            ),
-                          ),
-                          Expanded(
-                                    flex: 1,
-                                    child: Column(
-                                      children: [
-                                        if (state.isCameraVisible)
-                                          LayoutBuilder(
-                                            builder: (context, constraints) {
-                                              return CameraWidget(width: constraints.maxWidth);
-                                            }
-                                          ),
-                                        Expanded(
-                                          child: Inspector(selectedInspector: state.selectedInspector)
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                        ],
-                      ),
+                      body: buildBody(context, state)
                     );
                   } else {
                     return Scaffold(
@@ -86,4 +61,37 @@ class ScriptManagerPage extends StatelessWidget {
       ),
     );
   }
+}
+
+
+Widget buildBody(BuildContext context, ScriptManagerLoaded state) {
+  return LayoutBuilder( // This LayoutBuilder will ensure you have constraints to work with
+    builder: (context, constraints) {
+      return Row(
+        children: [
+          Sidebar(),
+          Expanded( // Ensures that this takes up the remaining space proportionally
+            flex: 4,
+            child: ScriptCanvas(
+                  controller: state.pdfController!,
+            ),
+          ),
+          Container( // Use Container to set explicit width when needed
+            width: (constraints.maxWidth / 6).clamp(294, 400),
+            child: Column(
+              children: [
+                if (state.isCameraVisible)
+                  LayoutBuilder(
+                    builder: (context, camConstraints) => CameraWidget(width: camConstraints.maxWidth),
+                  ),
+                Expanded(
+                  child: Inspector(selectedInspector: state.selectedInspector)
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+  );
 }

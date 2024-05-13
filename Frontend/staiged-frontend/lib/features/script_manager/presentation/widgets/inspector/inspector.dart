@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'inspector_panel_a.dart';
+import 'inspector_cues.dart';
 import 'inspector_panel_b.dart';
 import 'inspector_panel_c.dart';
 import '../../../domain/bloc/script_manager_bloc.dart';
@@ -13,11 +13,11 @@ class Inspector extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (selectedInspector) {
       case InspectorPanel.show:
-        return InspectorPanelA();
-      case InspectorPanel.cues:
-        return const InspectorPanelB();
-      case InspectorPanel.notes:
         return const InspectorPanelC();
+      case InspectorPanel.cues:
+        return InspectorCues();
+      case InspectorPanel.notes:
+        return const InspectorPanelB();
       case InspectorPanel.comments:
         return const InspectorPanelC();
       default:

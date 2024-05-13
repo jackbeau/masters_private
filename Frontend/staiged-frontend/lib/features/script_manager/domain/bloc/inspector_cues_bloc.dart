@@ -1,5 +1,9 @@
+import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/models/cue_TEMP.dart';
+import '../cue.dart'; // Update this path to wherever your Cue model is defined
+import '../../data/models/tag.dart';
+import '../../data/models/cue_type.dart';
 
 abstract class InspectorPanelAEvent {}
 class LoadCues extends InspectorPanelAEvent {}
@@ -12,12 +16,24 @@ class InspectorPanelALoaded extends InspectorPanelAState {
 }
 
 class InspectorPanelABloc extends Bloc<InspectorPanelAEvent, InspectorPanelAState> {
+
   InspectorPanelABloc() : super(InspectorPanelAInitial()) {
+
+    var fs = TagType("FS", Colors.blue);
+    var vfx = TagType("VFX", Colors.green);
+    // Define some sample Tags
+    var tags = [
+      Tag("1", fs),
+      Tag("3", vfx),
+      Tag("5", vfx),
+    ];
+
     on<LoadCues>((event, emit) {
       // Assume data is loaded from a repository or static list
       final cues = <Cue>[
-        Cue(id: "SFX 1", title: "Thunder", description: "A description of the cue", actScene: "Act 1 Scene 3"),
-        Cue(id: "SFX 2", title: "Rain", description: "A description of the cue", actScene: "Act 1 Scene 3"),
+        Cue(1, Offset(0, 0), goType, tags, note: "A description of the cue",),
+        Cue(1, Offset(0, 0), goType, tags, note: "A description of the cue",),
+        // Cue(id: "SFX 2", title: "Rain", description: "A description of the cue", actScene: "Act 1 Scene 3"),
         // Additional cues
       ];
       emit(InspectorPanelALoaded(cues));

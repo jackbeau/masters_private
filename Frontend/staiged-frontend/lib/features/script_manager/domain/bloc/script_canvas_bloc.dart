@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pdfrx/pdfrx.dart';
 import '../../data/models/annotation.dart';
-import '../tools.dart';
+import '../annotation_tool.dart';
 import '../../domain/pdf_utils.dart';
 import 'package:collection/collection.dart';
+import 'script_manager_bloc.dart';
+import 'dart:async';
+import '../annotation_interaction_handler.dart';
+
+final Map<Tool, dynamic> toolMap = {
+  Tool.none: null,
+  Tool.new_cue: NewCue(),
+};
 
 abstract class ScriptCanvasEvent {}
 
@@ -56,19 +64,43 @@ class AnnotationSelectedState extends ScriptCanvasState {
 
 class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
   final PdfViewerController controller;
+  final ScriptManagerBloc scriptManagerBloc;
   final List<Annotation> _annotations = [];
-  Tool? selectedTool = NewCue();
+  late StreamSubscription scriptManagerSubscription;
   Annotation? selectedAnnotation;
+  Tool? selectedTool;
   int tap = 0;
   bool isDown = false;
   Offset lastCentrePosition = const Offset(0, 0);
+  Mode? selectedMode;
 
-  ScriptCanvasBloc(this.controller) : super(ScriptCanvasInitial()) {
+  ScriptCanvasBloc(this.controller, this.scriptManagerBloc) : super(ScriptCanvasInitial()) {
+    // Initial selected tool
+    selectedTool = scriptManagerBloc.state.selectedTool;
+    selectedMode = scriptManagerBloc.state.mode;
+    // Listen to changes in ScriptManagerBloc
+    scriptManagerSubscription = scriptManagerBloc.stream.listen((state) {
+      if (state is ScriptManagerLoaded) {
+        selectedTool = state.selectedTool;
+        // If mode changed, need to clear tool parameters
+        if (selectedMode != state.mode) {
+          isDown = false;
+          selectedAnnotation = null;
+          selectedMode = state.mode;
+          tap = 0;
+        }
+      }
+    });
     // To capture scroll events
     on<ControllerUpdated>((event, emit) {
+      if (selectedMode != Mode.edit) {
+        return;
+      } else if (selectedTool == null) {
+        return;
+      }
       if (isDown) {
         Offset displacement = controller.centerPosition - lastCentrePosition;
-        selectedTool?.move(displacement, selectedAnnotation!);
+        toolMap[selectedTool].move(displacement, selectedAnnotation!);
         lastCentrePosition = controller.centerPosition;
         // Emit a state if necessary to update the UI or handle additional logic.
         emit(ScriptCanvasReady(
@@ -77,21 +109,26 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
     });
 
     on<PageTapDown>((event, emit) {
+      if (selectedMode != Mode.edit) {
+        return;
+      } else if (selectedTool == Tool.none) {
+        return;
+      }
       Offset cursorPosition =
           pdfRescaleCoordinates(event.position, event.pageRect, event.page);
       var newAnnotation =
           _annotations.firstWhereOrNull((a) => a.isInObject(a, cursorPosition));
 
       if (newAnnotation == null) {
-        if (selectedTool?.twoActions == false) {
-          selectedTool?.tap(event.page, cursorPosition, _annotations);
+        if (toolMap[selectedTool].twoActions == false) {
+          toolMap[selectedTool].tap(event.page, cursorPosition, _annotations);
         } else {
           if (tap == 0) {
             selectedAnnotation =
-                selectedTool?.tap(event.page, cursorPosition, _annotations);
+                toolMap[selectedTool].tap(event.page, cursorPosition, _annotations);
             tap = 1;
           } else {
-            selectedTool?.tap2(
+            toolMap[selectedTool].tap2(
                 event.page, cursorPosition, _annotations, selectedAnnotation!);
             selectedAnnotation = null;
             tap = 0;
@@ -102,13 +139,15 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
     });
 
     on<PagePanStart>((event, emit) {
-      if (tap == 0) {
+      if (selectedMode != Mode.edit) {
+        return;
+      } else if (tap == 0) {
         Offset cursorPos =
             pdfRescaleCoordinates(event.position, event.pageRect, event.page);
         selectedAnnotation =
             _annotations.firstWhereOrNull((a) => a.isInObject(a, cursorPos));
         if (selectedAnnotation != null) {
-          selectedTool?.down(event.page, cursorPos, selectedAnnotation!);
+          AnnotationInteractionHandler().down(event.page, cursorPos, selectedAnnotation!);
           lastCentrePosition = controller.centerPosition;
           isDown = true;
         }
@@ -117,7 +156,9 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
     });
 
     on<PagePanUpdate>((event, emit) {
-      if (isDown && tap == 0) {
+      if (selectedMode != Mode.edit) {
+        return;
+      } else if (isDown && tap == 0) {
         // Calculate the displacement, converting the delta from pixels to the PDF's point coordinate system.
         final pixelToPointX = event.page.width / event.pageRect.width;
         final pixelToPointY = event.page.height / event.pageRect.height;
@@ -128,7 +169,7 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
 
         // Check if an annotation is selected and move it accordingly.
         if (selectedAnnotation != null) {
-          selectedTool?.move(displacement, selectedAnnotation!,
+          AnnotationInteractionHandler().move(displacement, selectedAnnotation!,
               page: event.page, controller: controller);
           // If needed, emit a state to update the UI or handle additional logic.
           emit(ScriptCanvasReady(List.from(
@@ -138,11 +179,18 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
     });
 
     on<PagePanEnd>((event, emit) {
-      if (tap == 0) {
+      if (selectedMode != Mode.edit) {
+        return;
+      } else if (tap == 0) {
         isDown = false;
         selectedAnnotation = null;
       }
       emit(ScriptCanvasReady(List.from(_annotations)));
     });
+  @override
+  Future<void> close() {
+    scriptManagerSubscription.cancel();  // cancel subscription
+    return super.close();
+  }
   }
 }

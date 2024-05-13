@@ -17,7 +17,7 @@ class Cue extends Annotation {
   final List<Tag> tags;
   String note;
 
-  Cue(this.page, this.pos, this.type, this.tags, {this.note = "Loewm ispum dolor set amiet time we test some lomg stuff"});
+  Cue(this.page, this.pos, this.type, this.tags, {this.note = ""});
 
   static const TextStyle labelStyle = TextStyle(
     fontSize: 12,

@@ -9,4 +9,5 @@ class ThemeIcons {
   static const settings = 'assets/icons/settings.png';
   static const show = 'assets/icons/show.png';
   static const users = 'assets/icons/users.png';
+  static const cue_tool = 'assets/icons/cue_tool.png';
 }
