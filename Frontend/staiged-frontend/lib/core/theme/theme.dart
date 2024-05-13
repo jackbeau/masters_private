@@ -37,7 +37,7 @@ class GlobalThemeData {
 
     surface: Color(0xFF12141D),
     onSurface: Color(0xFFE0E0E5),
-    surfaceVariant: Color.fromARGB(255, 42, 44, 58),
+    surfaceVariant: Color(0xFF20222E),
     onSurfaceVariant: Color(0xFF8E91A3),
 
     background: Color(0xFF000000),

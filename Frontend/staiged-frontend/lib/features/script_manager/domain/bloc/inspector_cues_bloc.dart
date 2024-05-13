@@ -24,8 +24,8 @@ class InspectorPanelABloc extends Bloc<InspectorPanelAEvent, InspectorPanelAStat
     // Define some sample Tags
     var tags = [
       Tag("1", fs),
-      Tag("3", vfx),
-      Tag("5", vfx),
+      // Tag("3", vfx),
+      // Tag("5", vfx),
     ];
 
     on<LoadCues>((event, emit) {
