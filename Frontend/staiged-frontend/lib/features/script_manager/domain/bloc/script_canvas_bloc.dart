@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pdfrx/pdfrx.dart';
+import 'package:staiged/features/script_manager/domain/cue.dart';
+import 'package:staiged/features/script_manager/domain/cue_marker.dart';
 import '../../data/models/annotation.dart';
 import '../annotation_tool.dart';
 import '../../domain/pdf_utils.dart';
@@ -8,6 +10,7 @@ import 'package:collection/collection.dart';
 import 'script_manager_bloc.dart';
 import 'dart:async';
 import '../annotation_interaction_handler.dart';
+import 'cue_editor_bloc.dart';
 
 final Map<Tool, dynamic> toolMap = {
   Tool.none: null,
@@ -74,10 +77,14 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
   Offset lastCentrePosition = const Offset(0, 0);
   Mode? selectedMode;
 
-  ScriptCanvasBloc(this.controller, this.scriptManagerBloc) : super(ScriptCanvasInitial()) {
+  ScriptCanvasBloc(
+    this.controller,
+    this.scriptManagerBloc,
+    ) : super(ScriptCanvasInitial()) {
     // Initial selected tool
     selectedTool = scriptManagerBloc.state.selectedTool;
     selectedMode = scriptManagerBloc.state.mode;
+    
     // Listen to changes in ScriptManagerBloc
     scriptManagerSubscription = scriptManagerBloc.stream.listen((state) {
       if (state is ScriptManagerLoaded) {
@@ -91,6 +98,7 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
         }
       }
     });
+
     // To capture scroll events
     on<ControllerUpdated>((event, emit) {
       if (selectedMode != Mode.edit) {
@@ -130,11 +138,23 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
           } else {
             toolMap[selectedTool].tap2(
                 event.page, cursorPosition, _annotations, selectedAnnotation!);
+            scriptManagerBloc.add(EditorChanged(EditorPanel.add_cue));
+            if (selectedAnnotation != null) {
+              scriptManagerBloc.add(UpdateSelectedAnnotationEvent(selectedAnnotation));
+            }
+            
             selectedAnnotation = null;
             tap = 0;
           }
         }
         emit(ScriptCanvasReady(List.from(_annotations)));
+      } else { // there already is an annotation here, so return the object to the scriptManager
+        switch (newAnnotation ) {
+          case Cue _:
+          return scriptManagerBloc.add(UpdateSelectedAnnotationEvent(newAnnotation));
+          case CueMarker _:
+          return scriptManagerBloc.add(UpdateSelectedAnnotationEvent(newAnnotation));
+        }
       }
     });
 

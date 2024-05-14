@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:staiged/features/script_manager/data/models/tag.dart';
 import 'cue.dart';
 import '../data/models/annotation.dart';
 
@@ -15,38 +16,50 @@ class CueMarker extends Cue {
     ..color = circleColor
     ..isAntiAlias = true;
 
-  Cue label;
+  final Cue label;  // This assumes label is of type Cue
 
-  CueMarker(super.page, super.pos, super.type, super.tags, this.label);
+  CueMarker({
+    required int page, 
+    required Offset pos, 
+    required dynamic type, 
+    required List<Tag> tags,
+    required this.label
+  }) : super(
+        page: page, 
+        pos: pos, 
+        type: type, 
+        tags: tags
+      );
 
-  @override
-  bool isInObject(Annotation annotation, Offset interactionPosition) {
-    if (annotation is CueMarker) {
-       Path tempPath = Path()
-        ..addOval(Rect.fromCircle(
-            center: pos, radius: 10));
-      return tempPath.contains(interactionPosition);
-    }
-    return false;
+ @override
+bool isInObject(Annotation annotation, Offset interactionPosition) {
+  if (annotation is CueMarker) {
+    Path tempPath = Path()
+      ..addOval(Rect.fromCircle(
+          center: annotation.pos, radius: 10));  // Use annotation.pos
+    return tempPath.contains(interactionPosition);
   }
+  return false;
+}
 
-  @override
-  void draw(Canvas canvas) {
-    pos = Offset(pos.dx.roundToDouble(), pos.dy.roundToDouble());
+@override
+void draw(Canvas canvas) {
+  Offset roundedPos = Offset(pos.dx.roundToDouble(), pos.dy.roundToDouble());
 
-    // Draw connection lines
-    canvas.drawLine(
-      label.pos + const Offset(0, lineEndOffsetY), 
-      Offset(pos.dx, label.pos.dy + lineEndOffsetY),
-      linePaint
-    );
-    canvas.drawLine(
-      Offset(pos.dx, pos.dy + radius/2),
-      Offset(pos.dx, label.pos.dy + lineEndOffsetY),
-      linePaint
-    );
+  // Draw connection lines
+  canvas.drawLine(
+    label.pos + const Offset(0, lineEndOffsetY), 
+    Offset(roundedPos.dx, label.pos.dy + lineEndOffsetY),
+    linePaint
+  );
+  canvas.drawLine(
+    Offset(roundedPos.dx, roundedPos.dy + radius/2),
+    Offset(roundedPos.dx, label.pos.dy + lineEndOffsetY),
+    linePaint
+  );
 
-    // Draw a circle at the cue marker position
-    canvas.drawCircle(pos, radius, circlePaint);
-  }
+  // Draw a circle at the cue marker position
+  canvas.drawCircle(roundedPos, radius, circlePaint);
+}
+
 }

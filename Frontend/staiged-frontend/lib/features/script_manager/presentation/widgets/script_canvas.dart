@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pdfrx/pdfrx.dart';
+import 'package:staiged/features/script_manager/domain/bloc/cue_editor_bloc.dart';
 import '../../domain/bloc/script_canvas_bloc.dart';
 import '../../domain/bloc/script_manager_bloc.dart';
 

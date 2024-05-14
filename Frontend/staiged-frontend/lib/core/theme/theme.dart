@@ -6,7 +6,7 @@ class GlobalThemeData {
   static final Color _lightFocusColor = Colors.black.withOpacity(0.12);
   static final Color _darkFocusColor = Colors.white.withOpacity(0.12);
 
-  static ThemeData lightThemeData = themeData(darkColorScheme, _darkFocusColor);
+  static ThemeData lightThemeData = themeData(darkColorScheme, _darkFocusColor,);
   static ThemeData darkThemeData = themeData(darkColorScheme, _darkFocusColor);
 
   static const ColorScheme lightColorScheme = ColorScheme(
@@ -56,7 +56,7 @@ class GlobalThemeData {
         scaffoldBackgroundColor: colorScheme.background,
         highlightColor: Colors.transparent,
         focusColor: focusColor,
-        textTheme: CustomStyles.getTextTheme()
+        textTheme: CustomStyles.getTextTheme(),
        );
   }
 }

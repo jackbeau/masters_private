@@ -35,7 +35,7 @@ class NewCue extends AnnotationToolBase {
       Tag("5", vfx),
     ];
 
-    Cue newCue = Cue(page.pageNumber, coordinates, goType, tags, note:"on clap");
+    Cue newCue = Cue(page: page.pageNumber, pos: coordinates, type: goType, tags: tags, note:"on clap");
     annotations.add(newCue);
     return newCue;
   }
@@ -44,7 +44,7 @@ class NewCue extends AnnotationToolBase {
   void tap2(PdfPage page, Offset coordinates, List<Annotation> annotations, Annotation annotation) {
     if (annotation is Cue) {
       // Inherit types and tags from the first cue
-      CueMarker newCue = CueMarker(page.pageNumber, coordinates, annotation.type, annotation.tags, annotation);
+      CueMarker newCue = CueMarker(page: page.pageNumber, pos: coordinates, type: annotation.type, tags: annotation.tags, label: annotation);
       annotations.add(newCue);
     }
   }

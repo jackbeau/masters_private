@@ -16,9 +16,36 @@ class Cue extends Annotation {
   final CueType type;
   final List<Tag> tags;
   String note;
-  String description;
+  String title;
+  bool autofire;
+  String line;
+  String message;
 
-  Cue(this.page, this.pos, this.type, this.tags, {this.note = "", this.description = ""});
+  Cue({this.page=0, required this.pos, required this.type, required this.tags, this.note = "", this.title = "", this.autofire=false, this.line="", this.message=""});
+
+  Cue copyWith({
+    int? page,
+    Offset? pos,
+    CueType? type,
+    List<Tag>? tags,
+    String? note,
+    String? title,
+    bool? autofire,
+    String? line,
+    String? message,
+  }) {
+    return Cue(
+      page: page ?? this.page,
+      pos: pos ?? this.pos,
+      type: type ?? this.type,
+      tags: tags ?? this.tags,
+      note: note ?? this.note,
+      title: title ?? this.title,
+      autofire: autofire ?? this.autofire,
+      line: line ?? this.line,
+      message: message ?? this.message
+    );
+  }
 
   static const TextStyle labelStyle = TextStyle(
     fontSize: 12,
@@ -92,7 +119,7 @@ class Cue extends Annotation {
 
     // Draw tags with their backgrounds
     for (var tag in tags) {
-      final tagPainter = createTextPainter("${tag.type.name} ${tag.name}", labelStyle);
+      final tagPainter = createTextPainter("${tag.type.department} ${tag.cue_name}", labelStyle);
       final tagWidth = tagPainter.width + 6; // additional padding for tags
       final tagRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(pos.dx - size.width / 2 + offsetX, pos.dy - size.height / 2, tagWidth, size.height),
@@ -116,7 +143,7 @@ class Cue extends Annotation {
     totalHeight = max(totalHeight, labelTypePainter.height);
 
     for (var tag in tags) {
-      final tagPainter = createTextPainter("${tag.type.name} ${tag.name}", labelStyle);
+      final tagPainter = createTextPainter("${tag.type.department} ${tag.cue_name}", labelStyle);
       totalWidth += tagPainter.width + internalPaddingX * 2; // Add padding for each tag
       totalHeight = max(totalHeight, tagPainter.height);
     }

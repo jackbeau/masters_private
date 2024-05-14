@@ -57,11 +57,11 @@ class CueTile extends StatelessWidget {
                         CustomPaint(
                           size: cueSize, // Use the size calculated by the Cue object
                               painter: CuePainter(Cue(
-                              cue.page,
-                              Offset(cueSize.width / (2 / 0.9),
+                              page: cue.page,
+                              pos: Offset(cueSize.width / (2 / 0.9),
                                   cueSize.height / (2 / 0.9)),
-                              cue.type,
-                              cue.tags,
+                              type: cue.type,
+                              tags: cue.tags,
                             )),
                         ),
                         SizedBox(
@@ -129,11 +129,11 @@ class CueTile extends StatelessWidget {
                     cue.note,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurface),
                   ),
-                  if (cue.description != "")
+                  if (cue.note != "")
                     Padding(
                       padding: const EdgeInsets.only(top: 2),
                       child: Text(
-                        cue.description,
+                        cue.note,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
                       ),
                     ),

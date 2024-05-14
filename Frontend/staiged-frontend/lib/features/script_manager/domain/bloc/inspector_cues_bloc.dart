@@ -31,8 +31,8 @@ class InspectorPanelABloc extends Bloc<InspectorPanelAEvent, InspectorPanelAStat
     on<LoadCues>((event, emit) {
       // Assume data is loaded from a repository or static list
       final cues = <Cue>[
-        Cue(1, Offset(0, 0), goType, tags, note: "A description of the cue",),
-        Cue(1, Offset(0, 0), goType, tags, note: "A description of the cue",),
+        Cue(page: 1, pos: Offset(0, 0), type: goType, tags: tags, note: "A description of the cue",),
+        Cue(page: 1, pos: Offset(0, 0), type: goType, tags: tags, note: "A description of the cue",),
         // Cue(id: "SFX 2", title: "Rain", description: "A description of the cue", actScene: "Act 1 Scene 3"),
         // Additional cues
       ];

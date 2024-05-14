@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 class TagType {
-  String name;
+  String department;
   Color color;
 
-  TagType(this.name, this.color);
+  TagType(this.department, this.color);
 }
 
 class Tag {
-  String name;
+  String cue_name;
+  String description;
   TagType type;
 
-  Tag(this.name, this.type);
+  Tag(this.cue_name, this.type, {this.description = ""});
 }

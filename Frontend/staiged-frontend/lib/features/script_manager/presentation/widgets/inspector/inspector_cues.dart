@@ -27,7 +27,7 @@ class InspectorCues extends StatelessWidget {
                   
                   Expanded(
                     child: Container(
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.surface,
                       child: ListView.builder(
                         itemCount: state.cues.length,
                         itemBuilder: (context, index) {
