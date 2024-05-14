@@ -108,7 +108,7 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
       }
       if (isDown) {
         Offset displacement = controller.centerPosition - lastCentrePosition;
-        toolMap[selectedTool].move(displacement, selectedAnnotation!);
+        AnnotationInteractionHandler().move(displacement, selectedAnnotation!);
         lastCentrePosition = controller.centerPosition;
         // Emit a state if necessary to update the UI or handle additional logic.
         emit(ScriptCanvasReady(
