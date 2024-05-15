@@ -11,10 +11,22 @@ class TagType {
 class Tag {
   String cue_name;
   String description;
-  TagType type;
+  TagType? type;
   final UniqueKey id = UniqueKey();
 
-  Tag(this.cue_name, this.type, {this.description = ""});
+  Tag({this.cue_name="", this.type, this.description = ""});
+
+  Tag copyWith({
+    String? cue_name,
+    String? description,
+    TagType? type,
+  }) {
+    return Tag(
+      cue_name: cue_name ?? this.cue_name,
+      type: type ?? this.type,
+      description: description ?? this.description,
+    );
+  }
 }
 
 

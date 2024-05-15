@@ -6,6 +6,7 @@ import 'core/theme/theme.dart';
 import 'shared/routes/app_routes.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Assuming SettingsService is what you might use for loading and saving settings

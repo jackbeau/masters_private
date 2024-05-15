@@ -150,10 +150,15 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
         emit(ScriptCanvasReady(List.from(_annotations)));
       } else { // there already is an annotation here, so return the object to the scriptManager
         switch (newAnnotation ) {
+          case CueMarker _: // needs to be first as subclass of cue
+          print("we");
+          scriptManagerBloc.add(EditorChanged(EditorPanel.add_cue)); // this is very bad practice, should check current state instead
+          return scriptManagerBloc.add(UpdateSelectedAnnotationEvent(newAnnotation.label)); 
           case Cue _:
-          return scriptManagerBloc.add(UpdateSelectedAnnotationEvent(newAnnotation));
-          case CueMarker _:
-          return scriptManagerBloc.add(UpdateSelectedAnnotationEvent(newAnnotation));
+          print("we");
+          scriptManagerBloc.add(EditorChanged(EditorPanel.add_cue));
+          return scriptManagerBloc.add(UpdateSelectedAnnotationEvent(newAnnotation));  // If CurMarker return associated label Cue
+
         }
       }
     });

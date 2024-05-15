@@ -21,6 +21,7 @@ dependencies:
   # flutter_localizations:
   #   sdk: flutter
   go_router: ^14.1.0
+  hydrated_bloc: ^9.1.5
   pdfrx: ^1.0.63
   pdfx:
       git:

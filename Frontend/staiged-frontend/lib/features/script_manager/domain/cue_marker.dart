@@ -16,7 +16,8 @@ class CueMarker extends Cue {
     ..color = circleColor
     ..isAntiAlias = true;
 
-  final Cue label;  // This assumes label is of type Cue
+  final Cue label;
+
 
   CueMarker({
     required int page, 
@@ -28,7 +29,7 @@ class CueMarker extends Cue {
         page: page, 
         pos: pos, 
         type: type, 
-        tags: tags
+        tags: tags,
       );
 
  @override

@@ -5,23 +5,29 @@ import 'package:staiged/features/script_manager/domain/annotation_tool.dart';
 import '../cue.dart';
 
 abstract class ScriptManagerEvent {}
+
 class LoadPdf extends ScriptManagerEvent {}
+
 class InspectorChanged extends ScriptManagerEvent {
   final InspectorPanel selectedInspector;
   InspectorChanged(this.selectedInspector);
 }
+
 class ModeChanged extends ScriptManagerEvent {
   final Mode mode;
   ModeChanged(this.mode);
 }
+
 class ToolChanged extends ScriptManagerEvent {
   final Tool selectedTool;
   ToolChanged(this.selectedTool);
 }
+
 class EditorChanged extends ScriptManagerEvent {
   final EditorPanel selectedEditor;
   EditorChanged(this.selectedEditor);
 }
+
 class ToggleCameraView extends ScriptManagerEvent {}
 
 class UpdateSelectedAnnotationEvent extends ScriptManagerEvent {
@@ -44,13 +50,13 @@ abstract class ScriptManagerState {
   final Annotation? selectedAnnotation;
 
   ScriptManagerState({
-    this.pdfController, 
-    this.selectedInspector = InspectorPanel.cues, 
+    this.pdfController,
+    this.selectedInspector = InspectorPanel.cues,
     this.selectedEditor = EditorPanel.none,
-    this.mode = Mode.review, 
-    this.isCameraVisible = false, 
+    this.mode = Mode.review,
+    this.isCameraVisible = false,
     this.selectedTool = Tool.none,
-    this.selectedAnnotation = null,
+    this.selectedAnnotation,
   });
 
   ScriptManagerState copyWith({
@@ -81,7 +87,7 @@ class ScriptManagerInitial extends ScriptManagerState {
 
 class ScriptManagerLoaded extends ScriptManagerState {
   ScriptManagerLoaded(PdfViewerController controller, InspectorPanel selectedInspector, EditorPanel selectedEditor, Mode mode, Tool selectedTool, {super.isCameraVisible, Annotation? selectedAnnotation})
-      : super(pdfController: controller, selectedInspector: selectedInspector, selectedEditor: selectedEditor, mode: mode, selectedTool: selectedTool, selectedAnnotation:selectedAnnotation);
+      : super(pdfController: controller, selectedInspector: selectedInspector, selectedEditor: selectedEditor, mode: mode, selectedTool: selectedTool, selectedAnnotation: selectedAnnotation);
 
   @override
   ScriptManagerState copyWith({
@@ -100,7 +106,7 @@ class ScriptManagerLoaded extends ScriptManagerState {
       mode ?? this.mode,
       selectedTool ?? this.selectedTool,
       isCameraVisible: isCameraVisible ?? this.isCameraVisible,
-      selectedAnnotation: selectedAnnotation ?? this.selectedAnnotation
+      selectedAnnotation: selectedAnnotation ?? this.selectedAnnotation,
     );
   }
 }
@@ -114,10 +120,9 @@ class ScriptManagerBloc extends Bloc<ScriptManagerEvent, ScriptManagerState> {
     on<ToolChanged>((event, emit) => emit(state.copyWith(selectedTool: event.selectedTool)));
     on<ToggleCameraView>((event, emit) {
       emit(state.copyWith(isCameraVisible: !state.isCameraVisible));
-      // print(state.isCameraVisible);
-      });
+    });
     on<UpdateSelectedAnnotationEvent>((event, emit) {
-      emit(state.copyWith(selectedAnnotation: event.selectedAnnotation));;
+      emit(state.copyWith(selectedAnnotation: event.selectedAnnotation));
     });
   }
 }

@@ -27,9 +27,9 @@ class NewCue extends AnnotationToolBase {
 
     // Define some sample Tags
     var tags = [
-      Tag("1", fs),
-      Tag("3", vfx),
-      Tag("5", vfx),
+      Tag(cue_name: "1", type: fs),
+      Tag(cue_name: "3", type: vfx),
+      Tag(cue_name: "5", type: vfx),
     ];
 
     Cue newCue = Cue(page: page.pageNumber, pos: coordinates, type: goType, tags: tags, note:"on clap");

@@ -23,7 +23,7 @@ class InspectorPanelABloc extends Bloc<InspectorPanelAEvent, InspectorPanelAStat
     var vfx = TagType("VFX", Colors.green);
     // Define some sample Tags
     var tags = [
-      Tag("1", fs),
+      Tag(cue_name: "1", type: fs),
       // Tag("3", vfx),
       // Tag("5", vfx),
     ];

@@ -26,6 +26,13 @@ class CueFieldUpdated extends CueEditorEvent {
   final dynamic value;
   CueFieldUpdated(this.field, this.value);
 }
+class UpdateTagDetail extends CueEditorEvent {
+  final int index;
+  final String detailKey;
+  final dynamic detailValue;
+
+  UpdateTagDetail(this.index, this.detailKey, this.detailValue);
+}
 class SubmitCue extends CueEditorEvent {}
 
 // State definitions
@@ -52,7 +59,6 @@ class CueEditorBloc extends Bloc<CueEditorEvent, CueEditorState> {
       if (cueDraft != null) {
       emit(CueEditorSuccess(cueDraft!));  // Emit success with the loaded cue
       }
-
     });
 
     on<AddTag>((event, emit) {
@@ -67,9 +73,21 @@ class CueEditorBloc extends Bloc<CueEditorEvent, CueEditorState> {
       emit(CueEditorSuccess(cueDraft!));
     });
 
-    on<UpdateTag>((event, emit) {
+    on<UpdateTagDetail>((event, emit) {
       if (cueDraft == null) return;
-      cueDraft!.tags[event.index] = event.updatedTag;
+      Tag tagToUpdate = cueDraft!.tags[event.index];
+      switch (event.detailKey) {
+        case 'department':
+          tagToUpdate = tagToUpdate.copyWith(type: event.detailValue as TagType?);
+          break;
+        case 'cue':
+          tagToUpdate = tagToUpdate.copyWith(cue_name: event.detailValue as String);
+          break;
+        case 'description':
+          tagToUpdate = tagToUpdate.copyWith(description: event.detailValue as String);
+          break;
+      }
+      cueDraft!.tags[event.index] = tagToUpdate;
       emit(CueEditorSuccess(cueDraft!));
     });
     
@@ -80,7 +98,7 @@ class CueEditorBloc extends Bloc<CueEditorEvent, CueEditorState> {
       }
       print(event.value);
       final updatedCue = applyFieldUpdate(cueDraft!, event.field, event.value);
-      emit(CueEditorSuccess(cueDraft!)); // Emit success with updated draft
+      emit(CueEditorSuccess(updatedCue)); // Emit success with updated draft
       // Todo, sent to network and update UI
     });
 
@@ -98,17 +116,20 @@ class CueEditorBloc extends Bloc<CueEditorEvent, CueEditorState> {
 
   Cue applyFieldUpdate(Cue cue, String field, dynamic value) {
     switch (field) {
-      case 'tags':
-        return cue.copyWith(tags: value as List<Tag>);
       case 'note':
+        cueDraft!.note = value; // because we just passed the cue instance to be edited via the manager bloc, we can directly make edits to that and display them
         return cue.copyWith(note: value as String);
       case 'title':
+        cueDraft!.title = value;
         return cue.copyWith(title: value as String);
       case 'autofire':
+        cueDraft!.autofire = value;
         return cue.copyWith(autofire: value as bool);
       case 'line':
+        cueDraft!.line = value;
         return cue.copyWith(line: value as String);
       case 'message':
+        cueDraft!.message = value;
         return cue.copyWith(message: value as String);
       default:
         return cue; // No field matched

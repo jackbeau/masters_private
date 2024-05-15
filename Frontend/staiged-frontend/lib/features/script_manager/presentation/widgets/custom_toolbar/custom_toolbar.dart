@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/bloc/app_bar_bloc.dart';
 import '../../../domain/bloc/script_manager_bloc.dart';
 import 'tool_dropdown_button.dart';
@@ -12,13 +12,12 @@ class IconHelper {
     return Image.asset(
       assetPath,
       color: isSelected ? Theme.of(context).colorScheme.primaryContainer : Theme.of(context).colorScheme.onSurface,
-      width: width
+      width: width,
     );
   }
 }
 
 class CustomToolbar extends StatelessWidget {
-  final AppBarBloc appBarBloc;
   final Mode currentMode;
   final InspectorPanel selectedInspector;
   final ScriptManagerBloc scriptManagerBloc;
@@ -28,7 +27,6 @@ class CustomToolbar extends StatelessWidget {
   const CustomToolbar({
     super.key,
     required this.scriptManagerBloc,
-    required this.appBarBloc,
     required this.currentMode,
     required this.selectedInspector,
     required this.selectedTool,
@@ -37,90 +35,91 @@ class CustomToolbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    return BlocProvider<AppBarBloc>(
+      create: (context) => AppBarBloc(scriptManagerBloc.state.pdfController!),
+      child: Builder(
+        builder: (context) {
+          final appBarBloc = BlocProvider.of<AppBarBloc>(context);
+          final screenWidth = MediaQuery.of(context).size.width;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      height: 52,
-      color: Theme.of(context).colorScheme.surface,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            flex: 2,
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            height: 52,
+            color: Theme.of(context).colorScheme.surface,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  width: 180,
-                  child: ModeSwitcher(
-                    currentMode: currentMode,
-                    scriptManagerBloc: scriptManagerBloc,
+                Expanded(
+                  flex: 2,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 180,
+                        child: ModeSwitcher(
+                          currentMode: currentMode,
+                          scriptManagerBloc: scriptManagerBloc,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      if (scriptManagerBloc.state.mode == Mode.edit)
+                        IconButton(
+                          icon: IconHelper.getIcon(context, ThemeIcons.cue_tool, selectedTool == Tool.new_cue, width: 24),
+                          onPressed: () => scriptManagerBloc.add(ToolChanged(selectedTool == Tool.new_cue ? Tool.none : Tool.new_cue)),
+                          tooltip: "Add cue",
+                        ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 12),
-                // ToolDropdownButton(
-                //   icon: Icons.edit,
-                //   items: const ['Black', 'Red', 'Green'],
-                //   onSelect: (String color) {
-                //     // Handle color change
-                //   },
-                if (scriptManagerBloc.state.mode == Mode.edit) 
-                  IconButton(
-                  icon: IconHelper.getIcon(context, ThemeIcons.cue_tool, selectedTool == Tool.new_cue, width:24),
-                  onPressed: () => scriptManagerBloc.add(ToolChanged(selectedTool == Tool.new_cue ? Tool.none : Tool.new_cue)),
-                  tooltip: "Add cue",
-                ),
-              ],
-            ),
-          ),
-          if (screenWidth >= 1080) // Conditionally display the title based on screen width
-            Expanded(
-              flex: 1,
-              child: Center(
-                child: Text(
-                  "Romeo and Juliet",
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-              ),
-            ),
-          Expanded(
-            flex: 2,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.search, color: Theme.of(context).colorScheme.onSurface),
-                  onPressed: () {
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.zoom_out, color: Theme.of(context).colorScheme.onSurface),
-                  onPressed: () => appBarBloc.add(ZoomOut()),
-                ),
-                IconButton(
-                  icon: Icon(Icons.zoom_in, color: Theme.of(context).colorScheme.onSurface),
-                  onPressed: () => appBarBloc.add(ZoomIn()),
-                ),
-                const SizedBox(width: 12),
-                IconButton(
-                  icon: IconHelper.getIcon(context, ThemeIcons.camera, isCameraActive),
-                  onPressed: () {
-                    scriptManagerBloc.add(ToggleCameraView());
-                  },
-                  tooltip: "Show stage camera",
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  width: 220,
-                  child: InspectorSwitcher(
-                    selectedInspector: selectedInspector,
-                    scriptManagerBloc: scriptManagerBloc,
+                if (screenWidth >= 1080)
+                  Expanded(
+                    flex: 1,
+                    child: Center(
+                      child: Text(
+                        "Romeo and Juliet",
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                    ),
+                  ),
+                Expanded(
+                  flex: 2,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.search, color: Theme.of(context).colorScheme.onSurface),
+                        onPressed: () {},
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.zoom_out, color: Theme.of(context).colorScheme.onSurface),
+                        onPressed: () => appBarBloc.add(ZoomOut()),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.zoom_in, color: Theme.of(context).colorScheme.onSurface),
+                        onPressed: () => appBarBloc.add(ZoomIn()),
+                      ),
+                      const SizedBox(width: 12),
+                      IconButton(
+                        icon: IconHelper.getIcon(context, ThemeIcons.camera, isCameraActive),
+                        onPressed: () {
+                          scriptManagerBloc.add(ToggleCameraView());
+                        },
+                        tooltip: "Show stage camera",
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        width: 220,
+                        child: InspectorSwitcher(
+                          selectedInspector: selectedInspector,
+                          scriptManagerBloc: scriptManagerBloc,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

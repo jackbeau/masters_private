@@ -106,7 +106,12 @@ class Cue extends Annotation {
 
     // Positioning calculations
     double offsetX = 3;
-    final labelTypePainter = createTextPainter(type.text, labelStyle);
+    TextPainter labelTypePainter;
+    if (autofire == true) {
+      labelTypePainter = createTextPainter("AUTO", labelStyle);
+    } else {
+      labelTypePainter = createTextPainter(type.text, labelStyle);
+    }
     
     if (type.side == 'l') {
       labelTypePainter.paint(canvas, Offset(pos.dx - size.width / 2 + offsetX, pos.dy - labelTypePainter.height / 2));
@@ -119,16 +124,18 @@ class Cue extends Annotation {
 
     // Draw tags with their backgrounds
     for (var tag in tags) {
-      final tagPainter = createTextPainter("${tag.type.department} ${tag.cue_name}", labelStyle);
+      if (tag.type != null) {
+      final tagPainter = createTextPainter("${tag.type?.department} ${tag.cue_name}", labelStyle);
       final tagWidth = tagPainter.width + 6; // additional padding for tags
       final tagRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(pos.dx - size.width / 2 + offsetX, pos.dy - size.height / 2, tagWidth, size.height),
         Radius.circular(tagRadius),
       );
-      final paintTag = Paint()..color = tag.type.color;
+      final paintTag = Paint()..color = tag.type!.color;
       canvas.drawRRect(tagRect, paintTag);
       tagPainter.paint(canvas, Offset(pos.dx - size.width / 2 + offsetX + internalPaddingX, pos.dy - tagPainter.height / 2));
       offsetX += tagWidth + tagPagddingX; // Space between tags
+      }
     }
     final notePainter = createTextPainter(note, noteStyle, maxLines: 3, maxWidth: 120);
     notePainter.paint(canvas, Offset(pos.dx + size.width / 2 + 4, pos.dy + size.height/2 - notePainter.height ));
@@ -138,14 +145,22 @@ class Cue extends Annotation {
     double totalWidth = internalPaddingX * 2; // Start with padding for the main text
     double totalHeight = 0;
 
-    final labelTypePainter = createTextPainter(type.text, labelStyle);
+    TextPainter labelTypePainter;
+    if (autofire == true) {
+      labelTypePainter = createTextPainter("AUTO", labelStyle);
+    } else {
+      labelTypePainter = createTextPainter(type.text, labelStyle);
+    }
     totalWidth += labelTypePainter.width;
     totalHeight = max(totalHeight, labelTypePainter.height);
 
     for (var tag in tags) {
-      final tagPainter = createTextPainter("${tag.type.department} ${tag.cue_name}", labelStyle);
+      if (tag.type != null) {
+      final tagPainter = createTextPainter("${tag.type?.department} ${tag.cue_name}", labelStyle);
       totalWidth += tagPainter.width + internalPaddingX * 2; // Add padding for each tag
       totalHeight = max(totalHeight, tagPainter.height);
+      }
+      
     }
 
     totalWidth += (tags.length - 1) * tagPagddingX; // Add space between tags
