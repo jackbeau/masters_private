@@ -8,6 +8,19 @@ class LoadCue extends CueEditorEvent {
   final Cue? cue;
   LoadCue(this.cue);
 }
+class AddTag extends CueEditorEvent {
+  final Tag tag;
+  AddTag(this.tag);
+}
+class RemoveTag extends CueEditorEvent {
+  final int index;
+  RemoveTag(this.index);
+}
+class UpdateTag extends CueEditorEvent {
+  final int index;
+  final Tag updatedTag;
+  UpdateTag(this.index, this.updatedTag);
+}
 class CueFieldUpdated extends CueEditorEvent {
   final String field;
   final dynamic value;
@@ -32,26 +45,42 @@ class CueEditorError extends CueEditorState {
 class CueEditorBloc extends Bloc<CueEditorEvent, CueEditorState> {
   Cue? cueDraft;
 
-
-
   CueEditorBloc() : super(CueEditorInitial()) {
 
     on<LoadCue>((event, emit) {
-      if (event.cue != null) {
-      cueDraft = event.cue;  // Set the draft to the loaded Cue
+      cueDraft = event.cue;
+      if (cueDraft != null) {
       emit(CueEditorSuccess(cueDraft!));  // Emit success with the loaded cue
       }
 
     });
 
+    on<AddTag>((event, emit) {
+      if (cueDraft == null) return;
+      cueDraft!.tags.add(event.tag);
+      emit(CueEditorSuccess(cueDraft!));
+    });
+
+    on<RemoveTag>((event, emit) {
+      if (cueDraft == null) return;
+      cueDraft!.tags.removeAt(event.index);
+      emit(CueEditorSuccess(cueDraft!));
+    });
+
+    on<UpdateTag>((event, emit) {
+      if (cueDraft == null) return;
+      cueDraft!.tags[event.index] = event.updatedTag;
+      emit(CueEditorSuccess(cueDraft!));
+    });
+    
     on<CueFieldUpdated>((event, emit) {
       if (cueDraft == null) {
         emit(CueEditorError('No cue loaded to update'));
         return;
       }
+      print(event.value);
       final updatedCue = applyFieldUpdate(cueDraft!, event.field, event.value);
       emit(CueEditorSuccess(cueDraft!)); // Emit success with updated draft
-      print(updatedCue);
       // Todo, sent to network and update UI
     });
 

@@ -25,9 +25,6 @@ class NewCue extends AnnotationToolBase {
   tap(PdfPage page, Offset coordinates, List<Annotation> annotations) {
     // Define a new CueType for demonstration
 
-
-    var fs = TagType("FS", Colors.blue);
-    var vfx = TagType("VFX", Colors.green);
     // Define some sample Tags
     var tags = [
       Tag("1", fs),

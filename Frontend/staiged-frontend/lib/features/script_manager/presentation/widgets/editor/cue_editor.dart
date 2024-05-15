@@ -1,13 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:staiged/features/script_manager/data/models/annotation.dart';
 import 'package:staiged/features/script_manager/domain/cue.dart';
 import '../../../domain/bloc/script_manager_bloc.dart';
 import '../../../domain/bloc/cue_editor_bloc.dart';
+import '../../../data/models/tag.dart';
 
-// import 'package:your_project_path/bloc/cue_bloc.dart';
-// import '../data/models/cue.dart';
+class TagController {
+  UniqueKey? department;
+  TextEditingController cueController;
+  TextEditingController descriptionController;
+
+  TagController({this.department, String? cue, String? description})
+      : cueController = TextEditingController(text: cue),
+        descriptionController = TextEditingController(text: description);
+}
 
 class CueEditor extends StatefulWidget {
   @override
@@ -16,38 +25,32 @@ class CueEditor extends StatefulWidget {
 
 class _CueEditorState extends State<CueEditor> {
   final _formKey = GlobalKey<FormState>();
-  late TextEditingController _cueController;
-  late TextEditingController _descriptionController;
+  late List<TagController> _tagControllers;
   late TextEditingController _noteController;
   late TextEditingController _titleController;
   late TextEditingController _lineController;
   late TextEditingController _messageController;
   bool _autofire = false;
-  String? _selectedDepartment;
-
-
-  final List<Map<String, dynamic>> _departments = [
-    {'name': 'HR', 'color': Colors.red},
-    {'name': 'Finance', 'color': Colors.green},
-    {'name': 'IT', 'color': Colors.blue},
-    {'name': 'Marketing', 'color': Colors.orange},
-  ];
+  late List<Widget> _tagWidgets;
 
   @override
   void initState() {
+    print("hi3");
     super.initState();
-    _cueController = TextEditingController();
-    _descriptionController = TextEditingController();
+    _tagControllers = [];
     _noteController = TextEditingController();
     _titleController = TextEditingController();
     _lineController = TextEditingController();
     _messageController = TextEditingController();
+    _tagWidgets = [];
   }
 
   @override
   void dispose() {
-    _cueController.dispose();
-    _descriptionController.dispose();
+    _tagControllers.forEach((tagController) {
+      tagController.cueController.dispose();
+      tagController.descriptionController.dispose();
+     });
     _noteController.dispose();
     _titleController.dispose();
     _lineController.dispose();
@@ -57,23 +60,43 @@ class _CueEditorState extends State<CueEditor> {
 
   @override
   Widget build(BuildContext context) {
-      return BlocProvider<CueEditorBloc>(
-        create: (_) => CueEditorBloc(),
-        child: BlocListener<ScriptManagerBloc, ScriptManagerState>(
-          listener: (context, state) {
+    return BlocProvider<CueEditorBloc>(
+      create: (_) {
+        // Fetch current selectedAnnotation value on first build
+        print("hi");
+        final selectedAnnotation = context.read<ScriptManagerBloc>().state.selectedAnnotation;
+        final cueEditorBloc = CueEditorBloc();
+        if (selectedAnnotation is Cue) {
+          cueEditorBloc.add(LoadCue(selectedAnnotation));
+          _buildTagControllers(selectedAnnotation.tags);
+          _titleController.text = selectedAnnotation.title;
+          _noteController.text = selectedAnnotation.note;
+          _autofire = selectedAnnotation.autofire;
+          _lineController.text = selectedAnnotation.line;
+          _messageController.text = selectedAnnotation.message;
+
+        }
+        return cueEditorBloc;
+      },
+      child: BlocListener<ScriptManagerBloc, ScriptManagerState>(
+        // Subscribe to subsequent updates
+        listener: (context, state) {
             if (state.selectedAnnotation is Cue) {
               var cue = state.selectedAnnotation as Cue;
-            _noteController.text = cue.note ?? '';
-            // _descriptionController.text = cue.description ?? '';
-            _titleController.text = cue.title ?? '';
-            _lineController.text = cue.line ?? '';
-            _messageController.text = cue.message ?? '';
-            _autofire = cue.autofire;
-            context.read<CueEditorBloc>().add(LoadCue(cue));
+              _buildTagControllers(cue.tags);
+              _titleController.text = cue.title;
+              _noteController.text = cue.note;
+              _autofire = cue.autofire;
+              _lineController.text = cue.line;
+              _messageController.text = cue.message;
+              context.read<CueEditorBloc>().add(LoadCue(cue));
             }
-            print(state.selectedAnnotation);
-          },
-          child: Container(
+        },
+        child: BlocBuilder<CueEditorBloc, CueEditorState>(
+          // Rebuild bloc on local bloc updates
+          builder: (context, state) {
+            if (state is CueEditorSuccess) {
+            return  Container(
             color: Theme.of(context).colorScheme.surface,
             child: Form(
               key: _formKey,
@@ -86,7 +109,7 @@ class _CueEditorState extends State<CueEditor> {
                       iconSize: 20,
                       icon: Icon(Icons.close, color: Theme.of(context).colorScheme.onSurface),
                       onPressed: () {
-                        print("Close");
+                        context.read<ScriptManagerBloc>().add(EditorChanged(EditorPanel.none));
                       },
                     ),
                   ),
@@ -101,59 +124,20 @@ class _CueEditorState extends State<CueEditor> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Department",
-                                            style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          SizedBox(height: 12),
-                                          Wrap(
-                                            spacing: 8.0,
-                                            children: _departments.map((department) {
-                                              return ChoiceChip(
-                                                label: Text(department['name']),
-                                                labelStyle: TextStyle(color: Colors.white),
-                                                selectedColor: department['color'],
-                                                backgroundColor: department['color'].withOpacity(0.3),
-                                                selected: _selectedDepartment == department['name'],
-                                                onSelected: (bool selected) {
-                                                  setState(() {
-                                                    _selectedDepartment = selected ? department['name'] : null;
-                                                  });
-                                                },
-                                              );
-                                            }).toList(),
-                                          ),
-                                          SizedBox(height: 12),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(width: 8),
-                                    Expanded(child: CustomFormField(
-                                      label: "Cue",
-                                      field: "cue",
-                                      controller: _cueController,
-                                    )),
-                                    SizedBox(width: 8),
-                                    Expanded(child: CustomFormField(
-                                      label: "Description",
-                                      field: "description",
-                                      controller: _descriptionController,
-                                    )),
-                                  ],
+                                Column(
+                                  children: List<Widget>.generate(_tagControllers.length, (index) {
+                                    return Column(
+                                      children: <Widget>[
+                                        _buildTagWidget(_tagControllers[index]),
+                                        if (index != _tagControllers.length - 1) SizedBox(height: 12),  // Conditional spacing
+                                      ],
+                                    );
+                                  }),
                                 ),
                                 IconButton(
                                   // iconSize: 20,
                                   icon: Icon(Icons.add, color: Theme.of(context).colorScheme.onSurface),
-                                  onPressed: () {
-                                    print("Add");
-                                  },
+                                  onPressed: () => _addNewTag(context),
                                 ),
                                 // TextFormField(
                                 //   controller: _noteController,
@@ -230,11 +214,27 @@ class _CueEditorState extends State<CueEditor> {
                   ),
                 ]
               ),
-            ),
+            ));
+            } else if (state is CueEditorLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return Center(child: Text('Something went wrong'));
+            }
+          }
           ),
         ),
       );
     // );
+  }
+
+  void _buildTagControllers(List<Tag> tags) {
+    _tagControllers = tags.map((tag) {
+      return TagController(
+        department: tag.id,
+        cue: tag.cue_name,
+        description: tag.description,
+      );
+    }).toList();
   }
 
   void _updateCue() {
@@ -249,6 +249,84 @@ class _CueEditorState extends State<CueEditor> {
     //   context.read<CueBloc>().add(UpdateCue(updatedCue));
     // }
   }
+
+void _addNewTag(BuildContext context) {
+  setState(() {
+    _tagControllers.add(TagController());
+  });
+}
+
+void _removeTag(TagController tagController) {
+  setState(() {
+      _tagControllers.removeWhere((controller) => controller == tagController);
+    });
+  // context.read<CueEditorBloc>().add(RemoveTag(index));
+}
+
+void _updateTagInBloc(int index, String name, String description) {
+  Tag updatedTag = Tag(name, TagType('Department', Colors.blue), description: description);
+  context.read<CueEditorBloc>().add(UpdateTag(index, updatedTag));
+}
+
+Widget _buildTagWidget(TagController tagController) {
+  return Row(
+    children: [
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Department",
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+              textAlign: TextAlign.left,
+            ),
+            SizedBox(height: 12),
+            Wrap(
+              spacing: 8.0,
+              children: tagOptions.map((tag) {
+                return ChoiceChip(
+                  label: Text(tag.department),
+                  labelStyle: TextStyle(color: Colors.white),
+                  selectedColor: tag.color,
+                  backgroundColor: tag.color.withOpacity(0.3),
+                  selected: tagController.department == tag.id,
+                  onSelected: (bool selected) {
+                    setState(() {
+                      tagController.department = selected ? tag.id : null;
+                    });
+                  },
+                );
+              }).toList(),
+            ),
+            SizedBox(height: 12),
+          ],
+        ),
+      ),
+      SizedBox(width: 8),
+      Expanded(child: CustomFormField(
+        label: "Cue",
+        field: "cue",
+        controller: tagController.cueController,
+      )),
+      SizedBox(width: 8),
+      Expanded(child: CustomFormField(
+        label: "Description",
+        field: "description",
+        controller: tagController.descriptionController,
+      )),
+      SizedBox(height: 10),
+      Container(
+        padding: EdgeInsets.only(top:14),
+        alignment: Alignment.centerRight, // Aligns the IconButton to the right and center vertically
+        child: IconButton(
+          icon: Icon(Icons.delete, color: Theme.of(context).colorScheme.onSurface),
+          onPressed: () => _removeTag(tagController),
+        ),
+      ),
+    ],
+  );
+}
+
 }
 
 class CustomFormField extends StatelessWidget {
@@ -286,3 +364,4 @@ class CustomFormField extends StatelessWidget {
     );
   }
 }
+

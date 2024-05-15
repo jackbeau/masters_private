@@ -22,4 +22,3 @@ var goType = CueType(
   const Color.fromARGB(255, 32, 34, 46),
   "r"
 );
-  
