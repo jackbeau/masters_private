@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/bloc/inspector_cues_bloc.dart';
-import '../../../domain/cue.dart'; // Update this path to wherever your Cue model is defined
+import '../../../domain/models/cue.dart'; // Update this path to wherever your Cue model is defined
 import 'cue_tile.dart';
+import '../../../data/repositories/annotations_repository.dart';
 
 class InspectorCues extends StatelessWidget {
+
+  InspectorCues();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => InspectorPanelABloc()..add(LoadCues()),
-      child: BlocBuilder<InspectorPanelABloc, InspectorPanelAState>(
+      create: (context) => InspectorCuesBloc(RepositoryProvider.of<AnnotationsRepository>(context))..add(LoadCues()),
+      child: BlocBuilder<InspectorCuesBloc, InspectorCuesState>(
         builder: (context, state) {
-          if (state is InspectorPanelALoaded) {
+          if (state is InspectorCuesLoaded) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 14),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start, // Ensure alignment is to the start
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "All cues",
-                    textAlign: TextAlign.left, // Align text to the left
+                    textAlign: TextAlign.left,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onBackground)
                   ),
-
                   SizedBox(height: 8),
-                  
                   Expanded(
                     child: Container(
                       color: Theme.of(context).colorScheme.surface,

@@ -1,11 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cue.dart'; // Update this path to the actual location of your Cue model.
-import '../../data/models/tag.dart'; // Update this path to the actual location of your Cue model.
+import '../models/cue.dart'; 
+import '../models/tag.dart';
+import '../../data/repositories/annotations_repository.dart';
 
 // Event definitions
 abstract class CueEditorEvent {}
 class LoadCue extends CueEditorEvent {
-  final Cue? cue;
+  final CueLabel? cue;
   LoadCue(this.cue);
 }
 class AddTag extends CueEditorEvent {
@@ -50,26 +51,29 @@ class CueEditorError extends CueEditorState {
 
 // BLoC definition
 class CueEditorBloc extends Bloc<CueEditorEvent, CueEditorState> {
-  Cue? cueDraft;
+  CueLabel? cueDraft;
+  final AnnotationsRepository annotationsRepository;
 
-  CueEditorBloc() : super(CueEditorInitial()) {
+  CueEditorBloc(this.annotationsRepository) : super(CueEditorInitial()) {
 
     on<LoadCue>((event, emit) {
       cueDraft = event.cue;
       if (cueDraft != null) {
-      emit(CueEditorSuccess(cueDraft!));  // Emit success with the loaded cue
+        emit(CueEditorSuccess(cueDraft!));
       }
     });
 
     on<AddTag>((event, emit) {
       if (cueDraft == null) return;
       cueDraft!.tags.add(event.tag);
+      annotationsRepository.updateAnnotation(cueDraft!);
       emit(CueEditorSuccess(cueDraft!));
     });
 
     on<RemoveTag>((event, emit) {
       if (cueDraft == null) return;
       cueDraft!.tags.removeAt(event.index);
+      annotationsRepository.updateAnnotation(cueDraft!);
       emit(CueEditorSuccess(cueDraft!));
     });
 
@@ -88,36 +92,25 @@ class CueEditorBloc extends Bloc<CueEditorEvent, CueEditorState> {
           break;
       }
       cueDraft!.tags[event.index] = tagToUpdate;
+      annotationsRepository.updateAnnotation(cueDraft!);
       emit(CueEditorSuccess(cueDraft!));
     });
-    
+
     on<CueFieldUpdated>((event, emit) {
       if (cueDraft == null) {
         emit(CueEditorError('No cue loaded to update'));
         return;
       }
-      print(event.value);
       final updatedCue = applyFieldUpdate(cueDraft!, event.field, event.value);
-      emit(CueEditorSuccess(updatedCue)); // Emit success with updated draft
-      // Todo, sent to network and update UI
+      annotationsRepository.updateAnnotation(updatedCue);
+      emit(CueEditorSuccess(updatedCue));
     });
-
-    // on<SubmitCue>(async (event, emit) {
-    //   emit(CueEditorLoading());
-    //   try {
-    //     // Simulate sending data to the server or use an actual repository method
-    //     // Assuming success if no exceptions
-    //     emit(CueEditorSuccess(cueDraft));
-    //   } catch (e) {
-    //     emit(CueEditorError(e.toString()));
-    //   }
-    // });
   }
 
-  Cue applyFieldUpdate(Cue cue, String field, dynamic value) {
+  CueLabel applyFieldUpdate(CueLabel cue, String field, dynamic value) {
     switch (field) {
       case 'note':
-        cueDraft!.note = value; // because we just passed the cue instance to be edited via the manager bloc, we can directly make edits to that and display them
+        cueDraft!.note = value;
         return cue.copyWith(note: value as String);
       case 'title':
         cueDraft!.title = value;
@@ -132,7 +125,7 @@ class CueEditorBloc extends Bloc<CueEditorEvent, CueEditorState> {
         cueDraft!.message = value;
         return cue.copyWith(message: value as String);
       default:
-        return cue; // No field matched
+        return cue;
     }
   }
 }

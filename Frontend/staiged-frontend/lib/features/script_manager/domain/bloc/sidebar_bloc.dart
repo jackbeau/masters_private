@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import '../../data/models/act.dart';  // Assuming data model exists
+import '../models/act.dart';  // Assuming data model exists
 
 abstract class SidebarEvent {}
 class LoadActs extends SidebarEvent {}

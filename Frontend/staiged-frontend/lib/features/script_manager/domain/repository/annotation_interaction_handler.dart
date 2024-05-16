@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pdfrx/pdfrx.dart';
-import 'cue.dart'; 
-import '../data/models/annotation.dart';
-import '../data/models/tag.dart';
-import '../data/models/cue_type.dart';
+import '../models/cue.dart'; 
+import '../models/annotation.dart';
+import '../models/tag.dart';
+import '../models/cue_type.dart';
 import 'cue_marker.dart';
 
 class AnnotationInteractionHandler {
@@ -17,7 +17,7 @@ class AnnotationInteractionHandler {
     }
   }
 
-  void move(Offset delta, Annotation annotation, {PdfPage? page, PdfViewerController? controller}) {
+  Annotation? move(Offset delta, Annotation annotation, {PdfPage? page, PdfViewerController? controller}) {
     if (annotation is Cue) {
       if (page != null && controller != null) {
         Offset newOffset = _calculateNewOffset(annotation.pos, delta, page, controller);
@@ -25,7 +25,9 @@ class AnnotationInteractionHandler {
       } else {
         annotation.pos += delta;
       }
+      return annotation;
     }
+    return null;
   }
 
   Offset _calculateNewOffset(Offset currentOffset, Offset delta, PdfPage page, PdfViewerController controller) {

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../../../domain/cue.dart'; // Update this path to wherever your Cue model is defined
+import '../../../domain/models/cue.dart'; // Update this path to wherever your Cue model is defined
 
 class CuePainter extends CustomPainter {
-  final Cue cue;
+  final CueLabel cue;
 
   CuePainter(this.cue);
 
@@ -21,7 +21,7 @@ class CuePainter extends CustomPainter {
 }
 
 class CueTile extends StatelessWidget {
-  final Cue cue;
+  final CueLabel cue;
 
   CueTile({required this.cue});
 
@@ -56,7 +56,7 @@ class CueTile extends StatelessWidget {
                       children: [
                         CustomPaint(
                           size: cueSize, // Use the size calculated by the Cue object
-                              painter: CuePainter(Cue(
+                              painter: CuePainter(CueLabel(
                               page: cue.page,
                               pos: Offset(cueSize.width / (2 / 0.9),
                                   cueSize.height / (2 / 0.9)),
@@ -77,7 +77,7 @@ class CueTile extends StatelessWidget {
                               baseline: 13,
                               child: Text(
                                 'Act I Scene 2',
-                                style: Cue.labelStyle.copyWith(
+                                style: CueLabel.labelStyle.copyWith(
                                     color: Theme.of(context).colorScheme.onSecondary),
                               ),
                             ),
@@ -125,8 +125,9 @@ class CueTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (cue.title != "")
                   Text(
-                    cue.note,
+                    cue.title,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurface),
                   ),
                   if (cue.note != "")

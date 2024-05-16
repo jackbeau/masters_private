@@ -18,30 +18,22 @@ class IconHelper {
 }
 
 class CustomToolbar extends StatelessWidget {
-  final Mode currentMode;
-  final InspectorPanel selectedInspector;
-  final ScriptManagerBloc scriptManagerBloc;
-  final bool isCameraActive;
-  final Tool selectedTool;
 
-  const CustomToolbar({
-    super.key,
-    required this.scriptManagerBloc,
-    required this.currentMode,
-    required this.selectedInspector,
-    required this.selectedTool,
-    this.isCameraActive = false,
-  });
+  const CustomToolbar({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AppBarBloc>(
-      create: (context) => AppBarBloc(scriptManagerBloc.state.pdfController!),
-      child: Builder(
-        builder: (context) {
+      create: (context) => AppBarBloc(BlocProvider.of<ScriptManagerBloc>(context).state.pdfController!),
+      child: BlocBuilder<ScriptManagerBloc, ScriptManagerState>(
+        builder: (context, state) {
           final appBarBloc = BlocProvider.of<AppBarBloc>(context);
           final screenWidth = MediaQuery.of(context).size.width;
-
+          final Mode currentMode = BlocProvider.of<ScriptManagerBloc>(context).state.mode;
+          final InspectorPanel selectedInspector = BlocProvider.of<ScriptManagerBloc>(context).state.selectedInspector;
+          final bool isCameraActive = BlocProvider.of<ScriptManagerBloc>(context).state.isCameraVisible;
+          final Tool selectedTool = BlocProvider.of<ScriptManagerBloc>(context).state.selectedTool;
+      
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             height: 52,
@@ -55,16 +47,13 @@ class CustomToolbar extends StatelessWidget {
                     children: [
                       Container(
                         width: 180,
-                        child: ModeSwitcher(
-                          currentMode: currentMode,
-                          scriptManagerBloc: scriptManagerBloc,
-                        ),
+                        child: ModeSwitcher(currentMode: currentMode),
                       ),
                       const SizedBox(width: 12),
-                      if (scriptManagerBloc.state.mode == Mode.edit)
+                      if (BlocProvider.of<ScriptManagerBloc>(context).state.mode == Mode.edit)
                         IconButton(
                           icon: IconHelper.getIcon(context, ThemeIcons.cue_tool, selectedTool == Tool.new_cue, width: 24),
-                          onPressed: () => scriptManagerBloc.add(ToolChanged(selectedTool == Tool.new_cue ? Tool.none : Tool.new_cue)),
+                          onPressed: () => BlocProvider.of<ScriptManagerBloc>(context).add(ToolChanged(selectedTool == Tool.new_cue ? Tool.none : Tool.new_cue)),
                           tooltip: "Add cue",
                         ),
                     ],
@@ -101,17 +90,14 @@ class CustomToolbar extends StatelessWidget {
                       IconButton(
                         icon: IconHelper.getIcon(context, ThemeIcons.camera, isCameraActive),
                         onPressed: () {
-                          scriptManagerBloc.add(ToggleCameraView());
+                          BlocProvider.of<ScriptManagerBloc>(context).add(ToggleCameraView());
                         },
                         tooltip: "Show stage camera",
                       ),
                       const SizedBox(width: 8),
                       Container(
                         width: 220,
-                        child: InspectorSwitcher(
-                          selectedInspector: selectedInspector,
-                          scriptManagerBloc: scriptManagerBloc,
-                        ),
+                        child: InspectorSwitcher(selectedInspector: selectedInspector),
                       ),
                     ],
                   ),

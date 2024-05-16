@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pdfrx/pdfrx.dart';
+import 'package:staiged/features/script_manager/data/providers/annotations_provider.dart';
+import 'package:staiged/features/script_manager/data/repositories/annotations_repository.dart';
 import 'package:staiged/features/script_manager/domain/bloc/cue_editor_bloc.dart';
-import '../../domain/bloc/script_canvas_bloc.dart';
+import '../../domain/bloc/script_canvas/script_canvas_bloc.dart';
 import '../../domain/bloc/script_manager_bloc.dart';
 
 class ScriptCanvas extends StatefulWidget {
@@ -21,7 +23,11 @@ class _ScriptCanvasState extends State<ScriptCanvas> {
   @override
   void initState() {
     super.initState();
-    _bloc = ScriptCanvasBloc(widget.controller, BlocProvider.of<ScriptManagerBloc>(context));
+    _bloc = ScriptCanvasBloc(
+      widget.controller,
+      BlocProvider.of<ScriptManagerBloc>(context),
+      RepositoryProvider.of<AnnotationsRepository>(context),
+      );
     widget.controller.addListener(_onControllerUpdate);
     
     // Retrieve the selected tool from ScriptManagerBloc state

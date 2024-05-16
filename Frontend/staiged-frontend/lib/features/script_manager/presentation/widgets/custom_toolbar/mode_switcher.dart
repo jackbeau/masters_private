@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../../domain/bloc/script_manager_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ModeSwitcher extends StatelessWidget {
   final Mode currentMode;
-  final ScriptManagerBloc scriptManagerBloc;
-
   const ModeSwitcher({
     Key? key,
     required this.currentMode,
-    required this.scriptManagerBloc,
   }) : super(key: key);
 
   @override
@@ -32,7 +30,7 @@ class ModeSwitcher extends StatelessWidget {
       selected: {currentMode},
       onSelectionChanged: (Set<Mode> selectedModes) {
         if (selectedModes.isNotEmpty) {
-          scriptManagerBloc.add(ModeChanged(selectedModes.first));
+          BlocProvider.of<ScriptManagerBloc>(context).add(ModeChanged(selectedModes.first));
         }
       },
       style: ButtonStyle(

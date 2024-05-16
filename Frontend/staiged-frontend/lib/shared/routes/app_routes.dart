@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../widgets/side_nav.dart';
-import '../../features/script_manager/presentation/script_manager_page.dart';
+import '../../features/script_manager/presentation/screens/script_manager_page.dart';
 
 
 class AppRoutes {

@@ -1,18 +1,17 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import '../data/models/cue_type.dart';
-import '../data/models/tag.dart';
-import '../data/models/annotation.dart';
+import '../models/cue_type.dart';
+import '../models/tag.dart';
+import '../models/annotation.dart';
+import '../models/cue.dart';
 
-class Cue extends Annotation {
+class CueLabel extends Cue {
   static const double containerRadius = 2;
   static const double tagRadius = 2;
   static const double internalPaddingX = 3;
   static const double containerBorder = 1;
   static const double tagPagddingX = 1;
-  final UniqueKey id = UniqueKey();
-  final int page;
-  Offset pos;
+
   final CueType type;
   final List<Tag> tags;
   String note;
@@ -21,9 +20,25 @@ class Cue extends Annotation {
   String line;
   String message;
 
-  Cue({this.page=0, required this.pos, required this.type, required this.tags, this.note = "", this.title = "", this.autofire=false, this.line="", this.message=""});
+  CueLabel({
+    required int page,
+    required Offset pos,
+    required this.type,
+    required this.tags,
+    this.note = "",
+    this.title = "",
+    this.autofire = false,
+    this.line = "",
+    this.message = "",
+  }) : super(
+          page: page,
+          pos: pos,
+        );
 
-  Cue copyWith({
+  @override
+  CueLabel getEffectiveCueLabel() => this;
+
+  CueLabel copyWith({
     int? page,
     Offset? pos,
     CueType? type,
@@ -34,7 +49,7 @@ class Cue extends Annotation {
     String? line,
     String? message,
   }) {
-    return Cue(
+    return CueLabel(
       page: page ?? this.page,
       pos: pos ?? this.pos,
       type: type ?? this.type,
@@ -43,7 +58,7 @@ class Cue extends Annotation {
       title: title ?? this.title,
       autofire: autofire ?? this.autofire,
       line: line ?? this.line,
-      message: message ?? this.message
+      message: message ?? this.message,
     );
   }
 
@@ -75,12 +90,13 @@ class Cue extends Annotation {
 
   @override
   bool isInObject(Annotation annotation, Offset interactionPosition) {
-    if (annotation is Cue) {
+    if (annotation is CueLabel) {
       Size size = calculateSize();
       Path tempPath = Path()
         ..addRRect(RRect.fromRectAndRadius(
-          Rect.fromCenter(center:pos, width:size.width+internalPaddingX, height:size.height+internalPaddingX),
-          const Radius.circular(containerRadius)));
+          Rect.fromCenter(center: pos, width: size.width + internalPaddingX, height: size.height + internalPaddingX),
+          const Radius.circular(containerRadius),
+        ));
       return tempPath.contains(interactionPosition);
     }
     return false;
@@ -89,19 +105,19 @@ class Cue extends Annotation {
   void drawMarker(Canvas canvas, Offset pos) {
     Size size = calculateSize();
     final rectOverall = RRect.fromRectAndRadius(
-      Rect.fromCenter(center: pos, width: size.width+containerBorder, height: size.height+containerBorder),
+      Rect.fromCenter(center: pos, width: size.width + containerBorder, height: size.height + containerBorder),
       const Radius.circular(internalPaddingX),
     );
 
     // Draw background for main text
-    final paintOverall = Paint()..color = type.color;  // Use a consistent color variable like Colors.black instead of Color.fromARGB
+    final paintOverall = Paint()..color = type.color;
     canvas.drawRRect(rectOverall, paintOverall);
 
     // Draw the border
     final borderPaint = Paint()
       ..color = Colors.black
-      ..style = PaintingStyle.stroke  // Set the paint to stroke
-      ..strokeWidth = containerBorder;  // Width of the border
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = containerBorder;
     canvas.drawRRect(rectOverall, borderPaint);
 
     // Positioning calculations
@@ -112,37 +128,36 @@ class Cue extends Annotation {
     } else {
       labelTypePainter = createTextPainter(type.text, labelStyle);
     }
-    
+
     if (type.side == 'l') {
       labelTypePainter.paint(canvas, Offset(pos.dx - size.width / 2 + offsetX, pos.dy - labelTypePainter.height / 2));
-      offsetX += labelTypePainter.width + 3;  // Start from right-most tag if side is 'r'
-    }
-    else {
-      labelTypePainter.paint(canvas, Offset(pos.dx + size.width/2 - labelTypePainter.width - internalPaddingX*2 + offsetX, pos.dy - labelTypePainter.height / 2));
+      offsetX += labelTypePainter.width + 3;
+    } else {
+      labelTypePainter.paint(canvas, Offset(pos.dx + size.width / 2 - labelTypePainter.width - internalPaddingX * 2 + offsetX, pos.dy - labelTypePainter.height / 2));
       offsetX -= offsetX;
     }
 
     // Draw tags with their backgrounds
     for (var tag in tags) {
       if (tag.type != null) {
-      final tagPainter = createTextPainter("${tag.type?.department} ${tag.cue_name}", labelStyle);
-      final tagWidth = tagPainter.width + 6; // additional padding for tags
-      final tagRect = RRect.fromRectAndRadius(
-        Rect.fromLTWH(pos.dx - size.width / 2 + offsetX, pos.dy - size.height / 2, tagWidth, size.height),
-        Radius.circular(tagRadius),
-      );
-      final paintTag = Paint()..color = tag.type!.color;
-      canvas.drawRRect(tagRect, paintTag);
-      tagPainter.paint(canvas, Offset(pos.dx - size.width / 2 + offsetX + internalPaddingX, pos.dy - tagPainter.height / 2));
-      offsetX += tagWidth + tagPagddingX; // Space between tags
+        final tagPainter = createTextPainter("${tag.type?.department} ${tag.cue_name}", labelStyle);
+        final tagWidth = tagPainter.width + 6;
+        final tagRect = RRect.fromRectAndRadius(
+          Rect.fromLTWH(pos.dx - size.width / 2 + offsetX, pos.dy - size.height / 2, tagWidth, size.height),
+          Radius.circular(tagRadius),
+        );
+        final paintTag = Paint()..color = tag.type!.color;
+        canvas.drawRRect(tagRect, paintTag);
+        tagPainter.paint(canvas, Offset(pos.dx - size.width / 2 + offsetX + internalPaddingX, pos.dy - tagPainter.height / 2));
+        offsetX += tagWidth + tagPagddingX;
       }
     }
     final notePainter = createTextPainter(note, noteStyle, maxLines: 3, maxWidth: 120);
-    notePainter.paint(canvas, Offset(pos.dx + size.width / 2 + 4, pos.dy + size.height/2 - notePainter.height ));
+    notePainter.paint(canvas, Offset(pos.dx + size.width / 2 + 4, pos.dy + size.height / 2 - notePainter.height));
   }
 
   Size calculateSize() {
-    double totalWidth = internalPaddingX * 2; // Start with padding for the main text
+    double totalWidth = internalPaddingX * 2;
     double totalHeight = 0;
 
     TextPainter labelTypePainter;
@@ -156,15 +171,14 @@ class Cue extends Annotation {
 
     for (var tag in tags) {
       if (tag.type != null) {
-      final tagPainter = createTextPainter("${tag.type?.department} ${tag.cue_name}", labelStyle);
-      totalWidth += tagPainter.width + internalPaddingX * 2; // Add padding for each tag
-      totalHeight = max(totalHeight, tagPainter.height);
+        final tagPainter = createTextPainter("${tag.type?.department} ${tag.cue_name}", labelStyle);
+        totalWidth += tagPainter.width + internalPaddingX * 2;
+        totalHeight = max(totalHeight, tagPainter.height);
       }
-      
     }
 
-    totalWidth += (tags.length - 1) * tagPagddingX; // Add space between tags
-    totalHeight += 1; // Small adjustment for padding
+    totalWidth += (tags.length - 1) * tagPagddingX;
+    totalHeight += 1;
 
     return Size(totalWidth, totalHeight);
   }

@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pdfrx/pdfrx.dart';
-import 'package:staiged/features/script_manager/data/models/annotation.dart';
-import 'package:staiged/features/script_manager/domain/annotation_tool.dart';
-import '../cue.dart';
+import 'package:staiged/features/script_manager/domain/models/annotation.dart';
+import 'package:staiged/features/script_manager/domain/repository/annotation_tool.dart';
+import '../models/cue.dart';
 
 abstract class ScriptManagerEvent {}
 

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../domain/bloc/script_manager_bloc.dart';
 import '../../../../../core/constants/app_images.dart';
 
@@ -14,12 +16,9 @@ class IconHelper {
 
 class InspectorSwitcher extends StatelessWidget {
   final InspectorPanel selectedInspector;
-  final ScriptManagerBloc scriptManagerBloc;
-
   const InspectorSwitcher({
     Key? key,
     required this.selectedInspector,
-    required this.scriptManagerBloc,
   }) : super(key: key);
 
   @override
@@ -47,7 +46,7 @@ class InspectorSwitcher extends StatelessWidget {
       selected: {selectedInspector},
       onSelectionChanged: (Set<InspectorPanel> i) {
         if (i.isNotEmpty) {
-          scriptManagerBloc.add(InspectorChanged(i.first));
+          BlocProvider.of<ScriptManagerBloc>(context).add(InspectorChanged(i.first));
         }
       },
       style: ButtonStyle(
