@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/models/cue.dart'; // Update this path to wherever your Cue model is defined
+import '../../../domain/bloc/script_manager_bloc.dart';
+import '../../../domain/bloc/inspector_cues_bloc.dart';
 
 class CuePainter extends CustomPainter {
   final CueLabel cue;
@@ -56,13 +57,13 @@ class CueTile extends StatelessWidget {
                       children: [
                         CustomPaint(
                           size: cueSize, // Use the size calculated by the Cue object
-                              painter: CuePainter(CueLabel(
-                              page: cue.page,
-                              pos: Offset(cueSize.width / (2 / 0.9),
-                                  cueSize.height / (2 / 0.9)),
-                              type: cue.type,
-                              tags: cue.tags,
-                            )),
+                          painter: CuePainter(CueLabel(
+                            page: cue.page,
+                            pos: Offset(cueSize.width / (2 / 0.9),
+                                cueSize.height / (2 / 0.9)),
+                            type: cue.type,
+                            tags: cue.tags,
+                          )),
                         ),
                         SizedBox(
                           height: cueSize.height,
@@ -93,28 +94,28 @@ class CueTile extends StatelessWidget {
                       iconSize: 20,
                       icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.onSurface),
                       onPressed: () {
-                        print("Cue ID: ${cue.id}");
+                        context.read<ScriptManagerBloc>().add(UpdateSelectedAnnotationEvent(cue));
+                        context.read<ScriptManagerBloc>().add(EditorChanged(EditorPanel.add_cue));
                       },
                     ),
                     PopupMenuButton<String>(
-                    onSelected: (value) {
-                      if (value == 'Delete') {
-                        print('Delete action for Cue ID: ${cue.id}');
-                        // Add your delete logic here
-                      }
-                    },
-                    itemBuilder: (BuildContext context) {
-                      return <PopupMenuEntry<String>>[
-                        const PopupMenuItem<String>(
-                          value: 'Delete',
-                          child: Text('Delete'),
-                        ),
-                      ];
-                    },
-                    icon: Icon(Icons.more_horiz, color: Theme.of(context).colorScheme.onSurface),
-                    offset: Offset(0, 0),  // This offset moves the menu down by 40 pixels relative to the IconButton
-                    position: PopupMenuPosition.under, // Ensures the menu opens below the anchor
-                  ),
+                      onSelected: (value) {
+                        if (value == 'Delete') {
+                          _deleteCue(context, cue);
+                        }
+                      },
+                      itemBuilder: (BuildContext context) {
+                        return <PopupMenuEntry<String>>[
+                          const PopupMenuItem<String>(
+                            value: 'Delete',
+                            child: Text('Delete'),
+                          ),
+                        ];
+                      },
+                      icon: Icon(Icons.more_horiz, color: Theme.of(context).colorScheme.onSurface),
+                      offset: Offset(0, 0),  // This offset moves the menu down by 40 pixels relative to the IconButton
+                      position: PopupMenuPosition.under, // Ensures the menu opens below the anchor
+                    ),
                   ],
                 ),
               ],
@@ -126,10 +127,10 @@ class CueTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (cue.title != "")
-                  Text(
-                    cue.title,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurface),
-                  ),
+                    Text(
+                      cue.title,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurface),
+                    ),
                   if (cue.note != "")
                     Padding(
                       padding: const EdgeInsets.only(top: 2),
@@ -145,5 +146,10 @@ class CueTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _deleteCue(BuildContext context, CueLabel cue) {
+    context.read<InspectorCuesBloc>().add(DeleteAnnotationEvent(cue));
+    context.read<ScriptManagerBloc>().add(UpdateSelectedAnnotationEvent(null));
   }
 }

@@ -7,6 +7,10 @@ import '../../data/repositories/annotations_repository.dart';
 // Event definitions
 abstract class InspectorCuesEvent {}
 class LoadCues extends InspectorCuesEvent {}
+class DeleteAnnotationEvent extends InspectorCuesEvent {
+  final CueLabel cue;
+  DeleteAnnotationEvent(this.cue);
+}
 
 // State definitions
 abstract class InspectorCuesState {}
@@ -31,6 +35,11 @@ class InspectorCuesBloc extends Bloc<InspectorCuesEvent, InspectorCuesState> {
 
     on<LoadCues>((event, emit) async {
       // No need to manually fetch annotations here as the stream subscription handles updates
+    });
+
+    on<DeleteAnnotationEvent>((event, emit) async {
+      await annotationsRepository.removeCueLabelAndMarkers(event.cue);
+      _fetchAnnotations();
     });
   }
 
