@@ -1,0 +1,415 @@
+2024/05/20-13:38:28.054609 123145467265024 RocksDB version: 7.4.5
+2024/05/20-13:38:28.077193 123145467265024 Git sha e072c129d57a0883370034cecf6774c745c40f76
+2024/05/20-13:38:28.077200 123145467265024 Compile date 2022-08-02 12:56:55
+2024/05/20-13:38:28.077203 123145467265024 DB SUMMARY
+2024/05/20-13:38:28.077206 123145467265024 DB Session ID:  NK3GJYR3Q5AQ6G605IM1
+2024/05/20-13:38:28.080352 123145467265024 CURRENT file:  CURRENT
+2024/05/20-13:38:28.080358 123145467265024 IDENTITY file:  IDENTITY
+2024/05/20-13:38:28.080372 123145467265024 MANIFEST file:  MANIFEST-000691 size: 78 Bytes
+2024/05/20-13:38:28.080378 123145467265024 SST files in /Users/jackb/Code/Master/Backend/staiged-backend/staiged_backend/mqtt_embedded/data/persistence/retained_messages/040500_R/retained_messages_19 dir, Total Num: 0, files: 
+2024/05/20-13:38:28.080387 123145467265024 Write Ahead Log file in /Users/jackb/Code/Master/Backend/staiged-backend/staiged_backend/mqtt_embedded/data/persistence/retained_messages/040500_R/retained_messages_19: 000004.log size: 0 ; 000008.log size: 57 ; 000012.log size: 0 ; 000014.log size: 0 ; 000018.log size: 0 ; 000022.log size: 0 ; 000026.log size: 0 ; 000030.log size: 0 ; 000034.log size: 0 ; 000038.log size: 0 ; 000042.log size: 0 ; 000046.log size: 0 ; 000050.log size: 0 ; 000054.log size: 0 ; 000058.log size: 0 ; 000062.log size: 0 ; 000066.log size: 0 ; 000070.log size: 0 ; 000074.log size: 0 ; 000078.log size: 0 ; 000082.log size: 0 ; 000086.log size: 0 ; 000090.log size: 0 ; 000094.log size: 0 ; 000098.log size: 0 ; 000102.log size: 0 ; 000106.log size: 0 ; 000110.log size: 0 ; 000114.log size: 0 ; 000118.log size: 0 ; 000122.log size: 0 ; 000126.log size: 0 ; 000130.log size: 0 ; 000134.log size: 0 ; 000138.log size: 0 ; 000142.log size: 0 ; 000146.log size: 0 ; 000150.log size: 0 ; 000154.log size: 0 ; 000158.log size: 0 ; 000162.log size: 0 ; 000166.log size: 0 ; 000170.log size: 0 ; 000174.log size: 0 ; 000178.log size: 0 ; 000182.log size: 0 ; 000186.log size: 0 ; 000190.log size: 0 ; 000194.log size: 0 ; 000198.log size: 0 ; 000202.log size: 0 ; 000206.log size: 0 ; 000210.log size: 0 ; 000214.log size: 0 ; 000218.log size: 0 ; 000222.log size: 0 ; 000226.log size: 0 ; 000230.log size: 0 ; 000234.log size: 0 ; 000238.log size: 0 ; 000242.log size: 0 ; 000246.log size: 0 ; 000250.log size: 0 ; 000254.log size: 0 ; 000258.log size: 0 ; 000262.log size: 0 ; 000266.log size: 0 ; 000270.log size: 0 ; 000274.log size: 0 ; 000278.log size: 0 ; 000282.log size: 0 ; 000286.log size: 0 ; 000290.log size: 0 ; 000294.log size: 0 ; 000298.log size: 0 ; 000302.log size: 0 ; 000306.log size: 0 ; 000310.log size: 0 ; 000314.log size: 0 ; 000318.log size: 0 ; 000322.log size: 0 ; 000326.log size: 0 ; 000330.log size: 0 ; 000334.log size: 0 ; 000338.log size: 0 ; 000342.log size: 0 ; 000346.log size: 0 ; 000350.log size: 0 ; 000354.log size: 0 ; 000358.log size: 0 ; 000362.log size: 0 ; 000366.log size: 0 ; 000370.log size: 0 ; 000374.log size: 0 ; 000378.log size: 0 ; 000382.log size: 0 ; 000386.log size: 0 ; 000390.log size: 19 ; 000394.log size: 0 ; 000398.log size: 0 ; 000402.log size: 0 ; 000406.log size: 0 ; 000410.log size: 0 ; 000414.log size: 0 ; 000418.log size: 0 ; 000422.log size: 0 ; 000426.log size: 0 ; 000430.log size: 0 ; 000434.log size: 0 ; 000438.log size: 0 ; 000442.log size: 0 ; 000446.log size: 0 ; 000450.log size: 0 ; 000454.log size: 0 ; 000458.log size: 0 ; 000462.log size: 0 ; 000466.log size: 0 ; 000470.log size: 0 ; 000474.log size: 0 ; 000478.log size: 0 ; 000482.log size: 0 ; 000486.log size: 0 ; 000490.log size: 0 ; 000494.log size: 0 ; 000498.log size: 0 ; 000502.log size: 0 ; 000506.log size: 0 ; 000510.log size: 0 ; 000514.log size: 0 ; 000518.log size: 0 ; 000522.log size: 0 ; 000526.log size: 0 ; 000530.log size: 0 ; 000534.log size: 0 ; 000538.log size: 0 ; 000542.log size: 0 ; 000546.log size: 0 ; 000550.log size: 0 ; 000554.log size: 0 ; 000558.log size: 0 ; 000562.log size: 0 ; 000566.log size: 19 ; 000570.log size: 38 ; 000574.log size: 0 ; 000578.log size: 0 ; 000582.log size: 19 ; 000586.log size: 0 ; 000590.log size: 0 ; 000594.log size: 0 ; 000598.log size: 0 ; 000602.log size: 0 ; 000606.log size: 0 ; 000610.log size: 0 ; 000614.log size: 0 ; 000618.log size: 0 ; 000622.log size: 0 ; 000626.log size: 57 ; 000630.log size: 76 ; 000634.log size: 0 ; 000638.log size: 0 ; 000642.log size: 19 ; 000646.log size: 38 ; 000650.log size: 0 ; 000654.log size: 19 ; 000658.log size: 0 ; 000662.log size: 0 ; 000666.log size: 0 ; 000670.log size: 38 ; 000674.log size: 19 ; 000678.log size: 19 ; 000682.log size: 0 ; 000686.log size: 19 ; 000690.log size: 0 ; 
+2024/05/20-13:38:28.142226 123145467265024                         Options.error_if_exists: 0
+2024/05/20-13:38:28.142232 123145467265024                       Options.create_if_missing: 1
+2024/05/20-13:38:28.142236 123145467265024                         Options.paranoid_checks: 1
+2024/05/20-13:38:28.142239 123145467265024             Options.flush_verify_memtable_count: 1
+2024/05/20-13:38:28.142242 123145467265024                               Options.track_and_verify_wals_in_manifest: 0
+2024/05/20-13:38:28.142245 123145467265024        Options.verify_sst_unique_id_in_manifest: 0
+2024/05/20-13:38:28.142248 123145467265024                                     Options.env: 0x156f94d28
+2024/05/20-13:38:28.142252 123145467265024                                      Options.fs: PosixFileSystem
+2024/05/20-13:38:28.142254 123145467265024                                Options.info_log: 0x7f8757ff7080
+2024/05/20-13:38:28.142257 123145467265024                Options.max_file_opening_threads: 16
+2024/05/20-13:38:28.142260 123145467265024                              Options.statistics: 0x7f875eb90fd0
+2024/05/20-13:38:28.142263 123145467265024                               Options.use_fsync: 0
+2024/05/20-13:38:28.142265 123145467265024                       Options.max_log_file_size: 512000
+2024/05/20-13:38:28.142268 123145467265024                  Options.max_manifest_file_size: 1073741824
+2024/05/20-13:38:28.142271 123145467265024                   Options.log_file_time_to_roll: 0
+2024/05/20-13:38:28.142274 123145467265024                       Options.keep_log_file_num: 2
+2024/05/20-13:38:28.142276 123145467265024                    Options.recycle_log_file_num: 0
+2024/05/20-13:38:28.142279 123145467265024                         Options.allow_fallocate: 1
+2024/05/20-13:38:28.142281 123145467265024                        Options.allow_mmap_reads: 0
+2024/05/20-13:38:28.142284 123145467265024                       Options.allow_mmap_writes: 0
+2024/05/20-13:38:28.142286 123145467265024                        Options.use_direct_reads: 0
+2024/05/20-13:38:28.142289 123145467265024                        Options.use_direct_io_for_flush_and_compaction: 0
+2024/05/20-13:38:28.142292 123145467265024          Options.create_missing_column_families: 0
+2024/05/20-13:38:28.142295 123145467265024                              Options.db_log_dir: 
+2024/05/20-13:38:28.142298 123145467265024                                 Options.wal_dir: 
+2024/05/20-13:38:28.142300 123145467265024                Options.table_cache_numshardbits: 6
+2024/05/20-13:38:28.142303 123145467265024                         Options.WAL_ttl_seconds: 0
+2024/05/20-13:38:28.142305 123145467265024                       Options.WAL_size_limit_MB: 0
+2024/05/20-13:38:28.142308 123145467265024                        Options.max_write_batch_group_size_bytes: 1048576
+2024/05/20-13:38:28.142311 123145467265024             Options.manifest_preallocation_size: 4194304
+2024/05/20-13:38:28.142314 123145467265024                     Options.is_fd_close_on_exec: 1
+2024/05/20-13:38:28.142316 123145467265024                   Options.advise_random_on_open: 1
+2024/05/20-13:38:28.142320 123145467265024                   Options.experimental_mempurge_threshold: 0.000000
+2024/05/20-13:38:28.142323 123145467265024                    Options.db_write_buffer_size: 0
+2024/05/20-13:38:28.142326 123145467265024                    Options.write_buffer_manager: 0x7f8763a15d90
+2024/05/20-13:38:28.142329 123145467265024         Options.access_hint_on_compaction_start: 1
+2024/05/20-13:38:28.142331 123145467265024           Options.random_access_max_buffer_size: 1048576
+2024/05/20-13:38:28.197944 123145467265024                      Options.use_adaptive_mutex: 0
+2024/05/20-13:38:28.197951 123145467265024                            Options.rate_limiter: 0x0
+2024/05/20-13:38:28.197955 123145467265024     Options.sst_file_manager.rate_bytes_per_sec: 0
+2024/05/20-13:38:28.197958 123145467265024                       Options.wal_recovery_mode: 2
+2024/05/20-13:38:28.197961 123145467265024                  Options.enable_thread_tracking: 0
+2024/05/20-13:38:28.197964 123145467265024                  Options.enable_pipelined_write: 0
+2024/05/20-13:38:28.197967 123145467265024                  Options.unordered_write: 0
+2024/05/20-13:38:28.197970 123145467265024         Options.allow_concurrent_memtable_write: 1
+2024/05/20-13:38:28.197973 123145467265024      Options.enable_write_thread_adaptive_yield: 1
+2024/05/20-13:38:28.197976 123145467265024             Options.write_thread_max_yield_usec: 100
+2024/05/20-13:38:28.197979 123145467265024            Options.write_thread_slow_yield_usec: 3
+2024/05/20-13:38:28.197982 123145467265024                               Options.row_cache: None
+2024/05/20-13:38:28.197985 123145467265024                              Options.wal_filter: None
+2024/05/20-13:38:28.197988 123145467265024             Options.avoid_flush_during_recovery: 0
+2024/05/20-13:38:28.197991 123145467265024             Options.allow_ingest_behind: 0
+2024/05/20-13:38:28.197994 123145467265024             Options.two_write_queues: 0
+2024/05/20-13:38:28.197997 123145467265024             Options.manual_wal_flush: 0
+2024/05/20-13:38:28.198000 123145467265024             Options.wal_compression: 0
+2024/05/20-13:38:28.198003 123145467265024             Options.atomic_flush: 0
+2024/05/20-13:38:28.198006 123145467265024             Options.avoid_unnecessary_blocking_io: 0
+2024/05/20-13:38:28.198009 123145467265024                 Options.persist_stats_to_disk: 0
+2024/05/20-13:38:28.198012 123145467265024                 Options.write_dbid_to_manifest: 0
+2024/05/20-13:38:28.198015 123145467265024                 Options.log_readahead_size: 0
+2024/05/20-13:38:28.198018 123145467265024                 Options.file_checksum_gen_factory: Unknown
+2024/05/20-13:38:28.198021 123145467265024                 Options.best_efforts_recovery: 0
+2024/05/20-13:38:28.198024 123145467265024                Options.max_bgerror_resume_count: 2147483647
+2024/05/20-13:38:28.198027 123145467265024            Options.bgerror_resume_retry_interval: 1000000
+2024/05/20-13:38:28.198030 123145467265024             Options.allow_data_in_errors: 0
+2024/05/20-13:38:28.198033 123145467265024             Options.db_host_id: __hostname__
+2024/05/20-13:38:28.198037 123145467265024             Options.enforce_single_del_contracts: true
+2024/05/20-13:38:28.198040 123145467265024             Options.max_background_jobs: 2
+2024/05/20-13:38:28.198043 123145467265024             Options.max_background_compactions: -1
+2024/05/20-13:38:28.198046 123145467265024             Options.max_subcompactions: 1
+2024/05/20-13:38:28.198049 123145467265024             Options.avoid_flush_during_shutdown: 0
+2024/05/20-13:38:28.198053 123145467265024           Options.writable_file_max_buffer_size: 1048576
+2024/05/20-13:38:28.198056 123145467265024             Options.delayed_write_rate : 16777216
+2024/05/20-13:38:28.198059 123145467265024             Options.max_total_wal_size: 0
+2024/05/20-13:38:28.198062 123145467265024             Options.delete_obsolete_files_period_micros: 21600000000
+2024/05/20-13:38:28.198065 123145467265024                   Options.stats_dump_period_sec: 0
+2024/05/20-13:38:28.198068 123145467265024                 Options.stats_persist_period_sec: 0
+2024/05/20-13:38:28.198071 123145467265024                 Options.stats_history_buffer_size: 65536
+2024/05/20-13:38:28.198074 123145467265024                          Options.max_open_files: -1
+2024/05/20-13:38:28.198077 123145467265024                          Options.bytes_per_sync: 0
+2024/05/20-13:38:28.198079 123145467265024                      Options.wal_bytes_per_sync: 0
+2024/05/20-13:38:28.227700 123145467265024                   Options.strict_bytes_per_sync: 0
+2024/05/20-13:38:28.227708 123145467265024       Options.compaction_readahead_size: 0
+2024/05/20-13:38:28.233931 123145467265024                  Options.max_background_flushes: -1
+2024/05/20-13:38:28.233936 123145467265024 Compression algorithms supported:
+2024/05/20-13:38:28.233940 123145467265024 	kZSTD supported: 1
+2024/05/20-13:38:28.233944 123145467265024 	kZlibCompression supported: 1
+2024/05/20-13:38:28.233948 123145467265024 	kXpressCompression supported: 0
+2024/05/20-13:38:28.233951 123145467265024 	kSnappyCompression supported: 1
+2024/05/20-13:38:28.233955 123145467265024 	kZSTDNotFinalCompression supported: 1
+2024/05/20-13:38:28.233957 123145467265024 	kLZ4HCCompression supported: 1
+2024/05/20-13:38:28.233961 123145467265024 	kLZ4Compression supported: 1
+2024/05/20-13:38:28.233964 123145467265024 	kBZip2Compression supported: 1
+2024/05/20-13:38:28.233968 123145467265024 Fast CRC32 supported: Not supported on x86
+2024/05/20-13:38:28.233971 123145467265024 DMutex implementation: pthread_mutex_t
+2024/05/20-13:38:28.258682 123145467265024 [/version_set.cc:4948] Recovering from manifest file: /Users/jackb/Code/Master/Backend/staiged-backend/staiged_backend/mqtt_embedded/data/persistence/retained_messages/040500_R/retained_messages_19/MANIFEST-000691
+2024/05/20-13:38:28.258988 123145467265024 [/column_family.cc:614] --------------- Options for column family [default]:
+2024/05/20-13:38:28.258997 123145467265024               Options.comparator: leveldb.BytewiseComparator
+2024/05/20-13:38:28.259001 123145467265024           Options.merge_operator: None
+2024/05/20-13:38:28.259004 123145467265024        Options.compaction_filter: None
+2024/05/20-13:38:28.259007 123145467265024        Options.compaction_filter_factory: None
+2024/05/20-13:38:28.259009 123145467265024  Options.sst_partitioner_factory: None
+2024/05/20-13:38:28.259012 123145467265024         Options.memtable_factory: SkipListFactory
+2024/05/20-13:38:28.259014 123145467265024            Options.table_factory: BlockBasedTable
+2024/05/20-13:38:28.259046 123145467265024            table_factory options:   flush_block_policy_factory: FlushBlockBySizePolicyFactory (0x7f875dcc7380)
+  cache_index_and_filter_blocks: 0
+  cache_index_and_filter_blocks_with_high_priority: 1
+  pin_l0_filter_and_index_blocks_in_cache: 0
+  pin_top_level_index_and_filter: 1
+  index_type: 0
+  data_block_index_type: 0
+  index_shortening: 1
+  data_block_hash_table_util_ratio: 0.750000
+  checksum: 1
+  no_block_cache: 0
+  block_cache: 0x7f875eb8ef28
+  block_cache_name: LRUCache
+  block_cache_options:
+    capacity : 134217728
+    num_shard_bits : 6
+    strict_capacity_limit : 0
+    memory_allocator : None
+    high_pri_pool_ratio: 0.000
+  block_cache_compressed: 0x0
+  persistent_cache: 0x0
+  block_size: 32768
+  block_size_deviation: 10
+  block_restart_interval: 16
+  index_block_restart_interval: 1
+  metadata_block_size: 4096
+  partition_filters: 0
+  use_delta_encoding: 1
+  filter_policy: nullptr
+  whole_key_filtering: 1
+  verify_compression: 0
+  read_amp_bytes_per_bit: 0
+  format_version: 5
+  enable_index_compression: 1
+  block_align: 0
+  max_auto_readahead_size: 262144
+  prepopulate_block_cache: 0
+  initial_auto_readahead_size: 8192
+2024/05/20-13:38:28.259054 123145467265024        Options.write_buffer_size: 4194304
+2024/05/20-13:38:28.259057 123145467265024  Options.max_write_buffer_number: 2
+2024/05/20-13:38:28.259060 123145467265024          Options.compression: Snappy
+2024/05/20-13:38:28.259062 123145467265024                  Options.bottommost_compression: Disabled
+2024/05/20-13:38:28.259065 123145467265024       Options.prefix_extractor: nullptr
+2024/05/20-13:38:28.259068 123145467265024   Options.memtable_insert_with_hint_prefix_extractor: nullptr
+2024/05/20-13:38:28.259070 123145467265024             Options.num_levels: 7
+2024/05/20-13:38:28.259073 123145467265024        Options.min_write_buffer_number_to_merge: 1
+2024/05/20-13:38:28.259075 123145467265024     Options.max_write_buffer_number_to_maintain: 0
+2024/05/20-13:38:28.314171 123145467265024     Options.max_write_buffer_size_to_maintain: 0
+2024/05/20-13:38:28.314176 123145467265024            Options.bottommost_compression_opts.window_bits: -14
+2024/05/20-13:38:28.314180 123145467265024                  Options.bottommost_compression_opts.level: 32767
+2024/05/20-13:38:28.314183 123145467265024               Options.bottommost_compression_opts.strategy: 0
+2024/05/20-13:38:28.314186 123145467265024         Options.bottommost_compression_opts.max_dict_bytes: 0
+2024/05/20-13:38:28.314189 123145467265024         Options.bottommost_compression_opts.zstd_max_train_bytes: 0
+2024/05/20-13:38:28.314192 123145467265024         Options.bottommost_compression_opts.parallel_threads: 1
+2024/05/20-13:38:28.314195 123145467265024                  Options.bottommost_compression_opts.enabled: false
+2024/05/20-13:38:28.314197 123145467265024         Options.bottommost_compression_opts.max_dict_buffer_bytes: 0
+2024/05/20-13:38:28.314200 123145467265024         Options.bottommost_compression_opts.use_zstd_dict_trainer: true
+2024/05/20-13:38:28.314234 123145467265024            Options.compression_opts.window_bits: -14
+2024/05/20-13:38:28.314238 123145467265024                  Options.compression_opts.level: 32767
+2024/05/20-13:38:28.314241 123145467265024               Options.compression_opts.strategy: 0
+2024/05/20-13:38:28.314244 123145467265024         Options.compression_opts.max_dict_bytes: 0
+2024/05/20-13:38:28.314247 123145467265024         Options.compression_opts.zstd_max_train_bytes: 0
+2024/05/20-13:38:28.314250 123145467265024         Options.compression_opts.use_zstd_dict_trainer: true
+2024/05/20-13:38:28.314254 123145467265024         Options.compression_opts.parallel_threads: 1
+2024/05/20-13:38:28.314257 123145467265024                  Options.compression_opts.enabled: false
+2024/05/20-13:38:28.314260 123145467265024         Options.compression_opts.max_dict_buffer_bytes: 0
+2024/05/20-13:38:28.314263 123145467265024      Options.level0_file_num_compaction_trigger: 4
+2024/05/20-13:38:28.314266 123145467265024          Options.level0_slowdown_writes_trigger: 20
+2024/05/20-13:38:28.314269 123145467265024              Options.level0_stop_writes_trigger: 36
+2024/05/20-13:38:28.314272 123145467265024                   Options.target_file_size_base: 67108864
+2024/05/20-13:38:28.314276 123145467265024             Options.target_file_size_multiplier: 1
+2024/05/20-13:38:28.314279 123145467265024                Options.max_bytes_for_level_base: 268435456
+2024/05/20-13:38:28.314282 123145467265024 Options.level_compaction_dynamic_level_bytes: 0
+2024/05/20-13:38:28.314287 123145467265024          Options.max_bytes_for_level_multiplier: 10.000000
+2024/05/20-13:38:28.314290 123145467265024 Options.max_bytes_for_level_multiplier_addtl[0]: 1
+2024/05/20-13:38:28.314294 123145467265024 Options.max_bytes_for_level_multiplier_addtl[1]: 1
+2024/05/20-13:38:28.314297 123145467265024 Options.max_bytes_for_level_multiplier_addtl[2]: 1
+2024/05/20-13:38:28.314300 123145467265024 Options.max_bytes_for_level_multiplier_addtl[3]: 1
+2024/05/20-13:38:28.314303 123145467265024 Options.max_bytes_for_level_multiplier_addtl[4]: 1
+2024/05/20-13:38:28.314306 123145467265024 Options.max_bytes_for_level_multiplier_addtl[5]: 1
+2024/05/20-13:38:28.314309 123145467265024 Options.max_bytes_for_level_multiplier_addtl[6]: 1
+2024/05/20-13:38:28.314312 123145467265024       Options.max_sequential_skip_in_iterations: 8
+2024/05/20-13:38:28.314316 123145467265024                    Options.max_compaction_bytes: 1677721600
+2024/05/20-13:38:28.314319 123145467265024                        Options.arena_block_size: 524288
+2024/05/20-13:38:28.314322 123145467265024   Options.soft_pending_compaction_bytes_limit: 68719476736
+2024/05/20-13:38:28.314325 123145467265024   Options.hard_pending_compaction_bytes_limit: 274877906944
+2024/05/20-13:38:28.314328 123145467265024                Options.disable_auto_compactions: 0
+2024/05/20-13:38:28.314332 123145467265024                        Options.compaction_style: kCompactionStyleLevel
+2024/05/20-13:38:28.379539 123145467265024                          Options.compaction_pri: kMinOverlappingRatio
+2024/05/20-13:38:28.379543 123145467265024 Options.compaction_options_universal.size_ratio: 1
+2024/05/20-13:38:28.379547 123145467265024 Options.compaction_options_universal.min_merge_width: 2
+2024/05/20-13:38:28.379551 123145467265024 Options.compaction_options_universal.max_merge_width: 4294967295
+2024/05/20-13:38:28.379555 123145467265024 Options.compaction_options_universal.max_size_amplification_percent: 200
+2024/05/20-13:38:28.379558 123145467265024 Options.compaction_options_universal.compression_size_percent: -1
+2024/05/20-13:38:28.379562 123145467265024 Options.compaction_options_universal.stop_style: kCompactionStopStyleTotalSize
+2024/05/20-13:38:28.379565 123145467265024 Options.compaction_options_fifo.max_table_files_size: 1073741824
+2024/05/20-13:38:28.379568 123145467265024 Options.compaction_options_fifo.allow_compaction: 0
+2024/05/20-13:38:28.379573 123145467265024                   Options.table_properties_collectors: 
+2024/05/20-13:38:28.379576 123145467265024                   Options.inplace_update_support: 0
+2024/05/20-13:38:28.379580 123145467265024                 Options.inplace_update_num_locks: 10000
+2024/05/20-13:38:28.379584 123145467265024               Options.memtable_prefix_bloom_size_ratio: 0.000000
+2024/05/20-13:38:28.379587 123145467265024               Options.memtable_whole_key_filtering: 0
+2024/05/20-13:38:28.379591 123145467265024   Options.memtable_huge_page_size: 0
+2024/05/20-13:38:28.379594 123145467265024                           Options.bloom_locality: 0
+2024/05/20-13:38:28.379597 123145467265024                    Options.max_successive_merges: 0
+2024/05/20-13:38:28.379602 123145467265024                Options.optimize_filters_for_hits: 0
+2024/05/20-13:38:28.379605 123145467265024                Options.paranoid_file_checks: 0
+2024/05/20-13:38:28.379608 123145467265024                Options.force_consistency_checks: 1
+2024/05/20-13:38:28.379612 123145467265024                Options.report_bg_io_stats: 0
+2024/05/20-13:38:28.379615 123145467265024                               Options.ttl: 2592000
+2024/05/20-13:38:28.379618 123145467265024          Options.periodic_compaction_seconds: 0
+2024/05/20-13:38:28.379621 123145467265024                       Options.enable_blob_files: false
+2024/05/20-13:38:28.379626 123145467265024                           Options.min_blob_size: 0
+2024/05/20-13:38:28.379629 123145467265024                          Options.blob_file_size: 268435456
+2024/05/20-13:38:28.379632 123145467265024                   Options.blob_compression_type: NoCompression
+2024/05/20-13:38:28.379635 123145467265024          Options.enable_blob_garbage_collection: false
+2024/05/20-13:38:28.379730 123145467265024      Options.blob_garbage_collection_age_cutoff: 0.250000
+2024/05/20-13:38:28.379737 123145467265024 Options.blob_garbage_collection_force_threshold: 1.000000
+2024/05/20-13:38:28.379740 123145467265024          Options.blob_compaction_readahead_size: 0
+2024/05/20-13:38:28.379743 123145467265024                Options.blob_file_starting_level: 0
+2024/05/20-13:38:28.382017 123145467265024 [/version_set.cc:4996] Recovered from manifest file:/Users/jackb/Code/Master/Backend/staiged-backend/staiged_backend/mqtt_embedded/data/persistence/retained_messages/040500_R/retained_messages_19/MANIFEST-000691 succeeded,manifest_file_number is 691, next_file_number is 693, last_sequence is 0, log_number is 687,prev_log_number is 0,max_column_family is 0,min_log_number_to_keep is 0
+2024/05/20-13:38:28.382024 123145467265024 [/version_set.cc:5005] Column family [default] (ID 0), log number is 687
+2024/05/20-13:38:28.387772 123145467265024 [/db_impl/db_impl_open.cc:532] DB ID: b5e955e2-2f06-461f-9e96-1630996a5500
+2024/05/20-13:38:28.389397 123145467265024 EVENT_LOG_v1 {"time_micros": 1716208708389221, "job": 1, "event": "recovery_started", "wal_files": [4, 8, 12, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66, 70, 74, 78, 82, 86, 90, 94, 98, 102, 106, 110, 114, 118, 122, 126, 130, 134, 138, 142, 146, 150, 154, 158, 162, 166, 170, 174, 178, 182, 186, 190, 194, 198, 202, 206, 210, 214, 218, 222, 226, 230, 234, 238, 242, 246, 250, 254, 258, 262, 266, 270, 274, 278, 282, 286, 290, 294, 298, 302, 306, 310, 314, 318, 322, 326, 330, 334, 338, 342, 346, 350, 354, 358, 362, 366, 370, 374, 378, 382, 386, 390, 394, 398, 402, 406, 410, 414, 418, 422, 426, 430, 434, 438, 442, 446, 450, 454, 458, 462, 466, 470, 474, 478, 482, 486, 490, 494, 498, 502, 506, 510, 514, 518, 522, 526, 530, 534, 538, 542, 546, 550, 554, 558, 562, 566, 570, 574, 578, 582, 586, 590, 594, 598, 602, 606, 610, 614, 618, 622, 626, 630, 634, 638, 642, 646, 650, 654, 658, 662, 666, 670, 674, 678, 682, 686, 690]}
+2024/05/20-13:38:28.430137 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #4 since it is older than min log to keep #687
+2024/05/20-13:38:28.430143 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #8 since it is older than min log to keep #687
+2024/05/20-13:38:28.430146 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #12 since it is older than min log to keep #687
+2024/05/20-13:38:28.430148 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #14 since it is older than min log to keep #687
+2024/05/20-13:38:28.430151 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #18 since it is older than min log to keep #687
+2024/05/20-13:38:28.430153 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #22 since it is older than min log to keep #687
+2024/05/20-13:38:28.430155 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #26 since it is older than min log to keep #687
+2024/05/20-13:38:28.430157 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #30 since it is older than min log to keep #687
+2024/05/20-13:38:28.430160 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #34 since it is older than min log to keep #687
+2024/05/20-13:38:28.430162 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #38 since it is older than min log to keep #687
+2024/05/20-13:38:28.430164 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #42 since it is older than min log to keep #687
+2024/05/20-13:38:28.430166 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #46 since it is older than min log to keep #687
+2024/05/20-13:38:28.430168 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #50 since it is older than min log to keep #687
+2024/05/20-13:38:28.430169 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #54 since it is older than min log to keep #687
+2024/05/20-13:38:28.430171 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #58 since it is older than min log to keep #687
+2024/05/20-13:38:28.430173 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #62 since it is older than min log to keep #687
+2024/05/20-13:38:28.430175 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #66 since it is older than min log to keep #687
+2024/05/20-13:38:28.430177 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #70 since it is older than min log to keep #687
+2024/05/20-13:38:28.430179 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #74 since it is older than min log to keep #687
+2024/05/20-13:38:28.430181 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #78 since it is older than min log to keep #687
+2024/05/20-13:38:28.430183 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #82 since it is older than min log to keep #687
+2024/05/20-13:38:28.430185 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #86 since it is older than min log to keep #687
+2024/05/20-13:38:28.430187 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #90 since it is older than min log to keep #687
+2024/05/20-13:38:28.430189 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #94 since it is older than min log to keep #687
+2024/05/20-13:38:28.430191 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #98 since it is older than min log to keep #687
+2024/05/20-13:38:28.474361 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #102 since it is older than min log to keep #687
+2024/05/20-13:38:28.474365 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #106 since it is older than min log to keep #687
+2024/05/20-13:38:28.474367 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #110 since it is older than min log to keep #687
+2024/05/20-13:38:28.474370 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #114 since it is older than min log to keep #687
+2024/05/20-13:38:28.474373 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #118 since it is older than min log to keep #687
+2024/05/20-13:38:28.474375 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #122 since it is older than min log to keep #687
+2024/05/20-13:38:28.474378 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #126 since it is older than min log to keep #687
+2024/05/20-13:38:28.474381 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #130 since it is older than min log to keep #687
+2024/05/20-13:38:28.474383 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #134 since it is older than min log to keep #687
+2024/05/20-13:38:28.474385 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #138 since it is older than min log to keep #687
+2024/05/20-13:38:28.474388 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #142 since it is older than min log to keep #687
+2024/05/20-13:38:28.474391 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #146 since it is older than min log to keep #687
+2024/05/20-13:38:28.474393 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #150 since it is older than min log to keep #687
+2024/05/20-13:38:28.474396 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #154 since it is older than min log to keep #687
+2024/05/20-13:38:28.474398 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #158 since it is older than min log to keep #687
+2024/05/20-13:38:28.474401 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #162 since it is older than min log to keep #687
+2024/05/20-13:38:28.474403 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #166 since it is older than min log to keep #687
+2024/05/20-13:38:28.474406 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #170 since it is older than min log to keep #687
+2024/05/20-13:38:28.474409 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #174 since it is older than min log to keep #687
+2024/05/20-13:38:28.474411 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #178 since it is older than min log to keep #687
+2024/05/20-13:38:28.474414 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #182 since it is older than min log to keep #687
+2024/05/20-13:38:28.474416 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #186 since it is older than min log to keep #687
+2024/05/20-13:38:28.474419 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #190 since it is older than min log to keep #687
+2024/05/20-13:38:28.474429 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #194 since it is older than min log to keep #687
+2024/05/20-13:38:28.474431 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #198 since it is older than min log to keep #687
+2024/05/20-13:38:28.474433 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #202 since it is older than min log to keep #687
+2024/05/20-13:38:28.474436 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #206 since it is older than min log to keep #687
+2024/05/20-13:38:28.474439 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #210 since it is older than min log to keep #687
+2024/05/20-13:38:28.474442 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #214 since it is older than min log to keep #687
+2024/05/20-13:38:28.474445 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #218 since it is older than min log to keep #687
+2024/05/20-13:38:28.514729 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #222 since it is older than min log to keep #687
+2024/05/20-13:38:28.514735 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #226 since it is older than min log to keep #687
+2024/05/20-13:38:28.514742 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #230 since it is older than min log to keep #687
+2024/05/20-13:38:28.514747 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #234 since it is older than min log to keep #687
+2024/05/20-13:38:28.514749 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #238 since it is older than min log to keep #687
+2024/05/20-13:38:28.514752 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #242 since it is older than min log to keep #687
+2024/05/20-13:38:28.514754 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #246 since it is older than min log to keep #687
+2024/05/20-13:38:28.514757 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #250 since it is older than min log to keep #687
+2024/05/20-13:38:28.514759 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #254 since it is older than min log to keep #687
+2024/05/20-13:38:28.514762 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #258 since it is older than min log to keep #687
+2024/05/20-13:38:28.514765 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #262 since it is older than min log to keep #687
+2024/05/20-13:38:28.514767 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #266 since it is older than min log to keep #687
+2024/05/20-13:38:28.514769 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #270 since it is older than min log to keep #687
+2024/05/20-13:38:28.514771 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #274 since it is older than min log to keep #687
+2024/05/20-13:38:28.514774 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #278 since it is older than min log to keep #687
+2024/05/20-13:38:28.514775 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #282 since it is older than min log to keep #687
+2024/05/20-13:38:28.514778 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #286 since it is older than min log to keep #687
+2024/05/20-13:38:28.514782 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #290 since it is older than min log to keep #687
+2024/05/20-13:38:28.514784 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #294 since it is older than min log to keep #687
+2024/05/20-13:38:28.514789 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #298 since it is older than min log to keep #687
+2024/05/20-13:38:28.514792 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #302 since it is older than min log to keep #687
+2024/05/20-13:38:28.514795 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #306 since it is older than min log to keep #687
+2024/05/20-13:38:28.514797 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #310 since it is older than min log to keep #687
+2024/05/20-13:38:28.514799 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #314 since it is older than min log to keep #687
+2024/05/20-13:38:28.514802 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #318 since it is older than min log to keep #687
+2024/05/20-13:38:28.514804 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #322 since it is older than min log to keep #687
+2024/05/20-13:38:28.514807 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #326 since it is older than min log to keep #687
+2024/05/20-13:38:28.514809 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #330 since it is older than min log to keep #687
+2024/05/20-13:38:28.514811 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #334 since it is older than min log to keep #687
+2024/05/20-13:38:28.514814 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #338 since it is older than min log to keep #687
+2024/05/20-13:38:28.562869 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #342 since it is older than min log to keep #687
+2024/05/20-13:38:28.562877 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #346 since it is older than min log to keep #687
+2024/05/20-13:38:28.562880 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #350 since it is older than min log to keep #687
+2024/05/20-13:38:28.562883 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #354 since it is older than min log to keep #687
+2024/05/20-13:38:28.563390 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #358 since it is older than min log to keep #687
+2024/05/20-13:38:28.563392 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #362 since it is older than min log to keep #687
+2024/05/20-13:38:28.563395 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #366 since it is older than min log to keep #687
+2024/05/20-13:38:28.563397 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #370 since it is older than min log to keep #687
+2024/05/20-13:38:28.563399 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #374 since it is older than min log to keep #687
+2024/05/20-13:38:28.563402 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #378 since it is older than min log to keep #687
+2024/05/20-13:38:28.563404 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #382 since it is older than min log to keep #687
+2024/05/20-13:38:28.563406 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #386 since it is older than min log to keep #687
+2024/05/20-13:38:28.563409 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #390 since it is older than min log to keep #687
+2024/05/20-13:38:28.563411 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #394 since it is older than min log to keep #687
+2024/05/20-13:38:28.563413 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #398 since it is older than min log to keep #687
+2024/05/20-13:38:28.563416 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #402 since it is older than min log to keep #687
+2024/05/20-13:38:28.563418 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #406 since it is older than min log to keep #687
+2024/05/20-13:38:28.563420 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #410 since it is older than min log to keep #687
+2024/05/20-13:38:28.563423 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #414 since it is older than min log to keep #687
+2024/05/20-13:38:28.563426 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #418 since it is older than min log to keep #687
+2024/05/20-13:38:28.563428 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #422 since it is older than min log to keep #687
+2024/05/20-13:38:28.563430 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #426 since it is older than min log to keep #687
+2024/05/20-13:38:28.563433 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #430 since it is older than min log to keep #687
+2024/05/20-13:38:28.563435 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #434 since it is older than min log to keep #687
+2024/05/20-13:38:28.563437 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #438 since it is older than min log to keep #687
+2024/05/20-13:38:28.563439 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #442 since it is older than min log to keep #687
+2024/05/20-13:38:28.563442 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #446 since it is older than min log to keep #687
+2024/05/20-13:38:28.563444 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #450 since it is older than min log to keep #687
+2024/05/20-13:38:28.563446 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #454 since it is older than min log to keep #687
+2024/05/20-13:38:28.563449 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #458 since it is older than min log to keep #687
+2024/05/20-13:38:28.603428 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #462 since it is older than min log to keep #687
+2024/05/20-13:38:28.603505 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #466 since it is older than min log to keep #687
+2024/05/20-13:38:28.603510 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #470 since it is older than min log to keep #687
+2024/05/20-13:38:28.603512 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #474 since it is older than min log to keep #687
+2024/05/20-13:38:28.603515 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #478 since it is older than min log to keep #687
+2024/05/20-13:38:28.603537 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #482 since it is older than min log to keep #687
+2024/05/20-13:38:28.603540 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #486 since it is older than min log to keep #687
+2024/05/20-13:38:28.603542 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #490 since it is older than min log to keep #687
+2024/05/20-13:38:28.603545 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #494 since it is older than min log to keep #687
+2024/05/20-13:38:28.603591 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #498 since it is older than min log to keep #687
+2024/05/20-13:38:28.603594 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #502 since it is older than min log to keep #687
+2024/05/20-13:38:28.603597 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #506 since it is older than min log to keep #687
+2024/05/20-13:38:28.603600 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #510 since it is older than min log to keep #687
+2024/05/20-13:38:28.603602 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #514 since it is older than min log to keep #687
+2024/05/20-13:38:28.603608 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #518 since it is older than min log to keep #687
+2024/05/20-13:38:28.603610 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #522 since it is older than min log to keep #687
+2024/05/20-13:38:28.603613 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #526 since it is older than min log to keep #687
+2024/05/20-13:38:28.603616 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #530 since it is older than min log to keep #687
+2024/05/20-13:38:28.603618 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #534 since it is older than min log to keep #687
+2024/05/20-13:38:28.603620 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #538 since it is older than min log to keep #687
+2024/05/20-13:38:28.603623 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #542 since it is older than min log to keep #687
+2024/05/20-13:38:28.603625 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #546 since it is older than min log to keep #687
+2024/05/20-13:38:28.603628 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #550 since it is older than min log to keep #687
+2024/05/20-13:38:28.603630 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #554 since it is older than min log to keep #687
+2024/05/20-13:38:28.603633 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #558 since it is older than min log to keep #687
+2024/05/20-13:38:28.603652 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #562 since it is older than min log to keep #687
+2024/05/20-13:38:28.603655 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #566 since it is older than min log to keep #687
+2024/05/20-13:38:28.603657 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #570 since it is older than min log to keep #687
+2024/05/20-13:38:28.603659 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #574 since it is older than min log to keep #687
+2024/05/20-13:38:28.603662 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #578 since it is older than min log to keep #687
+2024/05/20-13:38:28.641575 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #582 since it is older than min log to keep #687
+2024/05/20-13:38:28.641584 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #586 since it is older than min log to keep #687
+2024/05/20-13:38:28.641587 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #590 since it is older than min log to keep #687
+2024/05/20-13:38:28.641589 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #594 since it is older than min log to keep #687
+2024/05/20-13:38:28.641616 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #598 since it is older than min log to keep #687
+2024/05/20-13:38:28.641619 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #602 since it is older than min log to keep #687
+2024/05/20-13:38:28.641621 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #606 since it is older than min log to keep #687
+2024/05/20-13:38:28.641623 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #610 since it is older than min log to keep #687
+2024/05/20-13:38:28.641625 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #614 since it is older than min log to keep #687
+2024/05/20-13:38:28.641627 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #618 since it is older than min log to keep #687
+2024/05/20-13:38:28.641630 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #622 since it is older than min log to keep #687
+2024/05/20-13:38:28.641632 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #626 since it is older than min log to keep #687
+2024/05/20-13:38:28.641635 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #630 since it is older than min log to keep #687
+2024/05/20-13:38:28.641637 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #634 since it is older than min log to keep #687
+2024/05/20-13:38:28.641639 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #638 since it is older than min log to keep #687
+2024/05/20-13:38:28.641641 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #642 since it is older than min log to keep #687
+2024/05/20-13:38:28.641643 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #646 since it is older than min log to keep #687
+2024/05/20-13:38:28.641645 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #650 since it is older than min log to keep #687
+2024/05/20-13:38:28.641647 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #654 since it is older than min log to keep #687
+2024/05/20-13:38:28.641650 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #658 since it is older than min log to keep #687
+2024/05/20-13:38:28.641720 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #662 since it is older than min log to keep #687
+2024/05/20-13:38:28.641722 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #666 since it is older than min log to keep #687
+2024/05/20-13:38:28.641724 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #670 since it is older than min log to keep #687
+2024/05/20-13:38:28.641868 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #674 since it is older than min log to keep #687
+2024/05/20-13:38:28.641875 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #678 since it is older than min log to keep #687
+2024/05/20-13:38:28.641878 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #682 since it is older than min log to keep #687
+2024/05/20-13:38:28.641880 123145467265024 [/db_impl/db_impl_open.cc:925] Skipping log #686 since it is older than min log to keep #687
+2024/05/20-13:38:28.641963 123145467265024 [/db_impl/db_impl_open.cc:938] Recovering log #690 mode 2
+2024/05/20-13:38:28.705475 123145467265024 EVENT_LOG_v1 {"time_micros": 1716208708705465, "job": 1, "event": "recovery_finished"}
+2024/05/20-13:38:28.709049 123145467265024 [/version_set.cc:4467] Creating manifest 695
+2024/05/20-13:38:30.460238 123145467265024 [/db_impl/db_impl_open.cc:1966] SstFileManager instance 0x7f876380d750
+2024/05/20-13:38:30.462670 123145467265024 DB pointer 0x7f875a94ca00

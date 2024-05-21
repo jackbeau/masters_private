@@ -1,0 +1,25 @@
+2024-05-09 16:22:30,308 INFO  - Log Configuration was overridden by /Users/jackb/Code/Master/Backend/staiged-backend/staiged_backend/mqtt_embedded/conf/logback.xml
+2024-05-09 16:22:30,170 INFO  - Starting HiveMQ Community Edition Server
+2024-05-09 16:22:30,340 INFO  - This HiveMQ ID is s0cpj
+2024-05-09 16:22:43,418 INFO  - Starting with file persistence mode.
+2024-05-09 16:22:44,404 INFO  - Starting HiveMQ extension system.
+2024-05-09 16:22:44,514 WARN  - 
+################################################################################################################
+# This HiveMQ deployment is not secure! You are lacking Authentication and Authorization.                      #
+# Right now any MQTT client can connect to the broker with a full set of permissions.                          #
+# For production usage, add an appropriate security extension and remove the hivemq-allow-all extension.       #
+# You can download security extensions from the HiveMQ Marketplace (https://www.hivemq.com/extensions/).       #
+################################################################################################################
+2024-05-09 16:22:44,515 INFO  - Extension "Allow All Extension" version 1.0.0 started successfully.
+2024-05-09 16:22:44,572 INFO  - Starting TCP listener on address 0.0.0.0 and port 1883
+2024-05-09 16:22:44,689 INFO  - Started TCP Listener on address 0.0.0.0 and on port 1883.
+2024-05-09 16:22:44,690 INFO  - Embedded MQTT server started successfully.
+2024-05-09 16:22:44,690 INFO  - Started EmbeddedHiveMQ in 14897ms
+2024-05-09 16:49:58,697 INFO  - Stopping EmbeddedHiveMQ.
+2024-05-09 16:49:58,707 INFO  - Shutting down HiveMQ. Please wait, this could take a while...
+2024-05-09 16:50:00,876 INFO  - Shutting down extension system
+2024-05-09 16:50:00,886 INFO  - Extension "Allow All Extension" version 1.0.0 stopped successfully.
+2024-05-09 16:50:06,470 INFO  - Shutdown completed.
+2024-05-09 16:50:06,473 INFO  - Stopped EmbeddedHiveMQ in 7770ms
+2024-05-09 16:50:06,473 INFO  - Closing EmbeddedHiveMQ.
+2024-05-09 16:50:06,475 INFO  - Embedded MQTT server stopped.
