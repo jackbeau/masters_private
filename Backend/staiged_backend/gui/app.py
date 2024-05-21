@@ -1,10 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
-from gui.settings import SettingsPage
-from gui.home import HomePage
-from gui.styles import colours, configure_styles
-import gui.styles.theme.sv_ttk as sv_ttk
+from gui.pages.settings import SettingsPage
+from gui.pages.home import HomePage
+from gui.core.constants.styles import colours, configure_styles
 import logging
 import customtkinter
 
@@ -17,7 +16,7 @@ class App(customtkinter.CTk):
         # if 'win' in sys.platform:
     #     ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
-        ico = Image.open('gui/resources/icon.png')
+        ico = Image.open('gui/assets/icon.png')
         photo = ImageTk.PhotoImage(ico)
 
         self.minsize(800, 700)

@@ -1,7 +1,7 @@
 {
     "camera": {
-        "video_device_id": "0x8020000005ac8514",
-        "video_device_pos": 2,
+        "video_device_id": "0x14410000291a3369",
+        "video_device_pos": 0,
         "resolution": [
             1280,
             720
@@ -17,7 +17,7 @@
         "saturation": 50.0
     },
     "microphone": {
-        "microphone_device": 0
+        "microphone_device": 1
     },
     "stage_zone": {
         "src_points": [

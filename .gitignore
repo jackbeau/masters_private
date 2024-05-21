@@ -1,5 +1,8 @@
 node_modules/
 node_modules
+**/mqtt_embedded_conf/data/
+**/mqtt_embedded_conf/log/
+
 
 *.avi
 *.mp4

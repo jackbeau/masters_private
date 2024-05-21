@@ -1,5 +1,5 @@
 from backend.speech_to_line import SpeechToLine
-from mqtt_controller import MQTTController
+from backend.mqtt_controller.mqtt_controller import MQTTController
 import threading
 
 

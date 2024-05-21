@@ -1,0 +1,14 @@
+2024-05-21 22:52:34,061 INFO  - Checking for migrations (HiveMQ version Development Snapshot).
+2024-05-21 22:52:34,063 INFO  - Read metadata file: MetaInformation{hivemqVersion='2024.3', clientSessionPersistenceVersion='040000', queuedMessagesPersistenceVersion='040500', subscriptionPersistenceVersion='040000', retainedMessagesPersistenceVersion='040500_R', publishPayloadPersistenceVersion='040500_R', retainedMessagesPersistenceType='FILE_NATIVE', publishPayloadPersistenceType='FILE_NATIVE'}
+2024-05-21 22:52:34,072 INFO  - Skipping migration because it is a Development Snapshot.
+2024-05-21 22:52:34,072 INFO  - Checking for value migrations (HiveMQ version Development Snapshot).
+2024-05-21 22:52:34,072 INFO  - Skipping migration because it is a Development Snapshot.
+2024-05-21 23:04:57,928 INFO  - Checking for migrations (HiveMQ version Development Snapshot).
+2024-05-21 23:04:57,931 INFO  - Read metadata file: MetaInformation{hivemqVersion='2024.3', clientSessionPersistenceVersion='040000', queuedMessagesPersistenceVersion='040500', subscriptionPersistenceVersion='040000', retainedMessagesPersistenceVersion='040500_R', publishPayloadPersistenceVersion='040500_R', retainedMessagesPersistenceType='FILE_NATIVE', publishPayloadPersistenceType='FILE_NATIVE'}
+2024-05-21 23:04:57,939 INFO  - Skipping migration because it is a Development Snapshot.
+2024-05-21 23:04:57,939 INFO  - Checking for value migrations (HiveMQ version Development Snapshot).
+2024-05-21 23:04:57,939 INFO  - Skipping migration because it is a Development Snapshot.
+2024-05-21 23:10:40,444 INFO  - Checking for migrations (HiveMQ version Development Snapshot).
+2024-05-21 23:10:40,446 INFO  - Skipping migration because it is a Development Snapshot.
+2024-05-21 23:10:40,446 INFO  - Checking for value migrations (HiveMQ version Development Snapshot).
+2024-05-21 23:10:40,446 INFO  - Skipping migration because it is a Development Snapshot.
