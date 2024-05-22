@@ -150,3 +150,139 @@
 2024-05-22 13:37:37,820 INFO  - Started TCP Listener on address 0.0.0.0 and on port 1883.
 2024-05-22 13:37:37,821 INFO  - Embedded MQTT server started successfully.
 2024-05-22 13:37:37,821 INFO  - Started EmbeddedHiveMQ in 12813ms
+2024-05-22 13:44:34,836 INFO  - Log Configuration was overridden by /Users/jackb/Code/Master/Backend/staiged_backend/broker/mqtt_embedded_conf/conf/logback.xml
+2024-05-22 13:44:34,752 INFO  - Starting HiveMQ Community Edition Server
+2024-05-22 13:44:34,854 INFO  - This HiveMQ ID is 4BySO
+2024-05-22 13:44:46,551 INFO  - Starting with file persistence mode.
+2024-05-22 13:44:47,535 INFO  - Starting HiveMQ extension system.
+2024-05-22 13:44:47,685 WARN  - 
+################################################################################################################
+# This HiveMQ deployment is not secure! You are lacking Authentication and Authorization.                      #
+# Right now any MQTT client can connect to the broker with a full set of permissions.                          #
+# For production usage, add an appropriate security extension and remove the hivemq-allow-all extension.       #
+# You can download security extensions from the HiveMQ Marketplace (https://www.hivemq.com/extensions/).       #
+################################################################################################################
+2024-05-22 13:44:47,686 INFO  - Extension "Allow All Extension" version 1.0.0 started successfully.
+2024-05-22 13:44:47,766 INFO  - Starting TCP listener on address 0.0.0.0 and port 1883
+2024-05-22 13:44:47,841 INFO  - Started TCP Listener on address 0.0.0.0 and on port 1883.
+2024-05-22 13:44:47,841 INFO  - Started EmbeddedHiveMQ in 13625ms
+2024-05-22 13:44:47,841 INFO  - Embedded MQTT server started successfully.
+2024-05-22 18:29:22,262 INFO  - Log Configuration was overridden by /Users/jackb/Code/Master/Backend/staiged_backend/broker/mqtt_embedded_conf/conf/logback.xml
+2024-05-22 18:29:21,876 INFO  - Starting HiveMQ Community Edition Server
+2024-05-22 18:29:22,296 INFO  - This HiveMQ ID is oCctM
+2024-05-22 18:29:34,152 INFO  - Starting with file persistence mode.
+2024-05-22 18:29:36,209 INFO  - Starting HiveMQ extension system.
+2024-05-22 18:29:36,450 WARN  - 
+################################################################################################################
+# This HiveMQ deployment is not secure! You are lacking Authentication and Authorization.                      #
+# Right now any MQTT client can connect to the broker with a full set of permissions.                          #
+# For production usage, add an appropriate security extension and remove the hivemq-allow-all extension.       #
+# You can download security extensions from the HiveMQ Marketplace (https://www.hivemq.com/extensions/).       #
+################################################################################################################
+2024-05-22 18:29:36,452 INFO  - Extension "Allow All Extension" version 1.0.0 started successfully.
+2024-05-22 18:29:36,553 INFO  - Starting TCP listener on address 0.0.0.0 and port 1883
+2024-05-22 18:29:36,705 INFO  - Started TCP Listener on address 0.0.0.0 and on port 1883.
+2024-05-22 18:29:36,706 INFO  - Started EmbeddedHiveMQ in 15236ms
+2024-05-22 18:29:36,708 INFO  - Embedded MQTT server started successfully.
+2024-05-22 18:32:31,431 INFO  - Log Configuration was overridden by /Users/jackb/Code/Master/Backend/staiged_backend/broker/mqtt_embedded_conf/conf/logback.xml
+2024-05-22 18:32:31,333 INFO  - Starting HiveMQ Community Edition Server
+2024-05-22 18:32:31,450 INFO  - This HiveMQ ID is VAVds
+2024-05-22 18:32:42,516 INFO  - Starting with file persistence mode.
+2024-05-22 18:32:43,358 INFO  - Starting HiveMQ extension system.
+2024-05-22 18:32:43,726 WARN  - 
+################################################################################################################
+# This HiveMQ deployment is not secure! You are lacking Authentication and Authorization.                      #
+# Right now any MQTT client can connect to the broker with a full set of permissions.                          #
+# For production usage, add an appropriate security extension and remove the hivemq-allow-all extension.       #
+# You can download security extensions from the HiveMQ Marketplace (https://www.hivemq.com/extensions/).       #
+################################################################################################################
+2024-05-22 18:32:43,728 INFO  - Extension "Allow All Extension" version 1.0.0 started successfully.
+2024-05-22 18:32:43,773 INFO  - Starting TCP listener on address 0.0.0.0 and port 1883
+2024-05-22 18:32:43,876 INFO  - Started TCP Listener on address 0.0.0.0 and on port 1883.
+2024-05-22 18:32:43,877 INFO  - Embedded MQTT server started successfully.
+2024-05-22 18:32:43,877 INFO  - Started EmbeddedHiveMQ in 12797ms
+2024-05-22 19:00:15,678 INFO  - Log Configuration was overridden by /Users/jackb/Code/Master/Backend/staiged_backend/broker/mqtt_embedded_conf/conf/logback.xml
+2024-05-22 19:00:15,557 INFO  - Starting HiveMQ Community Edition Server
+2024-05-22 19:00:15,712 INFO  - This HiveMQ ID is Yemu5
+2024-05-22 19:00:25,680 INFO  - Starting with file persistence mode.
+2024-05-22 19:00:26,370 INFO  - Starting HiveMQ extension system.
+2024-05-22 19:00:26,441 WARN  - 
+################################################################################################################
+# This HiveMQ deployment is not secure! You are lacking Authentication and Authorization.                      #
+# Right now any MQTT client can connect to the broker with a full set of permissions.                          #
+# For production usage, add an appropriate security extension and remove the hivemq-allow-all extension.       #
+# You can download security extensions from the HiveMQ Marketplace (https://www.hivemq.com/extensions/).       #
+################################################################################################################
+2024-05-22 19:00:26,442 INFO  - Extension "Allow All Extension" version 1.0.0 started successfully.
+2024-05-22 19:00:26,482 INFO  - Starting TCP listener on address 0.0.0.0 and port 1883
+2024-05-22 19:00:26,558 INFO  - Started TCP Listener on address 0.0.0.0 and on port 1883.
+2024-05-22 19:00:26,558 INFO  - Embedded MQTT server started successfully.
+2024-05-22 19:00:26,558 INFO  - Started EmbeddedHiveMQ in 11349ms
+2024-05-22 19:05:40,766 INFO  - Log Configuration was overridden by /Users/jackb/Code/Master/Backend/staiged_backend/broker/mqtt_embedded_conf/conf/logback.xml
+2024-05-22 19:05:40,667 INFO  - Starting HiveMQ Community Edition Server
+2024-05-22 19:05:40,789 INFO  - This HiveMQ ID is B6hb9
+2024-05-22 19:05:51,755 INFO  - Starting with file persistence mode.
+2024-05-22 19:05:52,569 INFO  - Starting HiveMQ extension system.
+2024-05-22 19:05:52,656 WARN  - 
+################################################################################################################
+# This HiveMQ deployment is not secure! You are lacking Authentication and Authorization.                      #
+# Right now any MQTT client can connect to the broker with a full set of permissions.                          #
+# For production usage, add an appropriate security extension and remove the hivemq-allow-all extension.       #
+# You can download security extensions from the HiveMQ Marketplace (https://www.hivemq.com/extensions/).       #
+################################################################################################################
+2024-05-22 19:05:52,657 INFO  - Extension "Allow All Extension" version 1.0.0 started successfully.
+2024-05-22 19:05:52,708 INFO  - Starting TCP listener on address 0.0.0.0 and port 1883
+2024-05-22 19:05:52,800 INFO  - Started TCP Listener on address 0.0.0.0 and on port 1883.
+2024-05-22 19:05:52,800 INFO  - Started EmbeddedHiveMQ in 12401ms
+2024-05-22 19:05:52,801 INFO  - Embedded MQTT server started successfully.
+2024-05-22 19:09:38,148 INFO  - Log Configuration was overridden by /Users/jackb/Code/Master/Backend/staiged_backend/broker/mqtt_embedded_conf/conf/logback.xml
+2024-05-22 19:09:38,050 INFO  - Starting HiveMQ Community Edition Server
+2024-05-22 19:09:38,165 INFO  - This HiveMQ ID is yegX6
+2024-05-22 19:09:49,001 INFO  - Starting with file persistence mode.
+2024-05-22 19:09:49,867 INFO  - Starting HiveMQ extension system.
+2024-05-22 19:09:50,025 WARN  - 
+################################################################################################################
+# This HiveMQ deployment is not secure! You are lacking Authentication and Authorization.                      #
+# Right now any MQTT client can connect to the broker with a full set of permissions.                          #
+# For production usage, add an appropriate security extension and remove the hivemq-allow-all extension.       #
+# You can download security extensions from the HiveMQ Marketplace (https://www.hivemq.com/extensions/).       #
+################################################################################################################
+2024-05-22 19:09:50,026 INFO  - Extension "Allow All Extension" version 1.0.0 started successfully.
+2024-05-22 19:09:50,078 INFO  - Starting TCP listener on address 0.0.0.0 and port 1883
+2024-05-22 19:09:50,156 INFO  - Started TCP Listener on address 0.0.0.0 and on port 1883.
+2024-05-22 19:09:50,156 INFO  - Started EmbeddedHiveMQ in 12586ms
+2024-05-22 19:09:50,156 INFO  - Embedded MQTT server started successfully.
+2024-05-22 19:10:09,730 INFO  - Log Configuration was overridden by /Users/jackb/Code/Master/Backend/staiged_backend/broker/mqtt_embedded_conf/conf/logback.xml
+2024-05-22 19:10:09,620 INFO  - Starting HiveMQ Community Edition Server
+2024-05-22 19:10:09,751 INFO  - This HiveMQ ID is skkFk
+2024-05-22 19:10:21,549 INFO  - Starting with file persistence mode.
+2024-05-22 19:10:22,952 INFO  - Starting HiveMQ extension system.
+2024-05-22 19:10:23,074 WARN  - 
+################################################################################################################
+# This HiveMQ deployment is not secure! You are lacking Authentication and Authorization.                      #
+# Right now any MQTT client can connect to the broker with a full set of permissions.                          #
+# For production usage, add an appropriate security extension and remove the hivemq-allow-all extension.       #
+# You can download security extensions from the HiveMQ Marketplace (https://www.hivemq.com/extensions/).       #
+################################################################################################################
+2024-05-22 19:10:23,075 INFO  - Extension "Allow All Extension" version 1.0.0 started successfully.
+2024-05-22 19:10:23,174 INFO  - Starting TCP listener on address 0.0.0.0 and port 1883
+2024-05-22 19:10:23,264 INFO  - Started TCP Listener on address 0.0.0.0 and on port 1883.
+2024-05-22 19:10:23,265 INFO  - Started EmbeddedHiveMQ in 14143ms
+2024-05-22 19:10:23,274 INFO  - Embedded MQTT server started successfully.
+2024-05-22 19:11:12,123 INFO  - Log Configuration was overridden by /Users/jackb/Code/Master/Backend/staiged_backend/broker/mqtt_embedded_conf/conf/logback.xml
+2024-05-22 19:11:11,978 INFO  - Starting HiveMQ Community Edition Server
+2024-05-22 19:11:12,144 INFO  - This HiveMQ ID is lhxTC
+2024-05-22 19:11:24,901 INFO  - Starting with file persistence mode.
+2024-05-22 19:11:28,357 INFO  - Starting HiveMQ extension system.
+2024-05-22 19:11:28,782 WARN  - 
+################################################################################################################
+# This HiveMQ deployment is not secure! You are lacking Authentication and Authorization.                      #
+# Right now any MQTT client can connect to the broker with a full set of permissions.                          #
+# For production usage, add an appropriate security extension and remove the hivemq-allow-all extension.       #
+# You can download security extensions from the HiveMQ Marketplace (https://www.hivemq.com/extensions/).       #
+################################################################################################################
+2024-05-22 19:11:28,784 INFO  - Extension "Allow All Extension" version 1.0.0 started successfully.
+2024-05-22 19:11:28,937 INFO  - Starting TCP listener on address 0.0.0.0 and port 1883
+2024-05-22 19:11:29,228 INFO  - Started TCP Listener on address 0.0.0.0 and on port 1883.
+2024-05-22 19:11:29,231 INFO  - Started EmbeddedHiveMQ in 17770ms
+2024-05-22 19:11:29,232 INFO  - Embedded MQTT server started successfully.

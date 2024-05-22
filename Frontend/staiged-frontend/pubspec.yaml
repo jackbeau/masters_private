@@ -12,6 +12,8 @@ environment:
 dependencies:
   beamer: ^1.6.1
   collection: ^1.18.0
+  equatable: ^2.0.5
+  file_picker: ^8.0.3
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.5

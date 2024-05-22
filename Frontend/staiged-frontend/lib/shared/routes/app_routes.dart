@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../widgets/side_nav.dart';
+import '../../features/script_editor/presentation/screens/script_editor_page.dart';
 import '../../features/script_manager/presentation/screens/script_manager_page.dart';
+
 
 
 class AppRoutes {
@@ -28,7 +30,7 @@ class AppRoutes {
               routes: <RouteBase>[
                 GoRoute(
                   path: '/',
-                  pageBuilder: (context, state) => NoTransitionPage(child: const Center(child: Text('Home'))),
+                  pageBuilder: (context, state) => NoTransitionPage(child: ScriptManager()),
                 )
               ],
             ),
@@ -36,7 +38,7 @@ class AppRoutes {
               routes: <RouteBase>[
                 GoRoute(
                   path: '/script',
-                  pageBuilder: (context, state) => NoTransitionPage(child: ScriptManagerPage()),
+                  pageBuilder: (context, state) => NoTransitionPage(child: const ScriptEditorPage()),
                 )
               ],
             ),

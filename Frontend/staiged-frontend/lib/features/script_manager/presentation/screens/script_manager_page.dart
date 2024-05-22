@@ -1,105 +1,142 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:staiged/features/script_manager/data/providers/annotations_provider.dart';
-import '../../data/repositories/annotations_repository.dart';
-import '../../domain/bloc/script_manager_bloc.dart';
-import '../widgets/script_canvas.dart';
-import '../widgets/inspector/inspector.dart';
-import '../widgets/sidebar.dart';
-import '../widgets/custom_toolbar/custom_toolbar.dart';
-import '../widgets/camera_widget.dart';
-import '../widgets/editor/cue_editor.dart';
+import 'package:file_picker/file_picker.dart';
+import '../../data/providers/api_provider.dart';
+import '../../data/repositories/pdf_repository.dart';
+import '../../data/interfaces/pdf_repository_interface.dart';
+import '../../domain/bloc/pdf_bloc.dart';
+import '../widgets/pdf_viewer.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
-class ScriptManagerPage extends StatefulWidget {
-  const ScriptManagerPage({super.key});
-
+class ScriptManager extends StatelessWidget {
   @override
-  State<ScriptManagerPage> createState() => _ScriptManagerPageState();
+  Widget build(BuildContext context) {
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<ApiProvider>(
+          create: (context) => ApiProvider('http://localhost:4000'),
+        ),
+        RepositoryProvider<PDFRepositoryInterface>(
+          create: (context) => PDFRepository(context.read<ApiProvider>()),
+        ),
+      ],
+      child: BlocProvider<PDFBloc>(
+        create: (context) => PDFBloc(context.read<PDFRepositoryInterface>()),
+        child: PDFForm(),
+      ),
+    );
+  }
 }
 
-class _ScriptManagerPageState extends State<ScriptManagerPage> {
-  late final AnnotationsProvider _annotationsProvider;
-  late final AnnotationsRepository _annotationsRepository;
-
+class PDFForm extends StatefulWidget {
   @override
-  void initState() {
-    super.initState();
-    _annotationsProvider = AnnotationsProvider();
-    _annotationsRepository = AnnotationsRepository(_annotationsProvider);
+  _PDFFormState createState() => _PDFFormState();
+}
+
+class _PDFFormState extends State<PDFForm> {
+  String? fileName;
+  dynamic filePath;
+  String marginSide = 'none';
+
+  void _pickFile() async {
+    final result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
+    if (result != null) {
+      setState(() {
+        fileName = result.files.single.name;
+        if (kIsWeb) {
+          filePath = result.files.single.bytes;
+        } else {
+          filePath = result.files.single.path;
+        }
+      });
+    }
   }
 
-  @override
-  void dispose() {
-    // _annotationsRepository.dispose();
-    super.dispose();
+  void _uploadFile(BuildContext context) {
+    if (filePath != null) {
+      if (kIsWeb) {
+        BlocProvider.of<PDFBloc>(context).add(UploadPDFBytes(filePath, marginSide));
+      } else {
+        BlocProvider.of<PDFBloc>(context).add(UploadPDF(filePath, marginSide));
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: _annotationsRepository,
-      child: BlocProvider(
-        create: (context) {
-          return ScriptManagerBloc()..add(LoadPdf());
-        },
-        child: BlocBuilder<ScriptManagerBloc, ScriptManagerState>(
-          builder: (context, state) {
-            if (state is ScriptManagerLoaded && state.pdfController != null) {
-              return Scaffold(
-                appBar: const PreferredSize(
-                  preferredSize: Size.fromHeight(60.0),
-                  child: CustomToolbar(),
-                ),
-                body: buildBody(context, state),
-              );
-            } else {
-              return const Scaffold(
-                body: Center(child: CircularProgressIndicator()),
-              );
-            }
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget buildBody(BuildContext context, ScriptManagerLoaded state) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Column(
-          children: [
-            Expanded(
-              child: Row(
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Card(
+            elevation: 2,
+            margin: const EdgeInsets.only(bottom: 16),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Sidebar(),
-                  Expanded(
-                    flex: 4,
-                    child: ScriptCanvas(
-                      controller: state.pdfController!,
-                    ),
+                  ElevatedButton.icon(
+                    onPressed: _pickFile,
+                    icon: Icon(Icons.attach_file),
+                    label: Text('Pick PDF File'),
                   ),
-                  SizedBox(
-                    width: (constraints.maxWidth / 6).clamp(294, 400),
-                    child: Column(
-                      children: [
-                        if (state.isCameraVisible)
-                          LayoutBuilder(
-                            builder: (context, camConstraints) => CameraWidget(width: camConstraints.maxWidth),
-                          ),
-                        Expanded(
-                          child: Inspector(selectedInspector: state.selectedInspector),
-                        ),
-                      ],
+                  if (fileName != null) ...[
+                    SizedBox(height: 10),
+                    Text(
+                      'Selected file: $fileName',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
-                  ),
+                  ],
                 ],
               ),
             ),
-            if (state.selectedEditor == EditorPanel.add_cue)
-              CueEditor(annotationsRepository: _annotationsRepository),
-          ],
-        );
-      },
+          ),
+          DropdownButtonFormField<String>(
+            value: marginSide,
+            decoration: InputDecoration(
+              labelText: 'Margin Side',
+              border: OutlineInputBorder(),
+            ),
+            items: [
+              DropdownMenuItem(child: Text('None'), value: 'none'),
+              DropdownMenuItem(child: Text('Left'), value: 'left'),
+              DropdownMenuItem(child: Text('Right'), value: 'right'),
+            ],
+            onChanged: (value) {
+              setState(() {
+                marginSide = value!;
+              });
+            },
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () => _uploadFile(context),
+            child: Text('Upload PDF'),
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              textStyle: TextStyle(fontSize: 16),
+            ),
+          ),
+          SizedBox(height: 20),
+          Expanded(
+            child: BlocBuilder<PDFBloc, PDFState>(
+              builder: (context, state) {
+                if (state is PDFLoading) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (state is PDFSuccess) {
+                  return PDFViewer(pdf: state.pdf);
+                } else if (state is PDFError) {
+                  return Text('Error: ${state.message}', style: TextStyle(color: Colors.red));
+                }
+                return Container();
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,11 +1,13 @@
 const express = require('express');
+const cors = require('cors');
 const { createHandler } = require('graphql-http/lib/use/express');
 const { buildSchema } = require('graphql');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
-const { addMargin, performOCR } = require('./grpc/client/client'); // Correct import statement
+const { addMargin, performOCR } = require('./grpc/client/client');
 
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(typeDefs);
@@ -14,6 +16,7 @@ const schema = buildSchema(typeDefs);
 const root = resolvers;
 
 const app = express();
+app.use(cors());
 
 // Set up multer for file uploads
 const upload = multer({ dest: 'server/storage/pdfs/' });
@@ -39,14 +42,32 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     // Perform OCR on the PDF
     const ocrResponse = await performOCR(addMarginResponse.file_path);
 
+    // Extract the filename from the full file path
+    const filename = path.basename(addMarginResponse.file_path);
+
+    // Construct the full URL for the modified PDF
+    const fullUrl = `${req.protocol}://${req.get('host')}/download/${filename}`;
+
     // Return the modified PDF and OCR text
     res.json({
       filename: file.filename,
-      filepath: addMarginResponse.file_path,
+      filepath: fullUrl,
       ocrText: ocrResponse.text,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+// Endpoint to download the processed PDF
+app.get('/download/:filename', (req, res) => {
+  console.log(req.params.filename)
+  const filePath = path.join(__dirname, 'storage/pdfs', req.params.filename);
+  console.log(filePath)
+  if (fs.existsSync(filePath)) {
+    res.download(filePath);
+  } else {
+    res.status(404).send('File not found');
   }
 });
 

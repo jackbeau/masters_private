@@ -3,10 +3,13 @@ import grpc
 import subprocess
 import sys
 import json
+import os
 
 # Adjust the import paths
 import service_pb2
 import service_pb2_grpc
+
+OUTPUT_DIR = 'server/storage/pdfs/'
 
 class ScriptService(service_pb2_grpc.ScriptServiceServicer):
 
@@ -15,7 +18,7 @@ class ScriptService(service_pb2_grpc.ScriptServiceServicer):
         margin_side = request.margin_side
 
         result = subprocess.run(
-            [sys.executable, 'server/grpc/python/add_margin.py', file_path, margin_side],
+            [sys.executable, 'server/grpc/python/add_margin.py', file_path, margin_side, OUTPUT_DIR],
             capture_output=True,
             text=True
         )
