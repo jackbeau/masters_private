@@ -3,14 +3,13 @@
         "video_device_id": "0x14410000291a3369",
         "video_device_pos": 0,
         "resolution": [
-            1280,
-            720
+            1920,
+            1080
         ],
         "rotation": 0,
-        "mirror_x": 0,
+        "mirror_x": 1,
         "mirror_y": 0,
-        "clahe": 0,
-        "clahe_clip_limit": 12.82051282051282,
+        "hist_equalisation": 0,
         "brightness": 50.0,
         "exposure": 50.0,
         "contrast": 50.0,
@@ -22,43 +21,43 @@
     "stage_zone": {
         "src_points": [
             [
-                153,
-                90
+                202,
+                152
             ],
             [
-                151,
-                207
+                428,
+                112
             ],
             [
-                518,
-                184
+                522,
+                245
             ],
             [
-                430,
-                74
+                225,
+                312
             ]
         ],
         "crop_points": [
             [
-                13,
-                0
+                2,
+                191
             ],
             [
                 599,
-                0
+                73
             ],
             [
-                580,
-                317
+                599,
+                336
             ],
             [
-                5,
-                334
+                0,
+                336
             ]
         ],
-        "enable_crop": 1,
-        "enable_homography": 1,
-        "homography_width": "10",
-        "homography_height": "6"
+        "enable_crop": 0,
+        "enable_homography": 0,
+        "homography_width": "300",
+        "homography_height": "210"
     }
 }

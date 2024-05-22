@@ -17,7 +17,7 @@ const root = resolvers;
 
 const app = express();
 app.use(cors());
-app.use(express.json()); // Add this line to parse JSON bodies
+app.use(express.json({ limit: '100mb' }));  // Add this line to parse JSON bodies
 
 // Set up multer for file uploads
 const upload = multer({ dest: 'server/storage/pdfs/' });

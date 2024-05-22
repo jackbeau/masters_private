@@ -5,6 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/server/server.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "runtimeExecutable": "/Users/jackb/.nvm/versions/node/v21.7.3/bin/node"
+        },
+        {
             "type": "java",
             "name": "App",
             "request": "launch",
