@@ -17,6 +17,7 @@ const root = resolvers;
 
 const app = express();
 app.use(cors());
+app.use(express.json()); // Add this line to parse JSON bodies
 
 // Set up multer for file uploads
 const upload = multer({ dest: 'server/storage/pdfs/' });
@@ -61,13 +62,41 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
 // Endpoint to download the processed PDF
 app.get('/download/:filename', (req, res) => {
-  console.log(req.params.filename)
   const filePath = path.join(__dirname, 'storage/pdfs', req.params.filename);
-  console.log(filePath)
   if (fs.existsSync(filePath)) {
     res.download(filePath);
   } else {
     res.status(404).send('File not found');
+  }
+});
+
+// Endpoint to save a transcript
+app.post('/transcript', (req, res) => {
+  const { filename, transcript } = req.body;
+
+  if (!filename || !transcript) {
+    return res.status(400).json({ error: 'Filename and transcript are required' });
+  }
+
+  const transcriptPath = path.join(__dirname, 'storage/transcripts', `${filename}.json`);
+
+  fs.writeFile(transcriptPath, JSON.stringify(transcript), (err) => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to save transcript' });
+    }
+
+    res.status(200).json({ message: 'Transcript saved successfully' });
+  });
+});
+
+// Endpoint to get a transcript
+app.get('/transcript/:filename', (req, res) => {
+  const transcriptPath = path.join(__dirname, 'storage/transcripts', `${req.params.filename}.json`);
+
+  if (fs.existsSync(transcriptPath)) {
+    res.sendFile(transcriptPath);
+  } else {
+    res.status(404).json({ error: 'Transcript not found' });
   }
 });
 

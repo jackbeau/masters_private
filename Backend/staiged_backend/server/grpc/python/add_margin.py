@@ -31,6 +31,15 @@ def add_margin(file_path, margin_side, output_dir):
             )
             page.mediabox.upper_right = (new_media_box[2], new_media_box[3])
             page.cropbox.upper_right = (new_media_box[2], new_media_box[3])
+        else:                       # This shoud just return the original file
+            new_media_box = (
+                media_box.lower_left[0],
+                media_box.lower_left[1],
+                media_box.upper_right[0],
+                media_box.upper_right[1]
+            )
+            page.mediabox.upper_right = (new_media_box[2], new_media_box[3])
+            page.cropbox.upper_right = (new_media_box[2], new_media_box[3])
         
         output_pdf.add_page(page)
 

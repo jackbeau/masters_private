@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/interfaces/pdf_repository_interface.dart';
 import '../models/pdf_model.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pdfrx/pdfrx.dart';
 
 // Events
 abstract class PDFEvent extends Equatable {
@@ -27,6 +28,16 @@ class UploadPDFBytes extends PDFEvent {
 
   @override
   List<Object> get props => [fileBytes, marginSide];
+}
+
+class ExtractAndSendText extends PDFEvent {
+  final String filename;
+  final Map<String, dynamic> pageTexts;
+
+  const ExtractAndSendText(this.filename, this.pageTexts);
+
+  @override
+  List<Object> get props => [filename, pageTexts];
 }
 
 // States
@@ -59,6 +70,19 @@ class PDFError extends PDFState {
   List<Object> get props => [message];
 }
 
+class TextExtractionInProgress extends PDFState {}
+
+class TextExtractionSuccess extends PDFState {}
+
+class TextExtractionError extends PDFState {
+  final String message;
+
+  const TextExtractionError(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
+
 // Bloc
 class PDFBloc extends Bloc<PDFEvent, PDFState> {
   final PDFRepositoryInterface pdfRepository;
@@ -81,6 +105,16 @@ class PDFBloc extends Bloc<PDFEvent, PDFState> {
         emit(PDFSuccess(pdf));
       } catch (e) {
         emit(PDFError(e.toString()));
+      }
+    });
+
+    on<ExtractAndSendText>((event, emit) async {
+      emit(TextExtractionInProgress());
+      try {
+        await pdfRepository.sendExtractedText(event.filename, event.pageTexts);
+        // emit(TextExtractionSuccess());
+      } catch (e) {
+        emit(TextExtractionError(e.toString()));
       }
     });
   }

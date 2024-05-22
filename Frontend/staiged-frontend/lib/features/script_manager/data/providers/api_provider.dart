@@ -35,4 +35,13 @@ class ApiProvider {
     var response = await http.get(Uri.parse('$baseUrl/download/$filename'));
     return json.decode(response.body);
   }
+
+  Future<http.Response> sendExtractedText(String filename, Map<String, dynamic> ocrText) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/transcript'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'filename': filename, 'transcript': ocrText}), // Fix the body structure
+    );
+    return response;
+  }
 }
