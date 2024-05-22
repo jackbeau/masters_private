@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+service ScriptService {
+  rpc AddMargin(AddMarginRequest) returns (AddMarginResponse);
+  rpc PerformOCR(OCRRequest) returns (OCRResponse);
+}
+
+message AddMarginRequest {
+  string file_path = 1;
+  string margin_side = 2;
+}
+
+message AddMarginResponse {
+  string file_path = 1;
+}
+
+message OCRRequest {
+  string file_path = 1;
+}
+
+message OCRResponse {
+  string text = 1;
+}
