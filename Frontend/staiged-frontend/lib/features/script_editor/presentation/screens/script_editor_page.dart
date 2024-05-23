@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:staiged/features/script_editor/data/providers/annotations_provider.dart';
+import 'package:staiged/features/script_editor/data/providers/speech_provider.dart';
+import 'package:staiged/features/script_editor/data/repositories/speech_repository.dart';
 import '../../data/repositories/annotations_repository.dart';
 import '../../data/providers/mqtt_service.dart';
 import '../../data/repositories/mqtt_repository.dart';
@@ -24,6 +26,8 @@ class _ScriptEditorPageState extends State<ScriptEditorPage> {
   late final AnnotationsRepository _annotationsRepository;
   late final MqttService _mqttService;
   late final MqttRepository _mqttRepository;
+  late final SpeechProvider _speechProvider;
+  late final SpeechRepository _speechRepository;
 
   @override
   void initState() {
@@ -32,6 +36,8 @@ class _ScriptEditorPageState extends State<ScriptEditorPage> {
     _annotationsRepository = AnnotationsRepository(_annotationsProvider);
     _mqttService = MqttService();
     _mqttRepository = MqttRepository(_mqttService);
+    _speechProvider = SpeechProvider(baseUrl: 'http://localhost:4000');
+    _speechRepository = SpeechRepository(speechProvider: _speechProvider);  
   }
 
   @override
@@ -46,6 +52,7 @@ class _ScriptEditorPageState extends State<ScriptEditorPage> {
       providers: [
         RepositoryProvider.value(value: _annotationsRepository),
         RepositoryProvider.value(value: _mqttRepository),
+        RepositoryProvider.value(value: _speechRepository),
       ],
       child: BlocProvider(
         create: (context) {

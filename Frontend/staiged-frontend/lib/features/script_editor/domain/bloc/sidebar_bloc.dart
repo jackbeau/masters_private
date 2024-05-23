@@ -1,23 +1,30 @@
+// lib/domain/bloc/sidebar_bloc.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import '../../data/repositories/speech_repository.dart';
 import '../models/act.dart';  // Assuming data model exists
 
 abstract class SidebarEvent {}
 class LoadActs extends SidebarEvent {}
 class UpdateTime extends SidebarEvent {}
+class StartSpeechToLine extends SidebarEvent {}
+class StopSpeechToLine extends SidebarEvent {}
 
 abstract class SidebarState {}
 class SidebarInitial extends SidebarState {}
 class SidebarLoaded extends SidebarState {
   final List<Act> acts;
   final String currentTime;
-  SidebarLoaded(this.acts, this.currentTime);
+  final String message; // Add a message field
+
+  SidebarLoaded(this.acts, this.currentTime, [this.message = '']);
 }
 
 class SidebarBloc extends Bloc<SidebarEvent, SidebarState> {
-  SidebarBloc() : super(SidebarInitial()) {
+  final SpeechRepository speechRepository;
+
+  SidebarBloc(this.speechRepository) : super(SidebarInitial()) {
     on<LoadActs>((event, emit) {
-      // Load acts data from a repository or static list
       final acts = <Act>[
         Act(title: 'Act I', scenes: ['Prologue', 'Scene 1', 'Scene 2']),
         Act(title: 'Act II', scenes: []),
@@ -29,6 +36,32 @@ class SidebarBloc extends Bloc<SidebarEvent, SidebarState> {
     on<UpdateTime>((event, emit) {
       if (state is SidebarLoaded) {
         emit(SidebarLoaded((state as SidebarLoaded).acts, _formatCurrentTime()));
+      }
+    });
+
+    on<StartSpeechToLine>((event, emit) async {
+      try {
+        final message = await speechRepository.startSpeechToLine();
+        if (state is SidebarLoaded) {
+          emit(SidebarLoaded((state as SidebarLoaded).acts, (state as SidebarLoaded).currentTime, message));
+        }
+      } catch (e) {
+        if (state is SidebarLoaded) {
+          emit(SidebarLoaded((state as SidebarLoaded).acts, (state as SidebarLoaded).currentTime, 'Error: $e'));
+        }
+      }
+    });
+
+    on<StopSpeechToLine>((event, emit) async {
+      try {
+        final message = await speechRepository.stopSpeechToLine();
+        if (state is SidebarLoaded) {
+          emit(SidebarLoaded((state as SidebarLoaded).acts, (state as SidebarLoaded).currentTime, message));
+        }
+      } catch (e) {
+        if (state is SidebarLoaded) {
+          emit(SidebarLoaded((state as SidebarLoaded).acts, (state as SidebarLoaded).currentTime, 'Error: $e'));
+        }
       }
     });
   }

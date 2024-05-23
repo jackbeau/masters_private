@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/bloc/sidebar_bloc.dart';
+import '../../data/repositories/speech_repository.dart';
 
 class Sidebar extends StatelessWidget {
   Sidebar({Key? key}) : super(key: key);
@@ -8,7 +9,7 @@ class Sidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SidebarBloc>(
-      create: (context) => SidebarBloc()..add(LoadActs()),
+      create: (context) => SidebarBloc(RepositoryProvider.of<SpeechRepository>(context))..add(LoadActs()),
       child: BlocBuilder<SidebarBloc, SidebarState>(
         builder: (context, state) {
           if (state is SidebarLoaded) {
@@ -43,6 +44,25 @@ class Sidebar extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      context.read<SidebarBloc>().add(StartSpeechToLine());
+                    },
+                    child: Text('Start'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      context.read<SidebarBloc>().add(StopSpeechToLine());
+                    },
+                    child: Text('Stop'),
+                  ),
+                  SizedBox(height: 20),
+                  if (state.message.isNotEmpty)
+                    Text(
+                      state.message,
+                      style: TextStyle(color: Colors.white, fontSize: 14),
+                      textAlign: TextAlign.center,
+                    ),
                   Expanded(
                     child: ListView.builder(
                       itemCount: state.acts.length,

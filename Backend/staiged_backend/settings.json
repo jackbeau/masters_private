@@ -16,7 +16,7 @@
         "saturation": 50.0
     },
     "microphone": {
-        "microphone_device": 1
+        "microphone_device": 0
     },
     "stage_zone": {
         "src_points": [

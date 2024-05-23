@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pdfrx/pdfrx.dart';
-import 'package:staiged/features/script_editor/data/providers/annotations_provider.dart';
 import 'package:staiged/features/script_editor/domain/models/cue.dart';
-import 'package:staiged/features/script_editor/domain/models/cue_marker.dart';
 import '../../models/annotation.dart';
 import '../../repository/annotation_tool.dart';
 import '../../repository/pdf_utils.dart';
@@ -12,7 +10,6 @@ import 'package:collection/collection.dart';
 import '../script_editor_bloc.dart';
 import 'dart:async';
 import '../../repository/annotation_interaction_handler.dart';
-import '../cue_editor_bloc.dart';
 import '../../../data/repositories/mqtt_repository.dart';
 
 part 'script_canvas_event.dart';
@@ -196,9 +193,9 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
 
   void _initializeMqtt() async {
     await mqttRepository.connect();
-    mqttRepository.subscribe('your/topic', (topic, payload) {
-      pointerPage = payload['pageNumber'];
-      pointerY = payload['yAxis'];
+    mqttRepository.subscribe('local_server/tracker/position', (topic, payload) {
+      pointerPage = payload['page_number'] - 1;
+      pointerY = payload['y_coordinate'];
       _updateIndicatorPosition();
     });
   }

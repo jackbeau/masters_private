@@ -23,7 +23,7 @@ class SpeechToLine:
     def __init__(
             self,
             model_size="tiny.en",
-            json_data_file="output_extracted_data.json",
+            json_data_file="server/storage/transcripts/output_extracted_data.json",
             mqtt_controller=None,
             status_queue=None,
             settings=None
@@ -63,11 +63,12 @@ class SpeechToLine:
                 json_data = json.load(json_file)
                 prev_line = None
                 for page in json_data['pages']:
-                    for line in page['lines']:
+                    for fragment in page['fragments']:
+                        # Rename to current_fragment
                         current_line = ({
                             "page_number": page['page_number'],
-                            "y_coordinate": line['y_coordinate'],
-                            "text": line['text']
+                            "y_coordinate": int(fragment['bounds']['bottom'] + fragment['bounds']['height'] / 2),
+                            "text": fragment['text']
                         })
                         if prev_line is not None:
                             self.json_data.append({

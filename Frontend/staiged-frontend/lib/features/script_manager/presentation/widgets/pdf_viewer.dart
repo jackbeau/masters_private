@@ -47,7 +47,16 @@ class _PDFViewerState extends State<PDFViewer> {
   }
 
   void _sendExtractedText() {
-    final jsonTexts = _pageTexts.map((index, text) => MapEntry(index.toString(), text.toJson()));
+  final jsonTexts = {
+    'pages': _pageTexts.entries.map((entry) {
+      final index = entry.key;
+      final text = entry.value;
+      return {
+        'page_number': index + 1, // assuming index starts from 0 and needs to be 1-based
+        ...text.toJson(), // spreading the rest of the text's JSON properties
+      };
+    }).toList(),
+  };
     final pdfBloc = BlocProvider.of<PDFBloc>(context);
     pdfBloc.add(ExtractAndSendText(widget.pdf.filename, jsonTexts));
   }
