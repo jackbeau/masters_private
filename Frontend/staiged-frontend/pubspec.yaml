@@ -30,6 +30,7 @@ dependencies:
         url: 'https://github.com/ScerIO/packages.flutter'
         ref: '4be9de9ffed5398fd7d5f44bbb07dcd3d3f1711b'
         path: packages/pdfx
+  uuid: ^4.4.0
   window_manager: ^0.3.8
 
 dev_dependencies:

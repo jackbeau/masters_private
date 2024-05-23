@@ -1,0 +1,110 @@
+[
+  {
+    "id": "c6d6f7b4-a442-4da3-b782-a22cc8d41deb",
+    "page": 1,
+    "pos": {
+      "dx": 115.58909902961724,
+      "dy": 87.34629825588866
+    },
+    "type": {
+      "text": "GO",
+      "color": 4280295982,
+      "side": "r"
+    },
+    "tags": [
+      {
+        "cue_name": "1",
+        "description": "",
+        "type": {
+          "department": "FS",
+          "color": 4280391411,
+          "id": "[#1f5d9]"
+        },
+        "id": "[#ca62a]"
+      },
+      {
+        "cue_name": "3",
+        "description": "",
+        "type": {
+          "department": "VFX",
+          "color": 4283215696,
+          "id": "[#d2f07]"
+        },
+        "id": "[#ae07e]"
+      },
+      {
+        "cue_name": "5",
+        "description": "",
+        "type": {
+          "department": "VFX",
+          "color": 4283215696,
+          "id": "[#d2f07]"
+        },
+        "id": "[#6fc41]"
+      }
+    ],
+    "note": "on clap",
+    "title": "",
+    "autofire": false,
+    "line": "",
+    "message": ""
+  },
+  {
+    "id": "6c9aaf1f-15a9-4b26-b518-36039a7c0d68",
+    "page": 1,
+    "pos": {
+      "dx": 114.25635421206611,
+      "dy": 131.40861072905554
+    },
+    "label": {
+      "id": "c6d6f7b4-a442-4da3-b782-a22cc8d41deb",
+      "page": 1,
+      "pos": {
+        "dx": 115.58909902961724,
+        "dy": 87.34629825588866
+      },
+      "type": {
+        "text": "GO",
+        "color": 4280295982,
+        "side": "r"
+      },
+      "tags": [
+        {
+          "cue_name": "1",
+          "description": "",
+          "type": {
+            "department": "FS",
+            "color": 4280391411,
+            "id": "[#1f5d9]"
+          },
+          "id": "[#ca62a]"
+        },
+        {
+          "cue_name": "3",
+          "description": "",
+          "type": {
+            "department": "VFX",
+            "color": 4283215696,
+            "id": "[#d2f07]"
+          },
+          "id": "[#ae07e]"
+        },
+        {
+          "cue_name": "5",
+          "description": "",
+          "type": {
+            "department": "VFX",
+            "color": 4283215696,
+            "id": "[#d2f07]"
+          },
+          "id": "[#6fc41]"
+        }
+      ],
+      "note": "on clap",
+      "title": "",
+      "autofire": false,
+      "line": "",
+      "message": ""
+    }
+  }
+]

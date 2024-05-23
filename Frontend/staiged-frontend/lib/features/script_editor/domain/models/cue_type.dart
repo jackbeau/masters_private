@@ -9,6 +9,22 @@ class CueType {
     // Validate the side parameter to ensure it's either 'l' or 'r'
     assert(side == 'l' || side == 'r', "Side must be 'l' (left) or 'r' (right)");
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'text': text,
+      'color': color.value,
+      'side': side,
+    };
+  }
+
+  factory CueType.fromJson(Map<String, dynamic> json) {
+    return CueType(
+      json['text'],
+      Color(json['color']),
+      json['side'],
+    );
+  }
 }
 
 var standbyType = CueType(

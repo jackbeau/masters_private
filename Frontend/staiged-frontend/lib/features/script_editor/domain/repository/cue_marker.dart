@@ -27,6 +27,13 @@ class CueMarker extends Cue {
           pos: pos,
         );
 
+  CueMarker.withId({
+    required String id,
+    required int page,
+    required Offset pos,
+    required this.label,
+  }) : super.withId(id: id, page: page, pos: pos);
+
   @override
   CueLabel getEffectiveCueLabel() => label;
 
@@ -59,5 +66,23 @@ class CueMarker extends Cue {
 
     // Draw a circle at the cue marker position
     canvas.drawCircle(roundedPos, radius, circlePaint);
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    final json = super.toJson();
+    json.addAll({
+      'label': label.toJson(),
+    });
+    return json;
+  }
+
+  factory CueMarker.fromJson(Map<String, dynamic> json) {
+    return CueMarker.withId(
+      id: json['id'],
+      page: json['page'],
+      pos: Offset(json['pos']['dx'], json['pos']['dy']),
+      label: CueLabel.fromJson(json['label']),
+    );
   }
 }

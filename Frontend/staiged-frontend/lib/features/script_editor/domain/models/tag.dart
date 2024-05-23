@@ -6,6 +6,21 @@ class TagType {
   final UniqueKey id = UniqueKey();
 
   TagType(this.department, this.color);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'department': department,
+      'color': color.value,
+      'id': id.toString(),
+    };
+  }
+
+  factory TagType.fromJson(Map<String, dynamic> json) {
+    return TagType(
+      json['department'],
+      Color(json['color']),
+    );
+  }
 }
 
 class Tag {
@@ -25,6 +40,23 @@ class Tag {
       cue_name: cue_name ?? this.cue_name,
       type: type ?? this.type,
       description: description ?? this.description,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'cue_name': cue_name,
+      'description': description,
+      'type': type?.toJson(),
+      'id': id.toString(),
+    };
+  }
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      cue_name: json['cue_name'],
+      description: json['description'],
+      type: json['type'] != null ? TagType.fromJson(json['type']) : null,
     );
   }
 }

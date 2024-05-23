@@ -4,7 +4,6 @@ import '../../domain/models/annotation.dart';
 import '../../domain/repository/cue_label.dart';
 import '../../domain/repository/cue_marker.dart';
 
-
 class AnnotationsRepository {
   final AnnotationsProviderBase annotationsProvider;
   final _annotationsController = StreamController<List<Annotation>>.broadcast();
@@ -19,32 +18,31 @@ class AnnotationsRepository {
   }
 
   Future<void> addAnnotation(Annotation annotation) async {
-    annotationsProvider.addAnnotation(annotation);
+    await annotationsProvider.addAnnotation(annotation); // Await the async operation
     final annotations = annotationsProvider.getAnnotations();
     _updateAnnotationsStream(annotations);
   }
 
   Future<void> updateAnnotation(Annotation annotation) async {
-    annotationsProvider.updateAnnotation(annotation);
+    await annotationsProvider.updateAnnotation(annotation); // Await the async operation
     final annotations = annotationsProvider.getAnnotations();
     _updateAnnotationsStream(annotations);
   }
 
   Future<void> removeAnnotation(Annotation annotation) async {
-    annotationsProvider.removeAnnotation(annotation);
+    await annotationsProvider.removeAnnotation(annotation); // Await the async operation
     final annotations = annotationsProvider.getAnnotations();
     _updateAnnotationsStream(annotations);
   }
 
   Future<void> removeCueLabelAndMarkers(CueLabel cueLabel) async {
-    // Remove the CueLabel
-    annotationsProvider.removeAnnotation(cueLabel);
+    await annotationsProvider.removeAnnotation(cueLabel); // Await the async operation
 
     // Remove associated CueMarkers
     final annotations = annotationsProvider.getAnnotations();
     for (var annotation in annotations) {
       if (annotation is CueMarker && annotation.label == cueLabel) {
-        annotationsProvider.removeAnnotation(annotation);
+        await annotationsProvider.removeAnnotation(annotation); // Await each async operation
       }
     }
 

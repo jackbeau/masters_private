@@ -1,35 +1,32 @@
 const express = require('express');
 const cors = require('cors');
-const { createHandler } = require('graphql-http/lib/use/express');
-const { buildSchema } = require('graphql');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const typeDefs = require('./graphql/typeDefs');
-const resolvers = require('./graphql/resolvers');
 const { addMargin, performOCR } = require('./grpc/client/client');
-
-// Construct a schema, using GraphQL schema language
-const schema = buildSchema(typeDefs);
-
-// The root provides a resolver function for each API endpoint
-const root = resolvers;
 
 const app = express();
 app.use(cors());
-app.use(express.json({ limit: '100mb' }));  // Add this line to parse JSON bodies
+app.use(express.json({ limit: '100mb' }));
+
+// File path for storing cues
+const cuesFilePath = path.join(__dirname, 'storage', 'cues.json');
+
+// Helper functions
+const loadCues = () => {
+  if (!fs.existsSync(cuesFilePath)) {
+    return [];
+  }
+  const cuesData = fs.readFileSync(cuesFilePath);
+  return JSON.parse(cuesData);
+};
+
+const saveCues = (cues) => {
+  fs.writeFileSync(cuesFilePath, JSON.stringify(cues, null, 2));
+};
 
 // Set up multer for file uploads
 const upload = multer({ dest: 'server/storage/pdfs/' });
-
-// Create and use the GraphQL handler.
-app.all(
-  '/graphql',
-  createHandler({
-    schema: schema,
-    rootValue: root,
-  })
-);
 
 // Endpoint to upload PDF
 app.post('/upload', upload.single('file'), async (req, res) => {
@@ -100,7 +97,62 @@ app.get('/transcript/:filename', (req, res) => {
   }
 });
 
+// CRUD endpoints for cues
+
+// Get all cues
+app.get('/api/cues', (req, res) => {
+  const cues = loadCues();
+  res.json(cues);
+});
+
+// Get a specific cue by ID
+app.get('/api/cues/:id', (req, res) => {
+  const cues = loadCues();
+  const cue = cues.find(c => c.id === req.params.id);
+  if (cue) {
+    res.json(cue);
+  } else {
+    res.status(404).json({ error: 'Cue not found' });
+  }
+});
+
+// Add a new cue
+app.post('/api/cues', (req, res) => {
+  const cues = loadCues();
+  const newCue = req.body;
+  newCue.id = newCue.id || String(Date.now()); // Generate an ID if not provided
+  cues.push(newCue);
+  saveCues(cues);
+  res.status(201).json(newCue);
+});
+
+// Update an existing cue
+app.put('/api/cues/:id', (req, res) => {
+  const cues = loadCues();
+  const index = cues.findIndex(c => c.id === req.params.id);
+  if (index !== -1) {
+    cues[index] = { ...cues[index], ...req.body };
+    saveCues(cues);
+    res.json(cues[index]);
+  } else {
+    res.status(404).json({ error: 'Cue not found' });
+  }
+});
+
+// Delete a cue
+app.delete('/api/cues/:id', (req, res) => {
+  const cues = loadCues();
+  const index = cues.findIndex(c => c.id === req.params.id);
+  if (index !== -1) {
+    const deletedCue = cues.splice(index, 1);
+    saveCues(cues);
+    res.json(deletedCue);
+  } else {
+    res.status(404).json({ error: 'Cue not found' });
+  }
+});
+
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}/graphql`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });

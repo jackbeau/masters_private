@@ -35,6 +35,20 @@ class CueLabel extends Cue {
           pos: pos,
         );
 
+
+  CueLabel.withId({
+    required String id,
+    required int page,
+    required Offset pos,
+    required this.type,
+    required this.tags,
+    this.note = "",
+    this.title = "",
+    this.autofire = false,
+    this.line = "",
+    this.message = "",
+  }) : super.withId(id: id, page: page, pos: pos);
+
   @override
   CueLabel getEffectiveCueLabel() => this;
 
@@ -49,7 +63,8 @@ class CueLabel extends Cue {
     String? line,
     String? message,
   }) {
-    return CueLabel(
+    return CueLabel.withId(
+      id: id,
       page: page ?? this.page,
       pos: pos ?? this.pos,
       type: type ?? this.type,
@@ -189,5 +204,35 @@ class CueLabel extends Cue {
       maxLines: maxLines,
       textDirection: TextDirection.ltr,
     )..layout(minWidth: 0, maxWidth: maxWidth);
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    final json = super.toJson();
+    json.addAll({
+      'type': type.toJson(),
+      'tags': tags.map((tag) => tag.toJson()).toList(),
+      'note': note,
+      'title': title,
+      'autofire': autofire,
+      'line': line,
+      'message': message,
+    });
+    return json;
+  }
+
+  factory CueLabel.fromJson(Map<String, dynamic> json) {
+    return CueLabel.withId(
+      id: json['id'],
+      page: json['page'],
+      pos: Offset(json['pos']['dx'], json['pos']['dy']),
+      type: CueType.fromJson(json['type']),
+      tags: (json['tags'] as List).map((tag) => Tag.fromJson(tag)).toList(),
+      note: json['note'] ?? '',
+      title: json['title'] ?? '',
+      autofire: json['autofire'] ?? false,
+      line: json['line'] ?? '',
+      message: json['message'] ?? '',
+    );
   }
 }
