@@ -13,6 +13,7 @@ import '../script_editor_bloc.dart';
 import 'dart:async';
 import '../../repository/annotation_interaction_handler.dart';
 import '../cue_editor_bloc.dart';
+import '../../../data/repositories/mqtt_repository.dart';
 
 part 'script_canvas_event.dart';
 part 'script_canvas_state.dart';
@@ -22,6 +23,7 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
   final ScriptEditorBloc scriptEditorBloc;
   List<Annotation> _annotations = [];
   final AnnotationsRepository _annotationsRepository;
+  final MqttRepository mqttRepository;
 
   late StreamSubscription scriptEditorSubscription;
   late StreamSubscription annotationsSubscription;
@@ -33,6 +35,8 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
   bool isDown = false;
   Offset lastCentrePosition = const Offset(0, 0);
   Mode? selectedMode;
+  int pointerPage = 0;
+  double pointerY = 1;
 
   Future<void> _fetchAnnotations() async {
     await _annotationsRepository.getAnnotations();
@@ -43,6 +47,7 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
     this.controller,
     this.scriptEditorBloc,
     this._annotationsRepository,
+    this.mqttRepository,
   ) : super(ScriptCanvasInitial()) {
     selectedTool = scriptEditorBloc.state.selectedTool;
     selectedMode = scriptEditorBloc.state.mode;
@@ -67,7 +72,7 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
     });
 
     on<ControllerUpdated>((event, emit) {
-      _updateIndicatorPosition(emit);
+      _updateIndicatorPosition();
       
       if (selectedMode != Mode.edit) return;
       if (selectedTool == null) return;
@@ -184,12 +189,27 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
     on<UpdateIndicator>((event, emit) {
       emit(ScriptCanvasReady(List.from(_annotations), indicatorYAxis: event.yAxis));
     });
+    _initializeMqtt();
   }
 
-  void _updateIndicatorPosition(Emitter<ScriptCanvasState> emit) {
-    const pointerPage = 1;
-    double pointerY = 200;
+  
 
+  void _initializeMqtt() async {
+    await mqttRepository.connect();
+    mqttRepository.subscribe('your/topic', (topic, payload) {
+      pointerPage = payload['pageNumber'];
+      pointerY = payload['yAxis'];
+      _updateIndicatorPosition();
+    });
+  }
+
+  void _updateIndicatorPosition() {
+    try {
+    final viewRect = controller.visibleRect;
+  } catch (e) {
+    // Handle any unexpected errors
+    return;
+  }
     final viewRect = controller.visibleRect;
     final allRect = controller.documentSize;
 
@@ -205,10 +225,7 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
     final vh = viewRect.height * controller.currentZoom;
     final distance = yPosition * vh;
 
-    emit(ScriptCanvasReady(
-      List.from(_annotations),
-      indicatorYAxis: distance,
-    ));
+    add(UpdateIndicator(distance));
   }
 
   @override

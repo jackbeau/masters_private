@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:staiged/features/script_editor/data/providers/annotations_provider.dart';
 import '../../data/repositories/annotations_repository.dart';
+import '../../data/providers/mqtt_service.dart';
+import '../../data/repositories/mqtt_repository.dart';
 import '../../domain/bloc/script_editor_bloc.dart';
 import '../widgets/script_canvas.dart';
 import '../widgets/inspector/inspector.dart';
@@ -20,12 +22,16 @@ class ScriptEditorPage extends StatefulWidget {
 class _ScriptEditorPageState extends State<ScriptEditorPage> {
   late final AnnotationsProvider _annotationsProvider;
   late final AnnotationsRepository _annotationsRepository;
+  late final MqttService _mqttService;
+  late final MqttRepository _mqttRepository;
 
   @override
   void initState() {
     super.initState();
     _annotationsProvider = AnnotationsProvider();
     _annotationsRepository = AnnotationsRepository(_annotationsProvider);
+    _mqttService = MqttService();
+    _mqttRepository = MqttRepository(_mqttService);
   }
 
   @override
@@ -36,8 +42,11 @@ class _ScriptEditorPageState extends State<ScriptEditorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: _annotationsRepository,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: _annotationsRepository),
+        RepositoryProvider.value(value: _mqttRepository),
+      ],
       child: BlocProvider(
         create: (context) {
           return ScriptEditorBloc()..add(LoadPdf());

@@ -112,3 +112,11 @@
 2024-05-23 13:40:42,238 INFO  - Skipping migration because it is a Development Snapshot.
 2024-05-23 13:40:42,238 INFO  - Checking for value migrations (HiveMQ version Development Snapshot).
 2024-05-23 13:40:42,238 INFO  - Skipping migration because it is a Development Snapshot.
+2024-05-23 17:59:13,035 INFO  - Checking for migrations (HiveMQ version Development Snapshot).
+2024-05-23 17:59:13,040 INFO  - Skipping migration because it is a Development Snapshot.
+2024-05-23 17:59:13,041 INFO  - Checking for value migrations (HiveMQ version Development Snapshot).
+2024-05-23 17:59:13,041 INFO  - Skipping migration because it is a Development Snapshot.
+2024-05-23 18:18:09,229 INFO  - Checking for migrations (HiveMQ version Development Snapshot).
+2024-05-23 18:18:09,231 INFO  - Skipping migration because it is a Development Snapshot.
+2024-05-23 18:18:09,231 INFO  - Checking for value migrations (HiveMQ version Development Snapshot).
+2024-05-23 18:18:09,231 INFO  - Skipping migration because it is a Development Snapshot.

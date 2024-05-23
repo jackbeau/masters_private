@@ -38,8 +38,7 @@ class PagePanUpdate extends ScriptCanvasEvent {
 final class PagePanEnd extends ScriptCanvasEvent {}
 
 class UpdateIndicator extends ScriptCanvasEvent {
-  final int pageNumber;
   final double yAxis;
 
-  UpdateIndicator(this.pageNumber, this.yAxis);
+  UpdateIndicator(this.yAxis);
 }

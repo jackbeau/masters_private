@@ -6,6 +6,7 @@ import 'package:staiged/features/script_editor/data/repositories/annotations_rep
 import 'package:staiged/features/script_editor/domain/bloc/cue_editor_bloc.dart';
 import '../../domain/bloc/script_canvas/script_canvas_bloc.dart';
 import '../../domain/bloc/script_editor_bloc.dart';
+import '../../data/repositories/mqtt_repository.dart';
 
 class ScriptCanvas extends StatefulWidget {
   final PdfViewerController controller;
@@ -28,6 +29,7 @@ class _ScriptCanvasState extends State<ScriptCanvas> {
       widget.controller,
       BlocProvider.of<ScriptEditorBloc>(context),
       RepositoryProvider.of<AnnotationsRepository>(context),
+      RepositoryProvider.of<MqttRepository>(context),
     );
     widget.controller.addListener(_onControllerUpdate);
     widget.controller.addListener(_extractText);
@@ -53,9 +55,9 @@ class _ScriptCanvasState extends State<ScriptCanvas> {
     }
   }
 
-  void _updateIndicator(int pageNumber, double yAxis) {
-    _bloc.add(UpdateIndicator(pageNumber, yAxis));
-  }
+  // void _updateIndicator(int pageNumber, double yAxis) {
+  //   _bloc.add(UpdateIndicator(pageNumber, yAxis));
+  // }
 
   @override
   Widget build(BuildContext context) {
