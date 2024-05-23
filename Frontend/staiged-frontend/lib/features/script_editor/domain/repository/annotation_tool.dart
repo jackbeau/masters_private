@@ -4,6 +4,7 @@ import '../models/cue.dart';
 import '../models/annotation.dart';
 import '../models/tag.dart';
 import '../models/cue_type.dart';
+import '../models/cue_marker.dart';
 
 abstract class AnnotationToolBase {
   final bool twoActions;
@@ -28,17 +29,18 @@ class NewCue extends AnnotationToolBase {
       Tag(cue_name: "5", type: vfx),
     ];
 
-    CueLabel newCue = CueLabel(page: page.pageNumber, pos: coordinates, type: goType, tags: tags, note:"on clap");
+    Cue newCue = Cue(page: page.pageNumber, pos: coordinates, type: goType, tags: tags, note:"on clap");
     return newCue;
   }
 
   @override
   Annotation? tap2(PdfPage page, Offset coordinates, Annotation annotation) {
     // provide an existing label and add a connected marker cue
-    if (annotation is CueLabel) {
+    if (annotation is Cue) {
       // Inherit types and tags from the first cue
-      CueMarker newCue = CueMarker(page: page.pageNumber, pos: coordinates, label: annotation);
-      return newCue;
+      CueMarker newMarker = CueMarker(page: page.pageNumber, pos: coordinates);
+      annotation.marker = newMarker;
+      return annotation;
     }
     return null;
   }

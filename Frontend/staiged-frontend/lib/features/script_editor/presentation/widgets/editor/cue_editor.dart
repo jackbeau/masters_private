@@ -27,7 +27,7 @@ class CueEditor extends StatefulWidget {
 
 class _CueEditorState extends State<CueEditor> {
   final _formKey = GlobalKey<FormState>();
-  late CueLabel _selectedCue; // the cue that is selected according to the script manager
+  late Cue _selectedCue; // the cue that is selected according to the script manager
   late List<TagController> _tagControllers;
   late TextEditingController _noteController;
   late TextEditingController _titleController;
@@ -64,21 +64,20 @@ class _CueEditorState extends State<CueEditor> {
         final selectedAnnotation = context.read<ScriptEditorBloc>().state.selectedAnnotation;
         final cueEditorBloc = CueEditorBloc(widget.annotationsRepository);
         if (selectedAnnotation is Cue) {
-          final effectiveCue = selectedAnnotation.getEffectiveCueLabel();
-          _selectedCue = effectiveCue;
-          cueEditorBloc.add(LoadCue(effectiveCue));
-          _buildTagControllers(effectiveCue.tags);
-          _titleController.text = effectiveCue.title;
-          _noteController.text = effectiveCue.note;
-          _lineController.text = effectiveCue.line;
-          _messageController.text = effectiveCue.message;
+          _selectedCue = selectedAnnotation;
+          cueEditorBloc.add(LoadCue(selectedAnnotation));
+          _buildTagControllers(selectedAnnotation.tags);
+          _titleController.text = selectedAnnotation.title;
+          _noteController.text = selectedAnnotation.note;
+          _lineController.text = selectedAnnotation.line;
+          _messageController.text = selectedAnnotation.message;
         }
         return cueEditorBloc;
       },
       child: BlocListener<ScriptEditorBloc, ScriptEditorState>(
         listener: (context, state) {
           if (state.selectedAnnotation is Cue) {
-            final effectiveCue = (state.selectedAnnotation as Cue).getEffectiveCueLabel();
+            final effectiveCue = (state.selectedAnnotation as Cue);
             _selectedCue = effectiveCue;
             _buildTagControllers(effectiveCue.tags);
             _titleController.text = effectiveCue.title;
@@ -91,7 +90,7 @@ class _CueEditorState extends State<CueEditor> {
         child: BlocBuilder<CueEditorBloc, CueEditorState>(
           builder: (context, state) {
             if (state is CueEditorSuccess && state.cue is Cue) {
-              _selectedCue = state.cue!.getEffectiveCueLabel();
+              _selectedCue = state.cue!;
               return Container(
                 color: Theme.of(context).colorScheme.surface,
                 child: Form(
@@ -257,7 +256,7 @@ class _CueEditorState extends State<CueEditor> {
                     labelStyle: TextStyle(color: Colors.white),
                     selectedColor: tag.color,
                     backgroundColor: tag.color.withOpacity(0.3),
-                    selected: _selectedCue.tags[index].type == tag,
+                    selected: _selectedCue.tags[index].type!.id == tag.id,
                     onSelected: (bool selected) {
                       context.read<CueEditorBloc>().add(UpdateTagDetail(index, "department", tag));
                     },

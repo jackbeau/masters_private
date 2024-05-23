@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pdfrx/pdfrx.dart';
 import 'package:staiged/features/script_editor/data/providers/annotations_provider.dart';
 import 'package:staiged/features/script_editor/domain/models/cue.dart';
-import 'package:staiged/features/script_editor/domain/repository/cue_marker.dart';
+import 'package:staiged/features/script_editor/domain/models/cue_marker.dart';
 import '../../models/annotation.dart';
 import '../../repository/annotation_tool.dart';
 import '../../repository/pdf_utils.dart';
@@ -27,6 +27,7 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
   late StreamSubscription annotationsSubscription;
 
   Annotation? selectedAnnotation;
+  Annotation? affectedAnnotation;
   Tool? selectedTool;
   int tap = 0;
   bool isDown = false;
@@ -73,7 +74,7 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
 
       if (isDown) {
         Offset displacement = controller.centerPosition - lastCentrePosition;
-        var updatedAnnotation = AnnotationInteractionHandler().move(displacement, selectedAnnotation!);
+        var updatedAnnotation = AnnotationInteractionHandler().move(displacement, selectedAnnotation!, affectedAnnotation!);
         if (updatedAnnotation != null) {
           _annotationsRepository.updateAnnotation(updatedAnnotation);
         }
@@ -82,49 +83,48 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
       }
     });
 
-    on<PageTapDown>((event, emit) {
-      if (selectedMode != Mode.edit) return;
-      if (selectedTool == Tool.none) return;
+  on<PageTapDown>((event, emit) {
+    if (selectedMode != Mode.edit) return;
+    if (selectedTool == Tool.none) return;
 
-      Offset cursorPosition = pdfRescaleCoordinates(event.position, event.pageRect, event.page);
-      var newAnnotation = _annotations.firstWhereOrNull((a) => a.isInObject(a, cursorPosition));
+    Offset cursorPosition = pdfRescaleCoordinates(event.position, event.pageRect, event.page);
+    var newAnnotation = _annotations.firstWhereOrNull((a) => a.isInObject(a, cursorPosition));
 
-      if (newAnnotation == null) {
-        if (toolMap[selectedTool].twoActions == false) {
-          var newAnnotation = toolMap[selectedTool].tap(event.page, cursorPosition);
-          if (newAnnotation != null) {
-            _annotationsRepository.addAnnotation(newAnnotation);
+    if (newAnnotation == null) {
+      if (toolMap[selectedTool].twoActions == false) {
+        var newAnnotation = toolMap[selectedTool].tap(event.page, cursorPosition);
+        if (newAnnotation != null) {
+          _annotationsRepository.addAnnotation(newAnnotation);
+        }
+      } else {
+        if (tap == 0) {
+          selectedAnnotation = toolMap[selectedTool].tap(event.page, cursorPosition);
+          tap = 1;
+          if (selectedAnnotation != null) {
+            _annotationsRepository.addAnnotation(selectedAnnotation!);
           }
         } else {
-          if (tap == 0) {
-            selectedAnnotation = toolMap[selectedTool].tap(event.page, cursorPosition);
-            tap = 1;
-            if (selectedAnnotation != null) {
-              _annotationsRepository.addAnnotation(selectedAnnotation!);
-            }
-          } else {
-            var newAnnotation = toolMap[selectedTool].tap2(event.page, cursorPosition, selectedAnnotation!);
-            if (newAnnotation != null) {
-              _annotationsRepository.addAnnotation(newAnnotation);
+          if (selectedAnnotation is Cue) {
+            var updatedAnnotation = toolMap[selectedTool].tap2(event.page, cursorPosition, selectedAnnotation!);
+            if (updatedAnnotation != null) {
+              _annotationsRepository.updateAnnotation(updatedAnnotation);
               scriptEditorBloc.add(EditorChanged(EditorPanel.add_cue));
-              scriptEditorBloc.add(UpdateSelectedAnnotationEvent(selectedAnnotation));
+              scriptEditorBloc.add(UpdateSelectedAnnotationEvent(updatedAnnotation));
             }
-            selectedAnnotation = null;
-            tap = 0;
           }
-        }
-        emit(ScriptCanvasReady(List.from(_annotations), indicatorYAxis: state is ScriptCanvasReady ? (state as ScriptCanvasReady).indicatorYAxis : 0.0));
-      } else {
-        switch (newAnnotation) {
-          case CueMarker _:
-            scriptEditorBloc.add(EditorChanged(EditorPanel.add_cue));
-            return scriptEditorBloc.add(UpdateSelectedAnnotationEvent(newAnnotation.label));
-          case Cue _:
-            scriptEditorBloc.add(EditorChanged(EditorPanel.add_cue));
-            return scriptEditorBloc.add(UpdateSelectedAnnotationEvent(newAnnotation));
+          selectedAnnotation = null;
+          tap = 0;
         }
       }
-    });
+      emit(ScriptCanvasReady(List.from(_annotations), indicatorYAxis: state is ScriptCanvasReady ? (state as ScriptCanvasReady).indicatorYAxis : 0.0));
+    } else {
+      switch (newAnnotation) {
+        case Cue _:
+          scriptEditorBloc.add(EditorChanged(EditorPanel.add_cue));
+          return scriptEditorBloc.add(UpdateSelectedAnnotationEvent(newAnnotation));
+      }
+    }
+  });
 
     on<PagePanStart>((event, emit) {
       if (selectedMode != Mode.edit) return;
@@ -132,6 +132,17 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
 
       Offset cursorPos = pdfRescaleCoordinates(event.position, event.pageRect, event.page);
       selectedAnnotation = _annotations.firstWhereOrNull((a) => a.isInObject(a, cursorPos));
+
+      // If the annotation is a Cue, check if the interaction is with its marker
+      if (selectedAnnotation is Cue) {
+        Cue cue = selectedAnnotation as Cue;
+        if (cue.marker != null && cue.marker!.isInObject(cue.marker!, cursorPos)) {
+          affectedAnnotation = cue.marker;
+        } else {
+          affectedAnnotation = cue;
+        }
+      }
+      
       if (selectedAnnotation != null) {
         AnnotationInteractionHandler().down(event.page, cursorPos, selectedAnnotation!);
         lastCentrePosition = controller.centerPosition;
@@ -151,8 +162,8 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
         event.delta.dy * pixelToPointY,
       );
 
-      if (selectedAnnotation != null) {
-        var updatedAnnotation = AnnotationInteractionHandler().move(displacement, selectedAnnotation!, page: event.page, controller: controller);
+      if (selectedAnnotation != null && affectedAnnotation != null) {
+        var updatedAnnotation = AnnotationInteractionHandler().move(displacement, selectedAnnotation!, affectedAnnotation!, page: event.page, controller: controller);
         if (updatedAnnotation != null) {
           _annotationsRepository.updateAnnotation(updatedAnnotation);
         }
@@ -166,6 +177,7 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
 
       isDown = false;
       selectedAnnotation = null;
+      affectedAnnotation = null;
       emit(ScriptCanvasReady(List.from(_annotations), indicatorYAxis: state is ScriptCanvasReady ? (state as ScriptCanvasReady).indicatorYAxis : 0.0));
     });
 

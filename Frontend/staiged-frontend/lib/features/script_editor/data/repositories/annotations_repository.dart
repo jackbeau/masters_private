@@ -2,7 +2,7 @@ import 'dart:async';
 import '../interfaces/annotation_provider_base.dart';
 import '../../domain/models/annotation.dart';
 import '../../domain/repository/cue_label.dart';
-import '../../domain/repository/cue_marker.dart';
+import '../../domain/models/cue_marker.dart';
 
 class AnnotationsRepository {
   final AnnotationsProviderBase annotationsProvider;
@@ -33,22 +33,6 @@ class AnnotationsRepository {
     await annotationsProvider.removeAnnotation(annotation); // Await the async operation
     final annotations = annotationsProvider.getAnnotations();
     _updateAnnotationsStream(annotations);
-  }
-
-  Future<void> removeCueLabelAndMarkers(CueLabel cueLabel) async {
-    await annotationsProvider.removeAnnotation(cueLabel); // Await the async operation
-
-    // Remove associated CueMarkers
-    final annotations = annotationsProvider.getAnnotations();
-    for (var annotation in annotations) {
-      if (annotation is CueMarker && annotation.label == cueLabel) {
-        await annotationsProvider.removeAnnotation(annotation); // Await each async operation
-      }
-    }
-
-    // Refresh the annotations stream
-    final updatedAnnotations = annotationsProvider.getAnnotations();
-    _updateAnnotationsStream(updatedAnnotations);
   }
 
   void _updateAnnotationsStream(List<Annotation> annotations) {

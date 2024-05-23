@@ -8,7 +8,7 @@ import '../../data/repositories/annotations_repository.dart';
 abstract class InspectorCuesEvent {}
 class LoadCues extends InspectorCuesEvent {}
 class DeleteAnnotationEvent extends InspectorCuesEvent {
-  final CueLabel cue;
+  final Cue cue;
   DeleteAnnotationEvent(this.cue);
 }
 
@@ -16,7 +16,7 @@ class DeleteAnnotationEvent extends InspectorCuesEvent {
 abstract class InspectorCuesState {}
 class InspectorCuesInitial extends InspectorCuesState {}
 class InspectorCuesLoaded extends InspectorCuesState {
-  final List<CueLabel> cues;
+  final List<Cue> cues;
   InspectorCuesLoaded(this.cues);
 }
 
@@ -29,7 +29,7 @@ class InspectorCuesBloc extends Bloc<InspectorCuesEvent, InspectorCuesState> {
     _fetchAnnotations();
 
     _annotationsSubscription = annotationsRepository.annotationsStream.listen((annotations) {
-      final cues = annotations.whereType<CueLabel>().toList();
+      final cues = annotations.whereType<Cue>().toList();
       emit(InspectorCuesLoaded(cues));
     });
 
@@ -38,7 +38,7 @@ class InspectorCuesBloc extends Bloc<InspectorCuesEvent, InspectorCuesState> {
     });
 
     on<DeleteAnnotationEvent>((event, emit) async {
-      await annotationsRepository.removeCueLabelAndMarkers(event.cue);
+      await annotationsRepository.removeAnnotation(event.cue);
       _fetchAnnotations();
     });
   }

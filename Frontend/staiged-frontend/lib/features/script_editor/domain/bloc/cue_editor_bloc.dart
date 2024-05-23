@@ -6,7 +6,7 @@ import '../../data/repositories/annotations_repository.dart';
 // Event definitions
 abstract class CueEditorEvent {}
 class LoadCue extends CueEditorEvent {
-  final CueLabel? cue;
+  final Cue? cue;
   LoadCue(this.cue);
 }
 class AddTag extends CueEditorEvent {
@@ -51,7 +51,7 @@ class CueEditorError extends CueEditorState {
 
 // BLoC definition
 class CueEditorBloc extends Bloc<CueEditorEvent, CueEditorState> {
-  CueLabel? cueDraft;
+  Cue? cueDraft;
   final AnnotationsRepository annotationsRepository;
 
   CueEditorBloc(this.annotationsRepository) : super(CueEditorInitial()) {
@@ -107,7 +107,7 @@ class CueEditorBloc extends Bloc<CueEditorEvent, CueEditorState> {
     });
   }
 
-  CueLabel applyFieldUpdate(CueLabel cue, String field, dynamic value) {
+  Cue applyFieldUpdate(Cue cue, String field, dynamic value) {
     switch (field) {
       case 'note':
         cueDraft!.note = value;

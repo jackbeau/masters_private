@@ -3,8 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../interfaces/annotation_provider_base.dart';
 import '../../domain/models/annotation.dart';
-import '../../domain/repository/cue_marker.dart';
-import '../../domain/repository/cue_label.dart';
+import '../../domain/models/cue.dart';
 
 class AnnotationsProvider with ChangeNotifier implements AnnotationsProviderBase {
   List<Annotation> _annotations = [];
@@ -78,10 +77,6 @@ class AnnotationsProvider with ChangeNotifier implements AnnotationsProviderBase
   }
 
   Annotation _createAnnotationFromJson(Map<String, dynamic> json) {
-    if (json.containsKey('type')) {
-      return CueLabel.fromJson(json);
-    } else {
-      return CueMarker.fromJson(json);
-    }
+    return Cue.fromJson(json);
   }
 }

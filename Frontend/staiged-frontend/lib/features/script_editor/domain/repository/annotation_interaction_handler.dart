@@ -4,7 +4,7 @@ import '../models/cue.dart';
 import '../models/annotation.dart';
 import '../models/tag.dart';
 import '../models/cue_type.dart';
-import 'cue_marker.dart';
+import '../models/cue_marker.dart';
 
 class AnnotationInteractionHandler {
   AnnotationInteractionHandler() : super();
@@ -17,13 +17,21 @@ class AnnotationInteractionHandler {
     }
   }
 
-  Annotation? move(Offset delta, Annotation annotation, {PdfPage? page, PdfViewerController? controller}) {
-    if (annotation is Cue) {
+  Annotation? move(Offset delta, Annotation annotation, Annotation affectedAnnotation, {PdfPage? page, PdfViewerController? controller}) {
+    if (annotation is Cue && affectedAnnotation is Cue) {
       if (page != null && controller != null) {
-        Offset newOffset = _calculateNewOffset(annotation.pos, delta, page, controller);
-        annotation.pos = newOffset;
+        Offset newOffset = _calculateNewOffset(affectedAnnotation.pos, delta, page, controller);
+        affectedAnnotation.pos = newOffset;
       } else {
-        annotation.pos += delta;
+        affectedAnnotation.pos += delta;
+      }
+      return annotation;
+    } else if (annotation is Cue && affectedAnnotation is CueMarker) {
+      if (page != null && controller != null) {
+        Offset newOffset = _calculateNewOffset(affectedAnnotation.pos, delta, page, controller);
+        affectedAnnotation.pos = newOffset;
+      } else {
+        affectedAnnotation.pos += delta;
       }
       return annotation;
     }

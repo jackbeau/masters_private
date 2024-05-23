@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class TagType {
   String department;
   Color color;
-  final UniqueKey id = UniqueKey();
+  final String id;
 
-  TagType(this.department, this.color);
+  TagType(this.department, this.color) : id = Uuid().v4();
+
+  TagType.withId(this.id, this.department, this.color);
 
   Map<String, dynamic> toJson() {
     return {
+       'id': id,
       'department': department,
       'color': color.value,
-      'id': id.toString(),
     };
   }
 
   factory TagType.fromJson(Map<String, dynamic> json) {
-    return TagType(
+    return TagType.withId(
+      json['id'],
       json['department'],
-      Color(json['color']),
+      Color(json['color'])
     );
   }
 }
@@ -27,9 +31,10 @@ class Tag {
   String cue_name;
   String description;
   TagType? type;
-  final UniqueKey id = UniqueKey();
+  final String id;
 
-  Tag({this.cue_name="", this.type, this.description = ""});
+  Tag({this.cue_name="", this.type, this.description = ""}) : id = Uuid().v4();
+  Tag.withId({required this.id, this.cue_name="", this.type, this.description = ""});
 
   Tag copyWith({
     String? cue_name,
@@ -45,15 +50,16 @@ class Tag {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'cue_name': cue_name,
       'description': description,
       'type': type?.toJson(),
-      'id': id.toString(),
     };
   }
 
   factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
+    return Tag.withId(
+      id: json['id'],
       cue_name: json['cue_name'],
       description: json['description'],
       type: json['type'] != null ? TagType.fromJson(json['type']) : null,
@@ -62,10 +68,10 @@ class Tag {
 }
 
 
-var fs = TagType("FS", Colors.blue);
-var vfx = TagType("VFX", Colors.green);
-var lx = TagType("LX", Colors.yellow);
-var sfx = TagType("SFX", Colors.orange);
-var sm = TagType("VFX", Colors.red);
+var fs = TagType.withId("8af46c8a-e38b-4525-a8c2-3c4b988d753", "FS", Colors.blue);
+var vfx = TagType.withId("8af46c8a-e38b-45b5-a8c2-3c4b988d753", "VFX", Colors.green);
+var lx = TagType.withId("8af46c8a-d38b-45b5-a8c2-3c4b988d753", "LX", Colors.yellow);
+var sfx = TagType.withId("8af43c8a-e38b-45b5-a8c2-3c4b988d753", "SFX", Colors.orange);
+var sm = TagType.withId("8af46c8a-e37b-45b5-a8c2-3c4b988d753", "VFX", Colors.red);
 
 List<TagType> tagOptions = [fs, vfx, lx, sfx, sm];

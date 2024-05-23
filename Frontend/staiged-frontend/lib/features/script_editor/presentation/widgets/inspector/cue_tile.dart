@@ -5,7 +5,7 @@ import '../../../domain/bloc/script_editor_bloc.dart';
 import '../../../domain/bloc/inspector_cues_bloc.dart';
 
 class CuePainter extends CustomPainter {
-  final CueLabel cue;
+  final Cue cue;
 
   CuePainter(this.cue);
 
@@ -22,7 +22,7 @@ class CuePainter extends CustomPainter {
 }
 
 class CueTile extends StatelessWidget {
-  final CueLabel cue;
+  final Cue cue;
 
   CueTile({required this.cue});
 
@@ -57,7 +57,7 @@ class CueTile extends StatelessWidget {
                       children: [
                         CustomPaint(
                           size: cueSize, // Use the size calculated by the Cue object
-                          painter: CuePainter(CueLabel(
+                          painter: CuePainter(Cue(
                             page: cue.page,
                             pos: Offset(cueSize.width / (2 / 0.9),
                                 cueSize.height / (2 / 0.9)),
@@ -78,7 +78,7 @@ class CueTile extends StatelessWidget {
                               baseline: 13,
                               child: Text(
                                 'Act I Scene 2',
-                                style: CueLabel.labelStyle.copyWith(
+                                style: Cue.labelStyle.copyWith(
                                     color: Theme.of(context).colorScheme.onSecondary),
                               ),
                             ),
@@ -148,7 +148,7 @@ class CueTile extends StatelessWidget {
     );
   }
 
-  void _deleteCue(BuildContext context, CueLabel cue) {
+  void _deleteCue(BuildContext context, Cue cue) {
     context.read<InspectorCuesBloc>().add(DeleteAnnotationEvent(cue));
     context.read<ScriptEditorBloc>().add(UpdateSelectedAnnotationEvent(null));
   }
