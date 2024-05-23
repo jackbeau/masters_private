@@ -1,9 +1,9 @@
 """
-File: __innit__.py
+File: __init__.py
 Author: Jack Beaumont
 Date: 2024-01-26
 
-Description: Using an audio source, transcribes speach and users fuzzy
+Description: Using an audio source, transcribes speech and uses fuzzy
 matching to find the most relevant line from a JSON script object."
 """
 
@@ -13,19 +13,20 @@ import pyaudio
 import librosa
 from thefuzz import fuzz
 from faster_whisper import WhisperModel
-from backend.speech_to_line.audio_buffer import AudioBuffer
+from .audio_buffer import AudioBuffer
 import logging
 import tempfile
 import os
-
+from multiprocessing import Queue
 
 class SpeechToLine:
     def __init__(
             self,
             model_size="tiny.en",
             json_data_file="output_extracted_data.json",
-            mqtt_controller=None
-            # device: "cpu"
+            mqtt_controller=None,
+            status_queue=None,
+            settings=None
             ):
         """
         Initialize the SpeechToText class with the specified model size and
@@ -39,13 +40,17 @@ class SpeechToLine:
                 'output_extracted_data.json'.
             wave_file_path (str): The path to the output WAV file. Defaults to
                 'output.wav'.
+            status_queue (Queue): A queue to send status messages to the gRPC server.
+            settings (dict): A dictionary of settings.
         """
         self.model = WhisperModel(model_size, compute_type='float32')
         self.json_data = []
         self.json_data_file = json_data_file
         self.wave_file_path = "./.audio_buffer.wav"
         self.stop = False
-        self.mqtt_controller=mqtt_controller
+        self.mqtt_controller = mqtt_controller
+        self.status_queue = status_queue
+        self.settings = settings
         self.load_json_data()
         logging.basicConfig(level=logging.INFO)
 
@@ -72,7 +77,6 @@ class SpeechToLine:
                             })
                         self.json_data.append(current_line)
                         prev_line = current_line
-
 
         except FileNotFoundError:
             logging.error(f"JSON file '{self.json_data_file}' not found.")
@@ -102,7 +106,6 @@ class SpeechToLine:
                 best_match = {
                     'page_number': line.get('page_number'),
                     'y_coordinate': line.get('y_coordinate'),
-                    # 'text': line['text']
                     }
                 
         if self.mqtt_controller is not None:
@@ -143,11 +146,13 @@ class SpeechToLine:
         Start the speech-to-line process.
         """
         self.stop = False
+        if self.status_queue:
+            self.status_queue.put("Started")
         with tempfile.NamedTemporaryFile(
                 suffix='.wav', delete=False
                 ) as temp_wav_file:
             self.wave_file_path = temp_wav_file.name
-            audio_buffer = AudioBuffer()
+            audio_buffer = AudioBuffer(input_device_index=self.settings['microphone']['microphone_device'])
             audio_buffer.start()
             audio = pyaudio.PyAudio()
 
@@ -175,8 +180,24 @@ class SpeechToLine:
                 audio_buffer.stop()
                 audio.terminate()
                 os.remove(self.wave_file_path)
+                if self.status_queue:
+                    self.status_queue.put("Stopped")
+
+    def stop(self):
+        """
+        Stop the speech-to-line process.
+        """
+        self.stop = True
+        if self.status_queue:
+            self.status_queue.put("Stopped")
 
 
 if __name__ == '__main__':
-    speech_to_line = SpeechToLine()
+    from mqtt_controller.mqtt_controller import MQTTController
+    import json
+    import sys
+    settings = json.loads(sys.argv[1])
+    mqtt_controller = MQTTController('0.0.0.0', 1883, 'speech_to_line')
+    mqtt_controller.connect()
+    speech_to_line = SpeechToLine(mqtt_controller=mqtt_controller, settings=settings)
     speech_to_line.start()

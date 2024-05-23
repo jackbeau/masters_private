@@ -3,7 +3,7 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { addMargin, performOCR } = require('./grpc/client/client');
+const { addMargin, performOCR, startSpeechToLine, stopSpeechToLine } = require('./grpc/client/client');
 
 const app = express();
 app.use(cors());
@@ -151,6 +151,41 @@ app.delete('/api/cues/:id', (req, res) => {
     res.status(404).json({ error: 'Cue not found' });
   }
 });
+
+// Start SpeechToLine process
+app.post('/start', async (req, res) => {
+  try {
+    const response = await startSpeechToLine();
+    if (response.success) {
+      res.json({ message: 'SpeechToLine process started successfully' });
+    } else {
+      res.status(500).json({ message: 'Failed to start SpeechToLine process' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Stop SpeechToLine process
+app.post('/stop', async (req, res) => {
+  try {
+    const response = await stopSpeechToLine();
+    if (response.success) {
+      res.json({ message: 'SpeechToLine process stopped successfully' });
+    } else {
+      res.status(500).json({ message: 'Failed to stop SpeechToLine process' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Status endpoint
+app.get('/status', (req, res) => {
+  res.json({ status: 'running' });
+});
+
+
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

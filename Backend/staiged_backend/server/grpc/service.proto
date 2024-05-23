@@ -3,6 +3,9 @@ syntax = "proto3";
 service ScriptService {
   rpc AddMargin(AddMarginRequest) returns (AddMarginResponse);
   rpc PerformOCR(OCRRequest) returns (OCRResponse);
+  rpc StartSpeechToLine(StartRequest) returns (StartResponse);
+  rpc StopSpeechToLine(StopRequest) returns (StopResponse);
+  rpc GetStatuses(StatusRequest) returns (StatusResponse);
 }
 
 message AddMarginRequest {
@@ -20,4 +23,23 @@ message OCRRequest {
 
 message OCRResponse {
   string text = 1;
+}
+
+message StartRequest {}
+
+message StartResponse {
+  bool success = 1;
+}
+
+message StopRequest {}
+
+message StopResponse {
+  bool success = 1;
+}
+
+message StatusRequest {}
+
+message StatusResponse {
+  string rpc_status = 1;
+  string speech_to_line_status = 2;
 }

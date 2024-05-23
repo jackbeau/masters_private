@@ -39,4 +39,28 @@ const performOCR = (filePath) => {
   });
 };
 
-module.exports = { addMargin, performOCR };
+const startSpeechToLine = () => {
+  return new Promise((resolve, reject) => {
+    client.StartSpeechToLine({}, (error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(response);
+      }
+    });
+  });
+};
+
+const stopSpeechToLine = () => {
+  return new Promise((resolve, reject) => {
+    client.StopSpeechToLine({}, (error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(response);
+      }
+    });
+  });
+};
+
+module.exports = { addMargin, performOCR, startSpeechToLine, stopSpeechToLine};

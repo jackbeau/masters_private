@@ -1,31 +1,32 @@
 from PIL import Image, ImageTk
 from tkinter import Frame, StringVar, Label
+import os
+import sys
 from tkinter import ttk
 import customtkinter
 import logging
+import requests
 from broker import MQTTBrokerManager
 from gui.pages.shared.settings_manager import SettingsManager
 from async_tkinter_loop import async_handler, async_mainloop
 import asyncio
-import os
 import datetime
 from gui.pages.shared.video_utils import get_video_devices
+import grpc
+
+# Ensure the module path is correctly set
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../server/grpc/python')))
+
+import service_pb2
+import service_pb2_grpc
 
 from gui.core.constants.styles import colours, text
-
-
-# class MenuDataItem:
-#     def __init__(self, title, image_path, child):
-#         self.title = title
-#         self.image_path = image_path
-#         self.child = child
 
 class HomePage(Frame):
     NAME = "Home"
 
     def __init__(self, controller, parent, *args, **kwargs):
-        Frame.__init__(self, parent, *args, **kwargs,
-                       background=colours.off_black_100)
+        Frame.__init__(self, parent, *args, **kwargs, background=colours.off_black_100)
         self.loop = asyncio.get_event_loop()
         
         self.mqtt_manager = MQTTBrokerManager()
@@ -37,7 +38,9 @@ class HomePage(Frame):
         
         self.status_info = {
             "MQTT Server": "",
-            "Backend": "n/a",
+            "RPC Server": "n/a",
+            "API Server": "n/a",
+            "Transcription Algorithm": "n/a",
             "Camera": "",
             "Microphone": "",
             "IP": os.environ['HIVEMQ_IP'],
@@ -46,12 +49,11 @@ class HomePage(Frame):
             "Software Version": "Beta"
         }
 
-        # self.current_page = self.menu_items[2]
-
         self.update_system_info("MQTT Server", "Starting")
         self.render()
         self.load_settings()
         self.start_server()
+        self.loop.create_task(self.update_status_periodically())
 
     @async_handler
     async def start_server(self):
@@ -100,8 +102,6 @@ class HomePage(Frame):
             )      
         print("Reloaded settings")
 
-        # settings.get()
-    
     def update_system_info(self, key, new_value):
         if key in self.label_vars:
             self.label_vars[key].set(new_value)
@@ -136,17 +136,13 @@ class HomePage(Frame):
             lbl_val(var)
 
     def status_overview(self):
-        
-        if hasattr(self, 'frm_col_0_centre'):      
+        if hasattr(self, 'frm_col_0_centre'):
             self.frm_col_0_centre.destroy()
         self.frm_col_0_centre = Frame(self.frm_col_0, background=colours.off_black_100)
         self.frm_col_0_centre.place(relx=.5, rely=.5, anchor="c")
 
-        print(self.mqtt_manager.is_running())
         if self.mqtt_manager.is_running():
-            img = customtkinter.CTkImage(light_image=Image.open("gui/assets/running.png"),
-                                  size = (64, 64))
-            
+            img = customtkinter.CTkImage(light_image=Image.open("gui/assets/running.png"), size=(64, 64))
             lbl_status_img = customtkinter.CTkLabel(self.frm_col_0_centre, image=img, text="")
             lbl_status_img.pack()
             
@@ -160,9 +156,7 @@ class HomePage(Frame):
             )
             lbl_restart_time.pack()
         else:
-            img = customtkinter.CTkImage(light_image=Image.open("gui/assets/Stopped.png"),
-                                  size = (64, 64))
-            
+            img = customtkinter.CTkImage(light_image=Image.open("gui/assets/stopped.png"), size=(64, 64))
             lbl_status_img = customtkinter.CTkLabel(self.frm_col_0_centre, image=img, text="")
             lbl_status_img.pack()
             
@@ -174,7 +168,31 @@ class HomePage(Frame):
             lbl_restart_time = Label(
                 self.frm_col_0_centre, text=f'Last checked: {datetime.datetime.now()}', font=(".AppleSystemUIFont", 12), background=colours.off_black_100
             )
-            lbl_restart_time.pack() 
+            lbl_restart_time.pack()
+
+    async def update_status_periodically(self):  # Change this to be an async function
+        while True:
+            await asyncio.sleep(5)
+            try:
+                response = requests.get('http://localhost:4000/status')
+                if response.status_code == 200 and response.json().get('status') == 'running':
+                    self.update_system_info("API Server", "Running")
+                else:
+                    self.update_system_info("API Server", "Stopped")
+            except requests.ConnectionError:
+                self.update_system_info("API Server", "Stopped")
+            
+            try:
+                with grpc.insecure_channel('localhost:50051') as channel:
+                    stub = service_pb2_grpc.ScriptServiceStub(channel)
+                    response = stub.GetStatuses(service_pb2.StatusRequest())
+                    self.update_system_info("RPC Server", response.rpc_status)
+                    self.update_system_info("Transcription Algorithm", response.speech_to_line_status)
+            except grpc.RpcError:
+                self.update_system_info("RPC Server", "Stopped")
+                self.update_system_info("Transcription Algorithm", "Stopped")
+
+            self.status_overview()
 
     def render(self):
         frm_topbar = Frame(self, bg=colours.off_black_100)
@@ -215,63 +233,7 @@ class HomePage(Frame):
         frm_col_1 = Frame(frm_body, background=colours.off_black_100)
         frm_col_1.grid(row=0, column=1, sticky="nsew") 
 
-        frm_col_1_centre = Frame(frm_col_1, background=colours.off_black_100)
-        frm_col_1_centre.place(relx=.5, rely=.5, anchor="c")
+        self.frm_col_1_centre = Frame(frm_col_1, background=colours.off_black_100)
+        self.frm_col_1_centre.place(relx=.5, rely=.5, anchor="c")
 
-        self.gen_system_info(frm_col_1_centre)
-
-        # self.page_container = PageContainer(self, self.current_page.child, bg=colours.off_black_80, padx=18)
-        # self.page_container.grid(row=0, column=1, sticky="nsew", pady=(14, 8))
-
-        # self.page_container.current_page_str.set(self.NAME + " > " + self.current_page.child.NAME)
-
-    # def navigate(self, target_page):
-    #     logging.info("Navigating to", target_page)
-    #     self.current_page = target_page
-    #     self.page_container.destroy()
-    #     self.page_container = PageContainer(self, self.current_page.child, bg=colours.off_black_80, padx=18)
-    #     self.page_container.grid(row=0, column=1, sticky="nsew", pady=(14, 8))
-    #     self.page_container.current_page_str.set(self.NAME + " > " + self.current_page.child.NAME)
-    #     self.sidebar.update_menu(self.current_page)
-
-# class PageContainer(Frame):
-#     def __init__(self, parent, page_class, *args, **kwargs):
-#         super().__init__(parent, *args, **kwargs)
-#         self.pages = {}
-#         self.current_page_str = StringVar(value="")
-#         self.grid_rowconfigure(0, weight=1)
-#         self.grid_columnconfigure(0, weight=1)
-
-#         self.render(parent, page_class)
-
-
-
-#     def render(self, parent, page_class):
-#         # top  bar
-#         self.create_top_bar(parent)
-
-#         # creating a container
-#         self.container = Frame(self, bg=colours.off_black_80)
-#         self.container.pack(side="top", fill="both", expand=True)
-
-#         # self.container.grid_rowconfigure(0, weight=1)
-#         # self.container.grid_columnconfigure(0, weight=1)
-
-#         self.page = page_class(
-#             self.container, background=colours.off_black_80, pady=12)
-
-#         self.page.grid(row=0, column=0, sticky="nsew")
-
-
-# class ImageLoader:
-#     def __init__(self):
-#         self.loaded_images = {}
-
-#     def load_image(self, image_path, size):
-#         if image_path not in self.loaded_images:
-#             img = Image.open(image_path)
-#             img = img.resize(size, resample=Image.LANCZOS)
-#             img = ImageTk.PhotoImage(img)
-#             self.loaded_images[image_path] = img
-#         return self.loaded_images[image_path]
-    
+        self.gen_system_info(self.frm_col_1_centre)

@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rservice.proto\":\n\x10\x41\x64\x64MarginRequest\x12\x11\n\tfile_path\x18\x01 \x01(\t\x12\x13\n\x0bmargin_side\x18\x02 \x01(\t\"&\n\x11\x41\x64\x64MarginResponse\x12\x11\n\tfile_path\x18\x01 \x01(\t\"\x1f\n\nOCRRequest\x12\x11\n\tfile_path\x18\x01 \x01(\t\"\x1b\n\x0bOCRResponse\x12\x0c\n\x04text\x18\x01 \x01(\t2l\n\rScriptService\x12\x32\n\tAddMargin\x12\x11.AddMarginRequest\x1a\x12.AddMarginResponse\x12\'\n\nPerformOCR\x12\x0b.OCRRequest\x1a\x0c.OCRResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rservice.proto\":\n\x10\x41\x64\x64MarginRequest\x12\x11\n\tfile_path\x18\x01 \x01(\t\x12\x13\n\x0bmargin_side\x18\x02 \x01(\t\"&\n\x11\x41\x64\x64MarginResponse\x12\x11\n\tfile_path\x18\x01 \x01(\t\"\x1f\n\nOCRRequest\x12\x11\n\tfile_path\x18\x01 \x01(\t\"\x1b\n\x0bOCRResponse\x12\x0c\n\x04text\x18\x01 \x01(\t\"\x0e\n\x0cStartRequest\" \n\rStartResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\r\n\x0bStopRequest\"\x1f\n\x0cStopResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\x0f\n\rStatusRequest\"C\n\x0eStatusResponse\x12\x12\n\nrpc_status\x18\x01 \x01(\t\x12\x1d\n\x15speech_to_line_status\x18\x02 \x01(\t2\x81\x02\n\rScriptService\x12\x32\n\tAddMargin\x12\x11.AddMarginRequest\x1a\x12.AddMarginResponse\x12\'\n\nPerformOCR\x12\x0b.OCRRequest\x1a\x0c.OCRResponse\x12\x32\n\x11StartSpeechToLine\x12\r.StartRequest\x1a\x0e.StartResponse\x12/\n\x10StopSpeechToLine\x12\x0c.StopRequest\x1a\r.StopResponse\x12.\n\x0bGetStatuses\x12\x0e.StatusRequest\x1a\x0f.StatusResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -29,6 +29,18 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_OCRREQUEST']._serialized_end=148
   _globals['_OCRRESPONSE']._serialized_start=150
   _globals['_OCRRESPONSE']._serialized_end=177
-  _globals['_SCRIPTSERVICE']._serialized_start=179
-  _globals['_SCRIPTSERVICE']._serialized_end=287
+  _globals['_STARTREQUEST']._serialized_start=179
+  _globals['_STARTREQUEST']._serialized_end=193
+  _globals['_STARTRESPONSE']._serialized_start=195
+  _globals['_STARTRESPONSE']._serialized_end=227
+  _globals['_STOPREQUEST']._serialized_start=229
+  _globals['_STOPREQUEST']._serialized_end=242
+  _globals['_STOPRESPONSE']._serialized_start=244
+  _globals['_STOPRESPONSE']._serialized_end=275
+  _globals['_STATUSREQUEST']._serialized_start=277
+  _globals['_STATUSREQUEST']._serialized_end=292
+  _globals['_STATUSRESPONSE']._serialized_start=294
+  _globals['_STATUSRESPONSE']._serialized_end=361
+  _globals['_SCRIPTSERVICE']._serialized_start=364
+  _globals['_SCRIPTSERVICE']._serialized_end=621
 # @@protoc_insertion_point(module_scope)

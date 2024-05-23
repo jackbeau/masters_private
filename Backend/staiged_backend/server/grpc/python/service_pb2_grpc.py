@@ -49,6 +49,21 @@ class ScriptServiceStub(object):
                 request_serializer=service__pb2.OCRRequest.SerializeToString,
                 response_deserializer=service__pb2.OCRResponse.FromString,
                 _registered_method=True)
+        self.StartSpeechToLine = channel.unary_unary(
+                '/ScriptService/StartSpeechToLine',
+                request_serializer=service__pb2.StartRequest.SerializeToString,
+                response_deserializer=service__pb2.StartResponse.FromString,
+                _registered_method=True)
+        self.StopSpeechToLine = channel.unary_unary(
+                '/ScriptService/StopSpeechToLine',
+                request_serializer=service__pb2.StopRequest.SerializeToString,
+                response_deserializer=service__pb2.StopResponse.FromString,
+                _registered_method=True)
+        self.GetStatuses = channel.unary_unary(
+                '/ScriptService/GetStatuses',
+                request_serializer=service__pb2.StatusRequest.SerializeToString,
+                response_deserializer=service__pb2.StatusResponse.FromString,
+                _registered_method=True)
 
 
 class ScriptServiceServicer(object):
@@ -66,6 +81,24 @@ class ScriptServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def StartSpeechToLine(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def StopSpeechToLine(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetStatuses(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ScriptServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -78,6 +111,21 @@ def add_ScriptServiceServicer_to_server(servicer, server):
                     servicer.PerformOCR,
                     request_deserializer=service__pb2.OCRRequest.FromString,
                     response_serializer=service__pb2.OCRResponse.SerializeToString,
+            ),
+            'StartSpeechToLine': grpc.unary_unary_rpc_method_handler(
+                    servicer.StartSpeechToLine,
+                    request_deserializer=service__pb2.StartRequest.FromString,
+                    response_serializer=service__pb2.StartResponse.SerializeToString,
+            ),
+            'StopSpeechToLine': grpc.unary_unary_rpc_method_handler(
+                    servicer.StopSpeechToLine,
+                    request_deserializer=service__pb2.StopRequest.FromString,
+                    response_serializer=service__pb2.StopResponse.SerializeToString,
+            ),
+            'GetStatuses': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetStatuses,
+                    request_deserializer=service__pb2.StatusRequest.FromString,
+                    response_serializer=service__pb2.StatusResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -134,6 +182,87 @@ class ScriptService(object):
             '/ScriptService/PerformOCR',
             service__pb2.OCRRequest.SerializeToString,
             service__pb2.OCRResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def StartSpeechToLine(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/ScriptService/StartSpeechToLine',
+            service__pb2.StartRequest.SerializeToString,
+            service__pb2.StartResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def StopSpeechToLine(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/ScriptService/StopSpeechToLine',
+            service__pb2.StopRequest.SerializeToString,
+            service__pb2.StopResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetStatuses(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/ScriptService/GetStatuses',
+            service__pb2.StatusRequest.SerializeToString,
+            service__pb2.StatusResponse.FromString,
             options,
             channel_credentials,
             insecure,
