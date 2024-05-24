@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
 
         {
             "name": "Launch Program",
@@ -41,7 +42,7 @@
             "name": "Python: speech_to_line",
             "type": "debugpy",
             "request": "launch",
-            "module": "speech_to_line",
+            "module": "speech_to_line.main",
             "args": ["{\"microphone\": {\"microphone_device\": 1}}"],  // Adjust your settings here
             "justMyCode": true,
             "env": {

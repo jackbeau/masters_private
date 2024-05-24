@@ -1,102 +1,93 @@
-"""
-File: audio_buffer.py
-Author: Jack Beaumont
-Date: 2024-01-26
-
-Description: An audio buffer for continuously storing a window of audio of
-constant width from an audio source."
-"""
-
 import pyaudio
-import numpy as np
-from collections import deque
-import threading
 import logging
-import time
+import traceback
 
-# Set up logging to display information messages
-logging.basicConfig(level=logging.INFO)
+@staticmethod
+def audio_data_worker(audio_queue,
+                        sample_rate,
+                        buffer_size,
+                        input_device_index,
+                        shutdown_event,
+                        interrupt_stop_event,
+                        use_microphone):
+    """
+    Worker method that handles the audio recording process.
 
-class AudioBuffer:
-    RATE = 44100  # Samples collected per second
-    CHUNK = 2048  # Number of frames in the buffer
+    This method runs in a separate process and is responsible for:
+    - Setting up the audio input stream for recording.
+    - Continuously reading audio data from the input stream
+        and placing it in a queue.
+    - Handling errors during the recording process, including
+        input overflow.
+    - Gracefully terminating the recording process when a shutdown
+        event is set.
 
-    def __init__(self, max_chunks: int = 200, input_device_index: int = 0) -> None:
-        """
-        Initialize the AudioBuffer instance.
+    Args:
+        audio_queue (queue.Queue): A queue where recorded audio
+            data is placed.
+        sample_rate (int): The sample rate of the audio input stream.
+        buffer_size (int): The size of the buffer used in the audio
+            input stream.
+        input_device_index (int): The index of the audio input device
+        shutdown_event (threading.Event): An event that, when set, signals
+            this worker method to terminate.
 
-        Parameters:
-            max_chunks (int): Maximum number of chunks to store in the buffer.
-            input_device_index (int): Index of the input audio device.
-        """
-        self.max_chunks = max_chunks
-        self.input_device_index = input_device_index
-        self.frames = deque(maxlen=max_chunks)
-        self.stream = pyaudio.PyAudio().open(
+    Raises:
+        Exception: If there is an error while initializing the audio
+            recording.
+    """
+    try:
+        audio_interface = pyaudio.PyAudio()
+        stream = audio_interface.open(
+            rate=sample_rate,
             format=pyaudio.paInt16,
             channels=1,
-            rate=self.RATE,
             input=True,
-            frames_per_buffer=self.CHUNK,
-            input_device_index=self.input_device_index
-        )
-        self.thread = threading.Thread(target=self._collect_data, daemon=True)
-        self.running = True
+            frames_per_buffer=buffer_size,
+            input_device_index=input_device_index,
+            )
 
-    def __call__(self):
-        return np.concatenate(self.frames)
+    except Exception as e:
+        logging.exception("Error initializing pyaudio "
+                            f"audio recording: {e}"
+                            )
+        raise
 
-    def __len__(self):
-        return self.CHUNK * self.max_chunks
-
-    def duration(self):
-        duration_seconds = round(self.CHUNK * self.max_chunks / self.RATE, 2)
-        minutes, seconds = divmod(duration_seconds, 60)
-        milliseconds = int((seconds - int(seconds)) * 1000)
-        formatted_duration = "{:02}:{:02}.{:02}".format(int(minutes), int(seconds), milliseconds)
-        return formatted_duration
-
-    def is_full(self):
-        return len(self.frames) == self.max_chunks
-
-    def start(self):
-        self.thread.start()
-        while not self.is_full():
-            time.sleep(0.1)
-
-    def stop(self):
-        self.running = False
-        self.thread.join()
-        self.stream.stop_stream()
-        self.stream.close()
-
-    def _collect_data(self):
-        try:
-            while self.running:
-                try:
-                    raw_data = self.stream.read(self.CHUNK, exception_on_overflow=False)
-                    decoded = np.frombuffer(raw_data, np.int16)
-                    self.frames.append(decoded)
-                except IOError as e:
-                    logging.warning(f"IOError in _collect_data: {e}")
-                    time.sleep(0.1)  # Short delay to allow recovery
-        except Exception as e:
-            logging.error(f"Unexpected error in _collect_data: {e}")
-
-if __name__ == "__main__":
-    audio_buffer = AudioBuffer(input_device_index=1)
-    audio_buffer.start()
+    logging.debug("Audio recording (pyAudio input "
+                    "stream) initialized successfully"
+                    )
 
     try:
-        while not audio_buffer.is_full():
-            time.sleep(0.1)
+        while not shutdown_event.is_set():
+            try:
+                data = stream.read(buffer_size)
 
-        frames_count = len(audio_buffer())
-        frames_shape = audio_buffer().shape
-        frames_info = f"Collected {frames_count} frames with shape {frames_shape}"
-        logging.info(frames_info)
+            except OSError as e:
+                if e.errno == pyaudio.paInputOverflowed:
+                    logging.warning("Input overflowed. Frame dropped.")
+                else:
+                    logging.error(f"Error during recording: {e}")
+                tb_str = traceback.format_exc()
+                print(f"Traceback: {tb_str}")
+                print(f"Error: {e}")
+                continue
+
+            except Exception as e:
+                logging.error(f"Error during recording: {e}")
+                tb_str = traceback.format_exc()
+                print(f"Traceback: {tb_str}")
+                print(f"Error: {e}")
+                continue
+
+            if use_microphone.value:
+                audio_queue.put(data)
 
     except KeyboardInterrupt:
-        logging.info("KeyboardInterrupt received. Stopping the audio buffer.")
+        interrupt_stop_event.set()
+        logging.debug("Audio data worker process "
+                        "finished due to KeyboardInterrupt"
+                        )
     finally:
-        audio_buffer.stop()
+        stream.stop_stream()
+        stream.close()
+        audio_interface.terminate()

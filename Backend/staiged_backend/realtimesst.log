@@ -1,0 +1,18 @@
+RealTimeSTT: root - ERROR - Error initializing faster_whisper realtime transcription model: Requested int8_bfloat16 compute type, but the target device or backend do not support efficient int8_bfloat16 computation.
+Traceback (most recent call last):
+  File "/Users/jackb/Code/Master/Backend/staiged_backend/server/grpc/python/speech_to_line/RealtimeSTT/audio_recorder.py", line 400, in __init__
+    self.realtime_model_type = faster_whisper.WhisperModel(
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jackb/Code/Master/Backend/staiged_backend/.venv/lib/python3.12/site-packages/faster_whisper/transcribe.py", line 144, in __init__
+    self.model = ctranslate2.models.Whisper(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Requested int8_bfloat16 compute type, but the target device or backend do not support efficient int8_bfloat16 computation.
+RealTimeSTT: root - ERROR - Error initializing faster_whisper realtime transcription model: Requested int8_float16 compute type, but the target device or backend do not support efficient int8_float16 computation.
+Traceback (most recent call last):
+  File "/Users/jackb/Code/Master/Backend/staiged_backend/server/grpc/python/speech_to_line/RealtimeSTT/audio_recorder.py", line 400, in __init__
+    self.realtime_model_type = faster_whisper.WhisperModel(
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jackb/Code/Master/Backend/staiged_backend/.venv/lib/python3.12/site-packages/faster_whisper/transcribe.py", line 144, in __init__
+    self.model = ctranslate2.models.Whisper(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Requested int8_float16 compute type, but the target device or backend do not support efficient int8_float16 computation.

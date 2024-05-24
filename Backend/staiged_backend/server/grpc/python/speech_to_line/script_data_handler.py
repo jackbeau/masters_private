@@ -1,7 +1,7 @@
 import json
 import logging
 
-class JSONDataHandler:
+class ScriptDataHandler:
     def __init__(self, json_data_file):
         self.json_data_file = json_data_file
         self.json_data = []
