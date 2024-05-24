@@ -107,3 +107,110 @@
 2024-05-24 00:28:43,798 - Client ID: flutter_client, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
 2024-05-24 00:28:52,128 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
 2024-05-24 00:30:13,568 - Client ID: speech_to_line, IP: 127.0.0.1 was disconnected. reason: Sent too many concurrent PUBLISH messages.
+2024-05-24 10:33:59,224 - Client ID: speech_to_line session has expired at 2024-05-24 00:30:13. All persistent data for this client has been removed.
+2024-05-24 10:33:59,231 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 10:34:05,910 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 10:35:19,795 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 10:35:45,668 - Client ID: speech_to_line, IP: 127.0.0.1 was disconnected. reason: Sent too many concurrent PUBLISH messages.
+2024-05-24 10:39:29,712 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 10:39:52,201 - Client ID: speech_to_line, IP: 127.0.0.1 was disconnected. reason: Sent too many concurrent PUBLISH messages.
+2024-05-24 10:41:32,709 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 10:42:41,603 - Client ID: speech_to_line, IP: 127.0.0.1 was disconnected. reason: Sent too many concurrent PUBLISH messages.
+2024-05-24 10:43:10,600 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 10:43:34,431 - Client ID: speech_to_line, IP: 127.0.0.1 was disconnected. reason: Sent too many concurrent PUBLISH messages.
+2024-05-24 10:46:32,546 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 10:47:09,340 - Client ID: speech_to_line, IP: 127.0.0.1 was disconnected. reason: Sent too many concurrent PUBLISH messages.
+2024-05-24 11:05:58,397 - Client ID: flutter_client, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:06:05,551 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 11:06:53,430 - Client ID: speech_to_line, IP: 127.0.0.1 was disconnected. reason: Sent too many concurrent PUBLISH messages.
+2024-05-24 11:08:18,481 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:09:08,210 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 11:09:34,251 - Client ID: speech_to_line, IP: 127.0.0.1 was disconnected. reason: Sent too many concurrent PUBLISH messages.
+2024-05-24 11:15:03,996 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1 disconnected gracefully.
+2024-05-24 11:15:05,671 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:16:07,175 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1 disconnected gracefully.
+2024-05-24 11:16:08,154 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:16:28,548 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 11:17:13,850 - Client ID: speech_to_line, IP: 127.0.0.1 was disconnected. reason: Sent too many concurrent PUBLISH messages.
+2024-05-24 11:18:21,296 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 11:19:25,238 - Client ID: speech_to_line, IP: 127.0.0.1 was disconnected. reason: Sent too many concurrent PUBLISH messages.
+2024-05-24 11:23:58,487 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 11:23:58,491 - Client ID: flutter_client, IP: 127.0.0.1 disconnected ungracefully from Websocket Listener on port: 8000.
+2024-05-24 11:30:07,083 - Client ID: flutter_client, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:30:11,787 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:30:16,104 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1 disconnected gracefully.
+2024-05-24 11:30:17,254 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:30:20,546 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 11:30:20,547 - Client ID: flutter_client, IP: 127.0.0.1 disconnected ungracefully from Websocket Listener on port: 8000.
+2024-05-24 11:30:37,633 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:30:43,636 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1 disconnected gracefully.
+2024-05-24 11:30:44,861 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:30:55,153 - Client ID: flutter_client, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:33:02,804 - Client ID: flutter_client, IP: 127.0.0.1 was disconnected. reason: Another client connected with the same client id..
+2024-05-24 11:33:02,897 - Client ID: flutter_client, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:37:07,486 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:37:07,566 - Client ID: flutter_client, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:37:09,298 - Client ID: flutter_client, IP: 127.0.0.1 disconnected ungracefully from Websocket Listener on port: 8000.
+2024-05-24 11:37:12,959 - Client ID: flutter_client, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:37:14,455 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1 disconnected gracefully.
+2024-05-24 11:37:15,385 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:37:28,987 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1 disconnected gracefully.
+2024-05-24 11:37:30,786 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:39:55,133 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:41:20,138 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:42:09,463 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 11:42:45,517 - Client ID: speech_to_line, IP: 127.0.0.1 was disconnected. reason: Sent too many concurrent PUBLISH messages.
+2024-05-24 11:42:55,903 - Client ID: hmq_Bezxh_0_bfa7fece7e293635fd9579a6d5e5ebd6, IP: 0:0:0:0:0:0:0:1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:43:17,056 - Client ID: hmq_Bezxh_0_bfa7fece7e293635fd9579a6d5e5ebd6, IP: 0:0:0:0:0:0:0:1 disconnected gracefully.
+2024-05-24 11:43:17,808 - Client ID: hmq_Bezxh_1_23ff9b191e05eceb2c11c499e5511b15, IP: 0:0:0:0:0:0:0:1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:43:19,657 - Client ID: hmq_Bezxh_1_23ff9b191e05eceb2c11c499e5511b15, IP: 0:0:0:0:0:0:0:1 disconnected gracefully.
+2024-05-24 11:43:20,341 - Client ID: hmq_Bezxh_2_be8b351bc3c260f69809f54068b70c51, IP: 0:0:0:0:0:0:0:1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:43:56,526 - Client ID: flutter_client, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 11:44:08,245 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 11:45:01,046 - Client ID: speech_to_line, IP: 127.0.0.1 was disconnected. reason: Sent too many concurrent PUBLISH messages.
+2024-05-24 11:45:56,654 - Client ID: hmq_Bezxh_2_be8b351bc3c260f69809f54068b70c51, IP: 0:0:0:0:0:0:0:1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 11:45:56,654 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 11:45:56,657 - Client ID: flutter_client, IP: 127.0.0.1 disconnected ungracefully from Websocket Listener on port: 8000.
+2024-05-24 12:08:11,158 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 12:08:11,179 - Client ID: hmq_EXMdi_0_0d778aa3abd69b382836f682fc7b6ffe, IP: 0:0:0:0:0:0:0:1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 12:08:28,464 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 12:08:50,119 - Client ID: flutter_client, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 12:11:10,215 - Client ID: hmq_Bezxh_2_be8b351bc3c260f69809f54068b70c51 session has expired at 2024-05-24 10:45:56. All persistent data for this client has been removed.
+2024-05-24 12:11:16,482 - Client ID: hmq_EXMdi_0_0d778aa3abd69b382836f682fc7b6ffe, IP: 0:0:0:0:0:0:0:1 disconnected gracefully.
+2024-05-24 12:11:22,623 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 12:17:02,537 - Client ID: hmq_Bezxh_0_bfa7fece7e293635fd9579a6d5e5ebd6 session has expired at 2024-05-24 10:43:17. All persistent data for this client has been removed.
+2024-05-24 12:19:06,276 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 12:19:26,688 - Client ID: hmq_Bezxh_1_23ff9b191e05eceb2c11c499e5511b15 session has expired at 2024-05-24 10:43:19. All persistent data for this client has been removed.
+2024-05-24 12:21:02,565 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 12:27:46,733 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-24 12:29:23,713 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 12:37:22,509 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 12:37:26,426 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 12:43:02,295 - Client ID: hmq_EXMdi_0_0d778aa3abd69b382836f682fc7b6ffe session has expired at 2024-05-24 11:11:16. All persistent data for this client has been removed.
+2024-05-24 12:44:31,752 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 12:44:55,375 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 12:46:49,509 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 12:47:10,644 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 12:48:40,757 - Client ID: speech_to_line, IP: 127.0.0.1 was disconnected. reason: Client was idle for too long.
+2024-05-24 12:54:42,358 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 12:54:47,254 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 12:54:54,195 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 12:55:06,285 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected gracefully.
+2024-05-24 12:56:57,852 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 12:57:10,517 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected gracefully.
+2024-05-24 12:59:13,915 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 13:00:35,024 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 13:00:43,217 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 13:01:58,168 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 13:02:06,096 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 13:03:47,970 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 13:03:55,626 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 13:05:32,713 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 13:05:40,898 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 13:06:43,369 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 13:06:51,344 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 13:08:45,054 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 13:08:52,640 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 13:11:21,021 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-24 13:11:29,264 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-24 13:24:39,178 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.

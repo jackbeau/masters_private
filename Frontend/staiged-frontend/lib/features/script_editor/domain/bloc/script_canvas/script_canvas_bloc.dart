@@ -194,7 +194,7 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
   void _initializeMqtt() async {
     await mqttRepository.connect();
     mqttRepository.subscribe('local_server/tracker/position', (topic, payload) {
-      pointerPage = payload['page_number'] - 1;
+      pointerPage = payload['page_number'];
       pointerY = payload['y_coordinate'];
       _updateIndicatorPosition();
     });

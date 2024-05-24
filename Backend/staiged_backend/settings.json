@@ -55,8 +55,8 @@
                 336
             ]
         ],
-        "enable_crop": 0,
-        "enable_homography": 0,
+        "enable_crop": 1,
+        "enable_homography": 1,
         "homography_width": "300",
         "homography_height": "210"
     }

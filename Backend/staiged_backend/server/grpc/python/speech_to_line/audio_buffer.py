@@ -21,7 +21,7 @@ class AudioBuffer:
     RATE = 44100  # Samples collected per second
     CHUNK = 2048  # Number of frames in the buffer
 
-    def __init__(self, max_chunks: int = 200, input_device_index: int = 1) -> None:
+    def __init__(self, max_chunks: int = 200, input_device_index: int = 0) -> None:
         """
         Initialize the AudioBuffer instance.
 
@@ -41,6 +41,7 @@ class AudioBuffer:
             input_device_index=self.input_device_index
         )
         self.thread = threading.Thread(target=self._collect_data, daemon=True)
+        self.running = True
 
     def __call__(self):
         return np.concatenate(self.frames)
@@ -64,21 +65,23 @@ class AudioBuffer:
             time.sleep(0.1)
 
     def stop(self):
+        self.running = False
         self.thread.join()
         self.stream.stop_stream()
         self.stream.close()
 
     def _collect_data(self):
         try:
-            while True:
-                raw_data = self.stream.read(self.CHUNK)
-                decoded = np.frombuffer(raw_data, np.int16)
-                self.frames.append(decoded)
-        except OSError as e:
-            if e.errno == -9981:  # Input overflowed error
-                logging.warning("Input overflowed. Ignoring new packets.")
-            else:
-                logging.error(f"Error in _collect_data: {e}")
+            while self.running:
+                try:
+                    raw_data = self.stream.read(self.CHUNK, exception_on_overflow=False)
+                    decoded = np.frombuffer(raw_data, np.int16)
+                    self.frames.append(decoded)
+                except IOError as e:
+                    logging.warning(f"IOError in _collect_data: {e}")
+                    time.sleep(0.1)  # Short delay to allow recovery
+        except Exception as e:
+            logging.error(f"Unexpected error in _collect_data: {e}")
 
 if __name__ == "__main__":
     audio_buffer = AudioBuffer(input_device_index=1)
@@ -95,4 +98,5 @@ if __name__ == "__main__":
 
     except KeyboardInterrupt:
         logging.info("KeyboardInterrupt received. Stopping the audio buffer.")
+    finally:
         audio_buffer.stop()

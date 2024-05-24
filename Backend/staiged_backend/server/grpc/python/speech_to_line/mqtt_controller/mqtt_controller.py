@@ -22,7 +22,7 @@ class MQTTController:
 
     def connect(self):
         properties = Properties(PacketTypes.CONNECT)
-        properties.SessionExpiryInterval = 3600  #set session expiry interval
+        properties.SessionExpiryInterval = 3600  # set session expiry interval
         while True:
             try:
                 self.client.connect(self.broker, self.port, clean_start=False, properties=properties)
@@ -35,7 +35,7 @@ class MQTTController:
                 time.sleep(5)
                 continue  # Retry connection
 
-    def on_connect(self, client, userdata, flags, rc, parameter):
+    def on_connect(self, client, userdata, flags, rc, properties=None):
         if rc == 0:
             logging.info("Connected to MQTT broker")
             for topic, callback in self.subscriptions.items():
@@ -43,15 +43,15 @@ class MQTTController:
         else:
             logging.info(f"Failed to connect, return code {rc}")
 
-    def on_disconnect(self, client, userdata, disconnect_flags, rc, properties=None):
-        print('Received Disconnect ',rc)
+    def on_disconnect(self,client, userdata, disconnect_flags, reason_code, properties=None):
+        logging.warning(f"Disconnected from MQTT broker with return code {rc}")
 
-    def on_subscribe(self, client, userdata, mid, granted_qos,properties=None):
-        print('SUBSCRIBED')
-    
+    def on_subscribe(self, client, userdata, mid, granted_qos, properties=None):
+        logging.info(f"Subscribed with mid {mid}, granted QoS {granted_qos}")
+
     def publish(self, topic, message, retain=False):
         logging.info(f"Publishing {message} to {topic}")
-        self.client.publish(topic, message, qos=2, retain=retain)
+        self.client.publish(topic, message, qos=0, retain=retain)
 
     def subscribe(self, topic, callback):
         self.client.subscribe(topic, qos=2)
@@ -74,8 +74,12 @@ class MQTTController:
                     pass
                 callback(topic, payload)
 
+    def disconnect(self):
+        logging.info("Disconnecting from MQTT broker...")
+        self.client.disconnect()
+
 def main():
-    broker = '0.0.0.0'
+    broker = 'localhost'
     port = 1883
     client_id = "server"
     
@@ -87,9 +91,24 @@ def main():
         print(f"Received `{payload}` from `{topic}` topic")
     mqtt_controller.subscribe("test", handle_message)
 
-    # Example publishing a message
-    mqtt_controller.publish("local_server/racker/position", "Hello, MQTT!")
-    mqtt_controller.client.loop_forever()
+    # JSON message to be sent
+    message = {
+        'page_number': 35,
+        'y_coordinate': 528,
+        'matched_line': ' him',
+        'input_line': ' mm-hmm.',
+        'similarity': 80
+    }
+
+    # Start publishing messages every 500ms
+    try:
+        while True:
+            mqtt_controller.publish("local_server/tracker/position", json.dumps(message))
+            time.sleep(0.5)  # Sleep for 500ms
+    except KeyboardInterrupt:
+        logging.info("Stopping the MQTT publisher...")
+    finally:
+        mqtt_controller.disconnect()
 
 if __name__ == '__main__':
     main()
