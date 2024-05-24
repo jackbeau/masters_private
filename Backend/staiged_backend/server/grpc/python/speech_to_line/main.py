@@ -1,102 +1,101 @@
-import sys
-import json
 import logging
+import json
+import sys
 from ctypes import c_bool
 import multiprocessing as mp
-import paho.mqtt.client as mqtt
-from speech_to_line import ScriptDataHandler, audio_data_worker, SpeechToText, TextSearch
+from speech_to_line.RealtimeSTT.audio_recorder import AudioToTextRecorder
+from speech_to_line import ScriptDataHandler, TextSearch
+import os
+
+# Get logger
+logger = logging.getLogger("speech_to_line")
+
+# Configure logging for the main script
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    handlers=[logging.StreamHandler(sys.stdout)])
+
+# Set logging level to the logger
+logger.setLevel(logging.INFO)
 
 SAMPLE_RATE = 16000
 BUFFER_SIZE = 512
 
+def clear_console():
+    os.system('clear' if os.name == 'posix' else 'cls')
+
 class SpeechToLine:
     def __init__(self,
-                 settings,
                  mqtt_controller=None,
                  status_queue=None,
                  use_microphone=True,
                  input_device_index: int = 1,
-                 buffer_size: int = BUFFER_SIZE,
-                 sample_rate: int = SAMPLE_RATE,
                 ):
         self.use_microphone = mp.Value(c_bool, use_microphone)
         self.input_device_index = input_device_index
-        self.buffer_size = buffer_size
-        self.sample_rate = sample_rate
-        self.audio_queue = mp.Queue()
-
-        self.shutdown_event = mp.Event()
-        self.interrupt_stop_event = mp.Event()
-
-
-
 
         json_data_file = "server/storage/transcripts/output_extracted_data.json"
         self.data_cleanup = ScriptDataHandler(json_data_file)
-        self.audio_buffer = AudioBuffer(settings['microphone']['microphone_device'], self.frames_queue)
-        self.stt = SpeechToText()
         self.text_search = TextSearch(self.data_cleanup.json_data, mqtt_controller)
         self.status_queue = status_queue
-        self.audio_process = None
 
-        # Start audio data reading process
-        if self.use_microphone.value:
-            logging.info("Initializing audio recording"
-                         " (creating pyAudio input stream,"
-                         f" sample rate: {self.sample_rate}"
-                         f" buffer size: {self.buffer_size}"
-                         )
-            self.reader_process = mp.Process(
-                target=audio_data_worker,
-                args=(
-                    self.audio_queue,
-                    self.sample_rate,
-                    self.buffer_size,
-                    self.input_device_index,
-                    self.shutdown_event,
-                    self.interrupt_stop_event,
-                    self.use_microphone
-                )
-            )
-            self.reader_process.start()
+        self.recorder_config = {
+            'model': 'tiny.en',
+            'language': 'en',
+            'webrtc_sensitivity': 2,
+            'post_speech_silence_duration': 0.4,
+            'min_length_of_recording': 0,
+            'min_gap_between_recordings': 0,
+            "ensure_sentence_starting_uppercase": False,
+            'enable_realtime_transcription': True,
+            'realtime_processing_pause': 0.2,
+            'realtime_model_type': 'tiny.en',
+            'on_realtime_transcription_update': self.text_detected,
+            "input_device_index": self.input_device_index,
+            "compute_type": "int8_float32",
+            "beam_size_realtime": 5
+        }
+
+        self.recorder = AudioToTextRecorder(**self.recorder_config)
+        self.stop = False
+
+    def text_detected(self, text):
+        print("2")
+        print(text)
+        logger.info("Processed text: %s", text)
+        # logger.info("Text detected: %s", text)
+        # self.text_search.search_for_line(text)
 
     def start(self):
-        self.stop = False
         if self.status_queue:
             self.status_queue.put("Started")
 
-        self.audio_process = Process(target=self.audio_buffer.start_recording)
-        self.audio_process.start()
+        clear_console()
 
         try:
             while not self.stop:
-                if not self.frames_queue.empty():
-                    self.audio_buffer.save_original_audio()
-                    audio_array = self.audio_buffer.load_audio()
-
-                    # Apply noise reduction (if necessary)
-                    reduced_noise = audio_array  # Add noise reduction here if needed
-
-                    self.audio_buffer.save_noise_reduced_audio(reduced_noise)
-                    target_string = self.stt.transcribe(reduced_noise)
-                    self.text_search.search_for_line(target_string)
-
+                self.recorder.text(self.process_text)
         except KeyboardInterrupt:
             logging.info("KeyboardInterrupt received. Stopping process.")
         finally:
             self.stop_recording()
 
+    def process_text(self, text):
+        print("1")
+        print(text)
+        return
+        print(text)
+        logger.info("Processed text: %s", text)
+
     def stop_recording(self):
         self.stop = True
-        self.audio_buffer.stop_recording()
-        self.audio_process.join()
         if self.status_queue:
             self.status_queue.put("Stopped")
 
 if __name__ == '__main__':
+
     from mqtt_controller.mqtt_controller import MQTTController  # Adjust the import based on your module structure
-    settings = json.loads(sys.argv[1])
     mqtt_controller = MQTTController('0.0.0.0', 1883, 'speech_to_line')
     mqtt_controller.connect()
-    speech_to_line = SpeechToLine(settings=settings, mqtt_controller=mqtt_controller)
+    speech_to_line = SpeechToLine(mqtt_controller=mqtt_controller)
     speech_to_line.start()

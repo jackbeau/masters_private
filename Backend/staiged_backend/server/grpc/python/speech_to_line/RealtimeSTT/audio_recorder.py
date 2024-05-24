@@ -1252,8 +1252,7 @@ class AudioToTextRecorder:
         self.is_webrtc_speech_active = self._is_webrtc_speech(data)
 
         # First quick performing check for voice activity using WebRTC
-        if self.is_webrtc_speech_active:
-            print("WebRTC detected speech")
+        # if self.is_webrtc_speech_active:
 
     def _is_voice_active(self):
         """

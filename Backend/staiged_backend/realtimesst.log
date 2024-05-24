@@ -16,3 +16,709 @@ Traceback (most recent call last):
     self.model = ctranslate2.models.Whisper(
                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ValueError: Requested int8_float16 compute type, but the target device or backend do not support efficient int8_float16 computation.
+RealTimeSTT: root - ERROR - Failed to publish MQTT message: name 'rc' is not defined
+RealTimeSTT: __main__ - WARNING - [STP Service] Realtime processing started...
+RealTimeSTT: __main__ - WARNING - [STP Service] Realtime processing started...
+RealTimeSTT: __main__ - WARNING - [STP Service] Realtime processing started...
+RealTimeSTT: my logger - WARNING - [STP Service] Realtime processing started...
+RealTimeSTT: my logger - WARNING - [STP Service] Realtime processing started...
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - This is a debug message
+RealTimeSTT: my logger - WARNING - [STP Service] Realtime processing started...
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: . . . . . . . . . . .
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - WARNING - 3[STP Service] Realtime processing started...
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: It is a station just...
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: It's just to be very strong, it's just to be very strong, it's just to be very strong.
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: Ahem!
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: Hello.
+RealTimeSTT: my logger - INFO - Text detected: Hello.
+RealTimeSTT: my logger - INFO - Text detected: Hello.
+RealTimeSTT: my logger - INFO - Text detected: Hello.
+RealTimeSTT: my logger - INFO - Text detected: Hello.
+RealTimeSTT: my logger - INFO - Text detected: Hello.
+RealTimeSTT: my logger - INFO - Text detected: Hello.
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - WARNING - 3[STP Service] Realtime processing started...
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: . . . . . . . .
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: You can't get it, you can't get it, you can't get it.
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: See you later!
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: So I'll leave for you guys and I'll leave.
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: So I leave from the guys, and I leave from the kids, and I'm lost.
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: So I leave from your guys, and I love your kids, and I love your kids, I love your kids, I love your kids, and I love your kids.
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: You
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: . . . . . . . . .
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: Oh, he's gone down, he's gone down, he's gone down, he's gone down.
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: So I will...
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: So I will leave you on the field.
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: So I will leave you in the middle of how it works.
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: So I leave them because I want to take them.
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: So I leave them because I want to take them to the first party.
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: So I leave when we go to our website and we'll see what's the quality of our experience.
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: Yes.
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: Yes.
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: Thank you.
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: Oh
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: Oh
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: Oh
+RealTimeSTT: my logger - INFO - 4.1This is a debug message
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: see
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: The last time I need a smile on my face.
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: The last time I need a smile on my face, it's so long, it's really sweet.
+RealTimeSTT: my logger - INFO - 2This is a debug message
+RealTimeSTT: my logger - INFO - Text detected: We work in the past and I need a smile on the way that they raised me. So I need to see if you may have seen the God Christ.
+RealTimeSTT: my logger - INFO - 4.2Processed text: Thank you.
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: We're not going to eat some of these.
+RealTimeSTT: my logger - INFO - Text detected: Yes. We're not going. We're not going.
+RealTimeSTT: my logger - INFO - Text detected: so
+RealTimeSTT: my logger - INFO - Text detected: So you can go out.
+RealTimeSTT: my logger - INFO - Text detected: So, if you guys know, let's see if you want to see it nicely.
+RealTimeSTT: my logger - INFO - Text detected: So if you guys know what it's like, tell me what it's going to be. First, we'll call it our office.
+RealTimeSTT: my logger - INFO - Text detected: So if you don't know what it's like, you want to see it, you want to see it. First, we're probably going to wrap it straight as I see it.
+RealTimeSTT: my logger - INFO - Text detected: So, if you guys know what it's like, tell me what it's gonna be. First, we're probably like a rapid spot as I see what it was.
+RealTimeSTT: my logger - INFO - Text detected: So if you guys know what it's like, you want to speak. Please reply, like, I can start as I speak. Where is it going? Where is it going?
+RealTimeSTT: my logger - INFO - 4.2Processed text: So if you guys know what it's like, you want to speak. Please reply, I go back and start as I speak. Where is it going? I'm going to go home to me.
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: Mm-hmm.
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: Hello.
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: What's going on?
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - Text detected: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: one.
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: . . . . . . . . . . .
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: Mm-hmm.
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: Thank you.
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: Mm-hmm.
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: Mm-hmm.
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: . . . . . . . . . . . . .
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: . . . . . . . . . . .
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: Mm-hmm.
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processded text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: . . . . . . . . . . . . .
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: . . . . . . . .
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: hmm.
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: Mm-hmm. Mm-hmm. Mm-hmm.
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: my logger - INFO - 4.2Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: testing one table.
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: We are here with me, sweetheart, me The days we are here, we're here It's your heart, and heart, sweetheart Sweetheart, sweetheart Sweetheart, sweetheart Hello.
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: What is going on here?
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: Testing 1, 2, 3, 4, 5, 6, 0, 8, 9, 10, 12, 13, 14.
+RealTimeSTT: speech_to_line - INFO - Processed text: 1516, 1719, 1920, and on to his youth, with his youth, with his youth, with his fourth, and he's five, and he's six, and he's seven, with his youth, with his own, with his own, with 30.
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: Mm-hmm.
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: . . . . . . . .
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: Test, test, test.
+RealTimeSTT: speech_to_line - INFO - Processed text: Test, test, test, test one, two, test.
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: Test test.
+RealTimeSTT: speech_to_line - INFO - Processed text: Test test test one too.
+RealTimeSTT: speech_to_line - INFO - Processed text: test test test 1 tube test test.
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: Test test.
+RealTimeSTT: speech_to_line - INFO - Processed text: Test test one, two, three, four, five, six.
+RealTimeSTT: speech_to_line - INFO - Processed text: Test test 1, 2, 3, 4, 5, 6, 7, 8, 9, 10.
+RealTimeSTT: speech_to_line - INFO - Processed text: Test test 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, let's go open.
+RealTimeSTT: speech_to_line - INFO - Processed text: Test test 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 10, 10, 10, 10, 10, 10, 10, 10, 15, 10,
+RealTimeSTT: speech_to_line - INFO - Processed text: Test test 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: What's going on?
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: I'm gonna land here.
+RealTimeSTT: speech_to_line - INFO - Processed text: On the left, here's supposed to be great.
+RealTimeSTT: speech_to_line - INFO - Processed text: I'm gonna land here, supposed to be great.
+RealTimeSTT: speech_to_line - INFO - Processed text: On the lamp here, supposed to be great. Out. Out.
+RealTimeSTT: speech_to_line - INFO - Processed text: Oh, the lamp here is supposed to be great. I am. I wish I could.
+RealTimeSTT: speech_to_line - INFO - Processed text: Oh, the lamp here is supposed to be great. I wish I could tune out that.
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: I guess I'm just not as strong.
+RealTimeSTT: speech_to_line - INFO - Processed text: I guess I'm just not as strong as you are.
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: I'm going to land here.
+RealTimeSTT: speech_to_line - INFO - Processed text: I was like, it's good.
+RealTimeSTT: speech_to_line - INFO - Processed text: I was like, it's you and I'll make it warm.
+RealTimeSTT: speech_to_line - INFO - Processed text: I wish I could tune out that before I wish this night.
+RealTimeSTT: speech_to_line - INFO - Processed text: I wish I could tune out that for a voice beside me this way.
+RealTimeSTT: speech_to_line - INFO - Processed text: I wish I could tune out that for a voice beside me this same cheeky animal.
+RealTimeSTT: speech_to_line - INFO - Processed text: I'll see you guys next time.
+RealTimeSTT: speech_to_line - INFO - Processed text: I guess I'm just not as strong.
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: I'll have a leg.
+RealTimeSTT: speech_to_line - INFO - Processed text: I'll have a land.
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: That's just one two.
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: testing one two
+RealTimeSTT: speech_to_line - INFO - Processed text: This is...
+RealTimeSTT: speech_to_line - INFO - Processed text: This is the internet.
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: What's going on?
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: All right.
+RealTimeSTT: speech_to_line - INFO - Processed text: I'm going to try and save you very much.
+RealTimeSTT: speech_to_line - INFO - Processed text: and I'm going to
+RealTimeSTT: speech_to_line - INFO - Processed text: and I want to see is that what happens in the end.
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: What's going on there?
+RealTimeSTT: speech_to_line - INFO - Processed text: I bet what's going on right now.
+RealTimeSTT: speech_to_line - INFO - Processed text: 
+RealTimeSTT: speech_to_line - INFO - Processed text: I will have an hand.
