@@ -38,11 +38,9 @@ import numpy as np
 import traceback
 import threading
 import webrtcvad
-import itertools
 import platform
 import pyaudio
 import logging
-import struct
 import time
 import copy
 import os

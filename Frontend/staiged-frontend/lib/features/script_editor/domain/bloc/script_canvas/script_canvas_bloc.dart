@@ -212,7 +212,7 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
 
     if (allRect.height <= viewRect.height) return;
 
-    double distanceToPointer = pointerY;
+    double distanceToPointer = controller.pages[pointerPage].height- pointerY;
     for (var i = 1; i < pointerPage; i++) {
       distanceToPointer += controller.pages[i].height;
     }

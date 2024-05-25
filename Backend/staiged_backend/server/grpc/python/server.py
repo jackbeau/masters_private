@@ -16,7 +16,7 @@ import service_pb2_grpc
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 from mqtt_controller.mqtt_controller import MQTTController
-from speech_to_line import SpeechToLine
+# from speech_to_line import SpeechToLine
 
 OUTPUT_DIR = 'server/storage/pdfs/'
 
@@ -90,8 +90,8 @@ class ScriptService(service_pb2_grpc.ScriptServiceServicer):
         try:
             mqtt_controller = MQTTController('0.0.0.0', 1883, 'speech_to_line')
             mqtt_controller.connect()
-            speech_to_line = SpeechToLine(mqtt_controller=mqtt_controller, status_queue=status_queue, settings=settings)
-            speech_to_line.start()
+            # speech_to_line = SpeechToLine(mqtt_controller=mqtt_controller, status_queue=status_queue, settings=settings)
+            # speech_to_line.start()
         except Exception as e:
             status_queue.put("failed")
 

@@ -26,7 +26,6 @@ BUFFER_SIZE = 512
 
 def clear_console():
     os.system('clear' if os.name == 'posix' else 'cls')
-
 class SpeechToLine:
     def __init__(self,
                  mqtt_controller=None,
@@ -34,6 +33,7 @@ class SpeechToLine:
                  input_device_index: int = 1,
                  model_size="tiny.en",
                  json_data_file="server/storage/transcripts/output_extracted_data.json",
+                 csv_file_path="results.csv"
                 ):
         self.input_device_index = input_device_index
         self.wave_file_path = "./.audio_buffer.wav"
@@ -42,7 +42,7 @@ class SpeechToLine:
         self.stop = False
 
         self.data_cleanup = ScriptDataHandler(json_data_file)
-        self.text_search = TextSearch(self.data_cleanup.chunks, mqtt_controller)
+        self.text_search = TextSearch(self.data_cleanup.chunks, csv_file_path, mqtt_controller)
 
         self.displayed_text = ""
         self.full_sentences = ""

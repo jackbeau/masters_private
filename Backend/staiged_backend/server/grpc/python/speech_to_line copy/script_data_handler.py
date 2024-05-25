@@ -39,34 +39,23 @@ class ScriptDataHandler:
     def create_chunks(self):
         words = []
         fragment_ids = []
-        coordinates = []
-        page_numbers = []
         for fragment in self.segments:
             words.extend(fragment['text'])
             fragment_ids.extend([fragment['fragment_id']] * len(fragment['text']))
-            coordinates.extend([fragment['y_coordinate']] * len(fragment['text']))
-            page_numbers.extend([fragment['page_number']] * len(fragment['text']))
 
         chunk_size = 10
         overlap = 5
-        chunk_id = 0
         for i in range(0, len(words), chunk_size - overlap):
             chunk_words = words[i:i + chunk_size]
             chunk_fragment_ids = fragment_ids[i:i + chunk_size]
-            chunk_coordinates = coordinates[i:i + chunk_size]
-            chunk_page_numbers = page_numbers[i:i + chunk_size]
             if len(chunk_words) < chunk_size:
                 break
             chunk = {
-                "id": chunk_id,
                 "text": chunk_words,
                 "first_fragment_id": chunk_fragment_ids[0],
-                "last_fragment_id": chunk_fragment_ids[-1],
-                "last_y_coordinate": chunk_coordinates[-1],
-                "last_page_number": chunk_page_numbers[-1]
+                "last_fragment_id": chunk_fragment_ids[-1]
             }
             self.chunks.append(chunk)
-            chunk_id += 1
 
 if __name__ == "__main__":
     data_cleanup = ScriptDataHandler("server/storage/transcripts/output_extracted_data.json")

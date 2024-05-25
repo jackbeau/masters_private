@@ -1,13 +1,9 @@
 from audio_recorder import AudioToTextRecorder
-from colorama import Fore, Back, Style
-import colorama
 import os
 
 if __name__ == '__main__':
 
     print("Initializing RealtimeSTT test...")
-
-    colorama.init()
 
     full_sentences = []
     displayed_text = ""
