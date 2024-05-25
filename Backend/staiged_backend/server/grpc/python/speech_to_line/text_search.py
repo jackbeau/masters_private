@@ -1,5 +1,5 @@
-import json
 import logging
+import json
 import csv
 from thefuzz import fuzz
 import string
@@ -114,7 +114,7 @@ class TextSearch:
         else:
             # Increment intermediate_attempts if the score is within the intermediate threshold
             self.intermediate_attempts += 1
-            self.failed_transcriptions.append(cleaned_target_string)
+            self.failed_transcriptions.append(target_string)  # Use the original target_string here
             if self.intermediate_attempts >= MAX_FAILED_ATTEMPTS and not self.global_search_active:
                 self.global_search_active = True
                 self.executor.submit(self.global_search)  # Run global search in a separate thread
@@ -134,9 +134,10 @@ class TextSearch:
         return best_match
 
     def adjust_window(self, best_chunk_index):
-        # Move the window so that the best chunk is the second in the new window
+        # Move the window so that the best chunk is within the new window
         new_start_index = max(0, best_chunk_index - BACKWARD_WINDOW_SIZE)
-        self.current_window = self.chunks[new_start_index:best_chunk_index + FORWARD_WINDOW_SIZE]
+        new_end_index = min(len(self.chunks), best_chunk_index + FORWARD_WINDOW_SIZE)
+        self.current_window = self.chunks[new_start_index:new_end_index]
         self.current_window_start_index = new_start_index
 
     def global_search(self):
@@ -148,19 +149,31 @@ class TextSearch:
 
         num_chunks = len(self.chunks)
         window_size = FORWARD_WINDOW_SIZE + BACKWARD_WINDOW_SIZE
-        overlap = window_size // 2
+        overlap = max(1, window_size // 2)
 
-        for i in range(0, num_chunks, overlap):  # Overlapping windows
+        for i in range(0, num_chunks, overlap):
             start_index = max(0, i - BACKWARD_WINDOW_SIZE)
-            window = self.chunks[start_index:start_index + window_size]
+            end_index = min(num_chunks, start_index + window_size)
+            window = self.chunks[start_index:end_index]
             cumulative_score = 0
             match_count = 0
 
             for transcription in self.failed_transcriptions:
                 best_chunk_score = 0
+                cleaned_transcription = self.clean_text(transcription)
+                transcription_words = cleaned_transcription.split()
+
                 for chunk in window:
                     chunk_text = " ".join(chunk['text'])
-                    similarity_score = fuzz.partial_token_sort_ratio(chunk_text, transcription)
+                    chunk_words = chunk_text.split()
+
+                    # Crop the transcription to the length of the chunk if it's longer
+                    if len(transcription_words) > len(chunk_words):
+                        cropped_transcription = ' '.join(transcription_words[:len(chunk_words)])
+                    else:
+                        cropped_transcription = cleaned_transcription
+
+                    similarity_score = fuzz.partial_token_sort_ratio(chunk_text, cropped_transcription)
                     if similarity_score > best_chunk_score:
                         best_chunk_score = similarity_score
                         best_global_match = {
@@ -168,7 +181,7 @@ class TextSearch:
                             'y_coordinate': chunk.get('last_y_coordinate'),
                             'chunk_index': chunk.get('id'),
                             'chunk_text': chunk_text,
-                            'input_line': transcription,
+                            'input_line': cropped_transcription,
                             'similarity_score': similarity_score,
                         }
                 cumulative_score += best_chunk_score
@@ -195,17 +208,3 @@ class TextSearch:
         self.intermediate_attempts = 0
         self.failed_transcriptions.clear()
         self.global_search_active = False
-
-# Usage example
-if __name__ == "__main__":
-    # This is an example. You need to ensure you have a file "server/storage/transcripts/output_extracted_data.json"
-    # with the appropriate format for this to work correctly.
-    chunks = [
-        # Example chunks
-        {"id": 0, "text": ["this", "is", "a", "test"], "last_page_number": 1, "last_y_coordinate": 100},
-        {"id": 1, "text": ["another", "chunk", "of", "text"], "last_page_number": 1, "last_y_coordinate": 150},
-        # Add more chunks as needed for testing
-    ]
-    text_search = TextSearch(chunks)
-    result = text_search.search_for_line("test")
-    print(result)

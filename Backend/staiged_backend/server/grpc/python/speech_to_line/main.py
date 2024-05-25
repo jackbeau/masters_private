@@ -1,8 +1,6 @@
 import logging
 import json
 import sys
-from ctypes import c_bool
-import multiprocessing as mp
 import os
 import time
 import tempfile
@@ -36,7 +34,6 @@ class SpeechToLine:
                  json_data_file="server/storage/transcripts/output_extracted_data.json",
                 ):
         self.input_device_index = input_device_index
-        self.wave_file_path = "./.audio_buffer.wav"
         self.model = WhisperModel(model_size, compute_type='float32')
         self.status_queue = status_queue
         self.stop = False
@@ -48,6 +45,10 @@ class SpeechToLine:
         self.full_sentences = ""
 
         self.audio_buffer = AudioBuffer()
+
+        # Ensure the temp_files directory exists
+        self.temp_dir = os.path.join(os.path.dirname(__file__), 'temp_files')
+        os.makedirs(self.temp_dir, exist_ok=True)
 
     def text_detected(self, text):
         logger.info("Processed text: %s", text)
@@ -96,7 +97,7 @@ class SpeechToLine:
         self.audio_buffer.start()
 
         with tempfile.NamedTemporaryFile(
-                suffix='.wav', delete=False
+                suffix='.wav', delete=False, dir=self.temp_dir
                 ) as temp_wav_file:
             self.wave_file_path = temp_wav_file.name
             audio_buffer = AudioBuffer()
@@ -128,7 +129,6 @@ class SpeechToLine:
                 audio.terminate()
                 os.remove(self.wave_file_path)
                 self.stop_recording()
-
 
     def stop_recording(self):
         self.stop = True

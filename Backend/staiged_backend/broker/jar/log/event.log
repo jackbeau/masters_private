@@ -312,3 +312,18 @@
 2024-05-25 23:56:14,304 - Client ID: flutter_client, IP: 127.0.0.1 disconnected ungracefully from Websocket Listener on port: 8000.
 2024-05-25 23:56:23,584 - Client ID: flutter_client, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
 2024-05-25 23:58:59,545 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-26 00:09:08,864 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
+2024-05-26 00:09:12,301 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-26 00:10:42,406 - Client ID: speech_to_line, IP: 127.0.0.1 was disconnected. reason: Client was idle for too long.
+2024-05-26 00:14:13,148 - Client ID: flutter_client, IP: 127.0.0.1 disconnected ungracefully from Websocket Listener on port: 8000.
+2024-05-26 00:14:21,070 - Client ID: flutter_client, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-26 00:16:20,082 - Client ID: flutter_client, IP: 127.0.0.1 disconnected ungracefully from Websocket Listener on port: 8000.
+2024-05-26 00:16:26,996 - Client ID: flutter_client, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-26 00:16:48,405 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-26 00:18:18,511 - Client ID: speech_to_line, IP: 127.0.0.1 was disconnected. reason: Client was idle for too long.
+2024-05-26 00:23:29,974 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1 disconnected gracefully.
+2024-05-26 00:23:31,088 - Client ID: mqtt-explorer-08bb5607, IP: 127.0.0.1, Clean Start: true, Session Expiry: 0 connected.
+2024-05-26 00:24:20,326 - Client ID: server, IP: 0:0:0:0:0:0:0:1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-26 00:24:28,727 - Client ID: server, IP: 0:0:0:0:0:0:0:1 disconnected gracefully.
+2024-05-26 00:29:51,000 - Client ID: speech_to_line, IP: 127.0.0.1, Clean Start: false, Session Expiry: 3600 connected.
+2024-05-26 00:36:55,524 - Client ID: speech_to_line, IP: 127.0.0.1 disconnected ungracefully from TCP Listener on port: 1883.
