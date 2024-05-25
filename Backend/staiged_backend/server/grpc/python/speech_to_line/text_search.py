@@ -1,5 +1,6 @@
 import json
 import logging
+import csv
 from thefuzz import fuzz
 import string
 from concurrent.futures import ThreadPoolExecutor
@@ -15,21 +16,30 @@ logger = logging.getLogger("speech_to_line")
 logger.setLevel(logging.INFO)
 
 MAX_FAILED_ATTEMPTS = 5
-SIMILARITY_THRESHOLD = 49
+INTERMEDIATE_THRESHOLD_LOWER = 50
+INTERMEDIATE_THRESHOLD_UPPER = 60
 FORWARD_WINDOW_SIZE = 10
 BACKWARD_WINDOW_SIZE = 10
 
 class TextSearch:
-    def __init__(self, chunks, mqtt_controller=None):
+    def __init__(self, chunks, mqtt_controller=None, log_file='search_log.csv'):
         self.chunks = chunks
         self.mqtt_controller = mqtt_controller
         self.current_window = self.chunks[:FORWARD_WINDOW_SIZE]  # Start with the first 10 chunks
         self.current_window_start_index = 0  # Start index of the current window
-        self.failed_attempts = 0
+        self.intermediate_attempts = 0
         self.failed_transcriptions = []
-        self.similarity_threshold = SIMILARITY_THRESHOLD  # Example threshold for similarity score
         self.executor = ThreadPoolExecutor(max_workers=1)  # Executor for running global search
         self.best_match = None
+        self.global_search_active = False
+        self.last_input = None  # To store the last input string
+        self.log_file = log_file
+
+        # Initialize CSV file with headers
+        with open(self.log_file, 'w', newline='') as csvfile:
+            fieldnames = ['search_type', 'best_score', 'target_string', 'chunk_text', 'page_number']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
 
     def clean_text(self, text):
         # Convert text to lowercase and remove punctuation
@@ -37,7 +47,23 @@ class TextSearch:
         text = text.translate(str.maketrans('', '', string.punctuation))
         return text
 
+    def log_search(self, search_type, best_score, target_string, chunk_text, page_number):
+        with open(self.log_file, 'a', newline='') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=['search_type', 'best_score', 'target_string', 'chunk_text', 'page_number'])
+            writer.writerow({
+                'search_type': search_type,
+                'best_score': best_score,
+                'target_string': target_string,
+                'chunk_text': chunk_text,
+                'page_number': page_number
+            })
+
     def search_for_line(self, target_string):
+        if not target_string or target_string == self.last_input:
+            logger.info("Empty or duplicate input. Skipping search.")
+            return None
+        
+        self.last_input = target_string  # Update the last input string
         best_match = None
         best_score = 0
 
@@ -59,7 +85,7 @@ class TextSearch:
                 cropped_target_string
             )
 
-            if similarity_score > self.similarity_threshold and  similarity_score > best_score:
+            if similarity_score > INTERMEDIATE_THRESHOLD_LOWER and similarity_score > best_score:
                 best_score = similarity_score
                 best_match = {
                     'page_number': chunk.get('last_page_number'),
@@ -70,17 +96,28 @@ class TextSearch:
                     'similarity_score': similarity_score,
                 }
 
-        if best_match and best_score >= self.similarity_threshold:
+        # Log the best score for the local search
+        if best_match:
+            self.log_search('local', best_score, cropped_target_string, best_match['chunk_text'], best_match['page_number'])
+        else:
+            # Log when no match is found
+            self.log_search('local', best_score, cropped_target_string, '', '')
+
+        if best_match:
             # Adjust the window based on the best match
             self.adjust_window(best_match['chunk_index'])
-            self.failed_attempts = 0
-            self.failed_transcriptions.clear()
             self.best_match = best_match
+        if best_match and best_score >= INTERMEDIATE_THRESHOLD_UPPER:
+            # Reset the global search flag if the score is above the upper threshold
+            self.intermediate_attempts = 0
+            self.failed_transcriptions.clear()
         else:
-            self.failed_attempts += 1
+            # Increment intermediate_attempts if the score is within the intermediate threshold
+            self.intermediate_attempts += 1
             self.failed_transcriptions.append(cleaned_target_string)
-            # if self.failed_attempts >= MAX_FAILED_ATTEMPTS:
-            #     self.executor.submit(self.global_search)  # Run global search in a separate thread
+            if self.intermediate_attempts >= MAX_FAILED_ATTEMPTS and not self.global_search_active:
+                self.global_search_active = True
+                self.executor.submit(self.global_search)  # Run global search in a separate thread
 
         if self.mqtt_controller is not None and self.best_match is not None:
             try:
@@ -93,7 +130,7 @@ class TextSearch:
             except Exception as e:
                 logger.error(f"Failed to publish MQTT message: {e}")
 
-        logger.info(f"Best match: '{self.best_match}' (Similarity: {best_score}%)")
+        logger.info(f"Best match: '{self.best_match}'")
         return best_match
 
     def adjust_window(self, best_chunk_index):
@@ -106,6 +143,8 @@ class TextSearch:
         logger.info("Initiating global search")
         highest_cumulative_score = 0
         best_window = None
+        best_global_match = None
+        best_global_score = 0
 
         num_chunks = len(self.chunks)
         window_size = FORWARD_WINDOW_SIZE + BACKWARD_WINDOW_SIZE
@@ -115,23 +154,47 @@ class TextSearch:
             start_index = max(0, i - BACKWARD_WINDOW_SIZE)
             window = self.chunks[start_index:start_index + window_size]
             cumulative_score = 0
+            match_count = 0
 
             for transcription in self.failed_transcriptions:
+                best_chunk_score = 0
                 for chunk in window:
                     chunk_text = " ".join(chunk['text'])
                     similarity_score = fuzz.partial_token_sort_ratio(chunk_text, transcription)
-                    cumulative_score += similarity_score
+                    if similarity_score > best_chunk_score:
+                        best_chunk_score = similarity_score
+                        best_global_match = {
+                            'page_number': chunk.get('last_page_number'),
+                            'y_coordinate': chunk.get('last_y_coordinate'),
+                            'chunk_index': chunk.get('id'),
+                            'chunk_text': chunk_text,
+                            'input_line': transcription,
+                            'similarity_score': similarity_score,
+                        }
+                cumulative_score += best_chunk_score
+                if best_chunk_score >= INTERMEDIATE_THRESHOLD_UPPER:
+                    match_count += 1
 
-            if cumulative_score > highest_cumulative_score and cumulative_score >= self.similarity_threshold * len(self.failed_transcriptions):
+            if match_count >= 4 and cumulative_score > highest_cumulative_score:
                 highest_cumulative_score = cumulative_score
                 best_window = window
+                best_global_score = best_chunk_score
 
         if best_window:
             self.current_window = best_window
             self.current_window_start_index = self.chunks.index(best_window[0])
-            self.failed_attempts = 0
-            self.failed_transcriptions.clear()
             logger.info(f"New window set based on global search with cumulative score: {highest_cumulative_score}")
+
+            # Log the best score for the global search
+            if best_global_match:
+                self.log_search('global', best_global_score, best_global_match['input_line'], best_global_match['chunk_text'], best_global_match['page_number'])
+        else:
+            # Log when no match is found during global search
+            self.log_search('global', best_global_score, ','.join(self.failed_transcriptions), '', '')
+
+        self.intermediate_attempts = 0
+        self.failed_transcriptions.clear()
+        self.global_search_active = False
 
 # Usage example
 if __name__ == "__main__":
