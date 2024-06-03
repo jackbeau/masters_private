@@ -17,7 +17,6 @@ node_modules
 *.log
 *storage/pdfs/*
 
-deepspeech-0.9.3-models.pbmm
 # Thumbnails
 ._*
 
