@@ -2,11 +2,20 @@ node_modules/
 node_modules
 **/mqtt_embedded_conf/data/
 **/mqtt_embedded_conf/log/
+**/certain/
+**/uncertain/
+**/users/
+**/experiment_dataset/
 
-
+*.weights
+*.onnx
+*.scorer
+*.pbmm
+*.pth
 *.avi
 *.mp4
 
+deepspeech-0.9.3-models.pbmm
 # Thumbnails
 ._*
 
@@ -202,11 +211,3 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/macos,flutter,python,java
 *.mp4
 .DS_Store
-Backend/.DS_Store
-Backend/.DS_Store
-*.avi
-.DS_Store
-Backend/.DS_Store
-.DS_Store
-Backend/.DS_Store
-Backend/.DS_Store
