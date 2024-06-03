@@ -211,7 +211,7 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,flutter,python,java
 *.mp4
-.DS_Store
+**/.DS_Store
 /Backend/server/dmx-followspot-master/deep-person-reid
 /Experimentation/labs/fairseq2
 /Experimentation/labs/seamless_communication
