@@ -1,0 +1,33 @@
+{
+  "name": "stage_assistant_backend",
+  "version": "1.0.0",
+  "description": "brew install python-tk brew install mosquitto",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@automerge/automerge": "^2.2.2",
+    "@consento/hlc": "^2.1.0",
+    "@graphql-tools/schema": "^10.0.3",
+    "@grpc/grpc-js": "^1.10.8",
+    "@grpc/proto-loader": "^0.7.13",
+    "add": "^2.0.6",
+    "child_process": "^1.0.2",
+    "cors": "^2.8.5",
+    "crdt": "^3.6.4",
+    "express": "^4.19.2",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.8.0",
+    "graphql-http": "^1.22.1",
+    "multer": "^1.4.5-lts.1",
+    "murmurhash": "^2.0.1",
+    "uuid": "^9.0.1",
+    "ws": "^8.17.0",
+    "y-websocket": "^2.0.3",
+    "yjs": "^13.6.15"
+  }
+}

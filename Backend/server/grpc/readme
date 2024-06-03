@@ -1,0 +1,4 @@
+python3.9 -m grpc_tools.protoc -I. --python_out=python --grpc_python_out=python service.proto
+
+
+This will generate the service_pb2.py and service_pb2_grpc.py files in the same directory as your .proto file.
