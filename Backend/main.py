@@ -6,7 +6,7 @@ from gui.app import App
 from async_tkinter_loop import async_mainloop
 
 def start_python_grpc_server(settings):
-    subprocess.run([sys.executable, 'server/grpc/python/server.py', json.dumps(settings)])
+    subprocess.run([sys.executable, 'server/grpc/python/server/server.py', json.dumps(settings)])
 
 def start_api_server():
     subprocess.run(['node', 'server/server.js'])

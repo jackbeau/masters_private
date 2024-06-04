@@ -6,7 +6,7 @@ const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const WebSocket = require('ws');
 const automerge = require('@automerge/automerge');
-const { addMargin, performOCR, startSpeechToLine, stopSpeechToLine } = require('./grpc/client/client');
+const { addMargin, performOCR, startSpeechToLine, stopSpeechToLine, startPerformerTracker, stopPerformerTracker } = require('./grpc/client/client');
 
 const app = express();
 app.use(cors());
@@ -109,12 +109,13 @@ app.get('/transcript/:filename', (req, res) => {
 
 app.get('/api/cues', (req, res) => {
   const state = automerge.save(doc);
-  res.json({ annotations: doc.annotations });
+  let annotations = doc.annotations.map(convertTagsToList);
+  res.json({annotations: annotations});
 });
 
 
 // Start SpeechToLine process
-app.post('/start', async (req, res) => {
+app.post('/stlp/start', async (req, res) => {
   try {
     const response = await startSpeechToLine();
     if (response.success) {
@@ -128,7 +129,7 @@ app.post('/start', async (req, res) => {
 });
 
 // Stop SpeechToLine process
-app.post('/stop', async (req, res) => {
+app.post('/stlp/stop', async (req, res) => {
   try {
     const response = await stopSpeechToLine();
     if (response.success) {
@@ -141,10 +142,39 @@ app.post('/stop', async (req, res) => {
   }
 });
 
+// Start Performer Tracker process
+app.post('/pt/start', async (req, res) => {
+  try {
+    const response = await startPerformerTracker();
+    if (response.success) {
+      res.json({ message: 'Performer Tracker process started successfully' });
+    } else {
+      res.status(500).json({ message: 'Failed to start Performer Tracker process' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Stop Performer Tracker process
+app.post('/pt/stop', async (req, res) => {
+  try {
+    const response = await stopPerformerTracker();
+    if (response.success) {
+      res.json({ message: 'Performer Tracker process stopped successfully' });
+    } else {
+      res.status(500).json({ message: 'Failed to stop Performer Tracker process' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Status endpoint
 app.get('/status', (req, res) => {
   res.json({ status: 'running' });
 });
+
 const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
@@ -177,14 +207,14 @@ wss.on('connection', (ws) => {
         newDoc = automerge.change(newDoc, d => {
           if (!d.annotations) d.annotations = [];
           data.changes.forEach(change => {
+            change.annotation = convertTagsToList(change.annotation);
             switch (change.type) {
               case 'add':
                 d.annotations.push(change.annotation);
                 break;
               case 'update':
                 const index = d.annotations.findIndex(a => a.id === change.annotation.id);
-                if (index !== -1) {
-                  // Update to merge nested objects correctly using Automerge's method
+                if (index !== -1 && change.timestamp >= (d.annotations[index].timestamp || 0)) {
                   Object.keys(change.annotation).forEach(key => {
                     if (typeof change.annotation[key] === 'object' && change.annotation[key] !== null) {
                       d.annotations[index][key] = {
@@ -195,6 +225,7 @@ wss.on('connection', (ws) => {
                       d.annotations[index][key] = change.annotation[key];
                     }
                   });
+                  d.annotations[index].timestamp = change.timestamp;
                 }
                 break;
               case 'delete':
@@ -206,7 +237,7 @@ wss.on('connection', (ws) => {
             }
           });
         });
-  
+
         doc = automerge.merge(doc, newDoc);
         saveCues();
         broadcastChanges(data.changes);
@@ -221,3 +252,10 @@ wss.on('connection', (ws) => {
   // ws.send(JSON.stringify({ annotations: doc.annotations }));
 });
 
+
+function convertTagsToList(annotation) {
+  if (annotation.tags && typeof annotation.tags === 'object' && !Array.isArray(annotation.tags)) {
+    annotation.tags = Object.values(annotation.tags);
+  }
+  return annotation;
+}

@@ -63,4 +63,28 @@ const stopSpeechToLine = () => {
   });
 };
 
-module.exports = { addMargin, performOCR, startSpeechToLine, stopSpeechToLine};
+const startPerformerTracker = () => {
+  return new Promise((resolve, reject) => {
+    client.StartPerformerTracker({}, (error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(response);
+      }
+    });
+  });
+};
+
+const stopPerformerTracker = () => {
+  return new Promise((resolve, reject) => {
+    client.StopPerformerTracker({}, (error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(response);
+      }
+    });
+  });
+};
+
+module.exports = { addMargin, performOCR, startSpeechToLine, stopSpeechToLine, startPerformerTracker, stopPerformerTracker};

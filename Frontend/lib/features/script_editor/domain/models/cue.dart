@@ -258,12 +258,21 @@ class Cue extends Annotation {
   }
 
   factory Cue.fromJson(Map<String, dynamic> json) {
+    List<Tag> tags;
+    if (json['tags'] is List) {
+      tags = (json['tags'] as List).map((tag) => Tag.fromJson(tag)).toList();
+    } else if (json['tags'] is Map) {
+      tags = (json['tags'] as Map).values.map((tag) => Tag.fromJson(tag)).toList();
+    } else {
+      tags = [];
+    }
+
     return Cue.withId(
       id: json['id'],
       page: json['page'],
       pos: Offset(json['pos']['dx'], json['pos']['dy']),
       type: CueType.fromJson(json['type']),
-      tags: (json['tags'] as List).map((tag) => Tag.fromJson(tag)).toList(),
+      tags: tags,
       note: json['note'] ?? '',
       title: json['title'] ?? '',
       autofire: json['autofire'] ?? false,

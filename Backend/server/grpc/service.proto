@@ -5,6 +5,8 @@ service ScriptService {
   rpc PerformOCR(OCRRequest) returns (OCRResponse);
   rpc StartSpeechToLine(StartRequest) returns (StartResponse);
   rpc StopSpeechToLine(StopRequest) returns (StopResponse);
+  rpc StartPerformerTracker(StartRequest) returns (StartResponse);
+  rpc StopPerformerTracker(StopRequest) returns (StopResponse);
   rpc GetStatuses(StatusRequest) returns (StatusResponse);
 }
 
@@ -42,4 +44,5 @@ message StatusRequest {}
 message StatusResponse {
   string rpc_status = 1;
   string speech_to_line_status = 2;
+  string performer_tracker_status = 3;
 }

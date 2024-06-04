@@ -10,7 +10,7 @@ class SpeechProvider implements SpeechProviderBase {
 
   @override
   Future<String> startSpeechToLine() async {
-    final response = await http.post(Uri.parse('$baseUrl/start'));
+    final response = await http.post(Uri.parse('$baseUrl/stlp/start'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       return responseBody['message'];
@@ -21,7 +21,7 @@ class SpeechProvider implements SpeechProviderBase {
 
   @override
   Future<String> stopSpeechToLine() async {
-    final response = await http.post(Uri.parse('$baseUrl/stop'));
+    final response = await http.post(Uri.parse('$baseUrl/stlp/stop'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       return responseBody['message'];

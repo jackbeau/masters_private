@@ -4,7 +4,9 @@ import torch
 import logging
 import numpy as np
 import torchvision.transforms as transforms
-from torchreid.models import build_model
+from torchreid.models import osnet_x1_0
+
+REID_MODEL = 'models/osnet_x1_0.pth'
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +18,17 @@ transform = transforms.Compose([
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 
-reid_model = build_model(name='osnet_x1_0', num_classes=1000, pretrained=True)
+def load_custom_osnet_model():
+    # Load the model from the new path
+    model = osnet_x1_0(pretrained=False)
+    if os.path.exists(REID_MODEL):
+        state_dict = torch.load(REID_MODEL)
+        model.load_state_dict(state_dict)
+    else:
+        raise FileNotFoundError(f"Model not found at {REID_MODEL}")
+    return model
+
+reid_model = load_custom_osnet_model()
 reid_model.eval()
 
 def extract_reid_features(image):

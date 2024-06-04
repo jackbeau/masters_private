@@ -261,12 +261,12 @@ class StageZonesPage(tk.Frame):
         frm_size_inputs = tk.Frame(self, background=colours.off_black_80)
         frm_size_inputs.pack(fill="x", pady=(0, 8))
 
-        lbl_width = text(frm_size_inputs, text="Width (m)", style="PageText")
+        lbl_width = text(frm_size_inputs, text="Width (mm)", style="PageText")
         lbl_width.pack(side="left", padx=(0, 4))
         self.width_entry = FloatEntry(frm_size_inputs, textvariable=self.homography_width)
         self.width_entry.pack(side="left", padx=(0, 8))
 
-        lbl_height = text(frm_size_inputs, text="Height (m)", style="PageText")
+        lbl_height = text(frm_size_inputs, text="Height (mm)", style="PageText")
         lbl_height.pack(side="left", padx=(0, 4))
         self.height_entry = FloatEntry(frm_size_inputs, textvariable=self.homography_height)
         self.height_entry.pack(side="left", padx=(0, 8))
@@ -369,7 +369,7 @@ class StageZonesPage(tk.Frame):
             else:
                 self.crop_points[self.dragging_point - 4] = point
             self.update_frame_display(self.current_frame, draw_points=True)
-            self.save_settings
+            self.save_settings()
 
     def update_frame_display(self, frame, draw_points=False):
         """Update the displayed frame with optional points drawing."""
@@ -421,8 +421,6 @@ class StageZonesPage(tk.Frame):
             except ValueError:
                 logging.error("Width and height must be valid numbers.")
                 return frame
-            
-            self.src_points = self.sort_points_clockwise(self.src_points)
 
             src = np.array(self.src_points, dtype=np.float32)
             dst = np.array([
@@ -432,9 +430,9 @@ class StageZonesPage(tk.Frame):
                 (0, target_height)
             ], dtype=np.float32)
             h, status = cv2.findHomography(src, dst)
+            src = self.sort_points_clockwise(src)
 
             try:
-
                 original_height, original_width = frame.shape[:2]
 
                 # Apply homography to the frame to find the transformed corner points
@@ -471,11 +469,10 @@ class StageZonesPage(tk.Frame):
                 # Warp the image with the combined homography
                 transformed_frame = cv2.warpPerspective(frame, combined_h, (original_width, original_height), flags=cv2.INTER_LINEAR)
 
-                # Update the transformed display with the result
                 return transformed_frame
             except Exception as e:
-                return frame
                 logging.error(f"Error performing homography: {e}")
+                return frame
 
     def perform_crop(self, frame):
         """Perform cropping based on crop points and update the transformed image."""
@@ -492,7 +489,32 @@ class StageZonesPage(tk.Frame):
 
             # Bitwise AND to get the cropped region
             result = cv2.bitwise_and(cropped, cropped, mask=mask)
-            return result
+
+            # Ensure the result fits the original frame size by adding black borders
+            frame_height, frame_width = frame.shape[:2]
+            result_height, result_width = result.shape[:2]
+
+            # Calculate scale to fit the cropped result within the original frame
+            scale_x = frame_width / result_width
+            scale_y = frame_height / result_height
+            scale = min(scale_x, scale_y)
+
+            # Resize the cropped result
+            result_resized = cv2.resize(result, (int(result_width * scale), int(result_height * scale)), interpolation=cv2.INTER_LINEAR)
+
+            # Create a new black frame of the same size as the original frame
+            final_frame = np.zeros((frame_height, frame_width, 3), dtype=np.uint8)
+
+            # Calculate the offset to center the resized result within the final frame
+            offset_x = (frame_width - result_resized.shape[1]) // 2
+            offset_y = (frame_height - result_resized.shape[0]) // 2
+
+            # Place the resized result in the center of the final frame
+            final_frame[offset_y:offset_y+result_resized.shape[0], offset_x:offset_x+result_resized.shape[1]] = result_resized
+
+            return final_frame
+        return frame
+
 
     def update_transformed_display(self, frame):
         """Update the transformed frame displayed in the UI."""
@@ -511,7 +533,7 @@ class StageZonesPage(tk.Frame):
 
         sorted_pts = sorted(pts, key=angle_from_center)
         return sorted_pts
-
+    
     async def update_frame(self):
         """Update the frame displayed in the UI."""
         while not self.stop_event.is_set():
@@ -521,10 +543,15 @@ class StageZonesPage(tk.Frame):
                     self.current_frame = frame.copy()
                     self.update_frame_display(frame, draw_points=True)
                     temp_frame = frame.copy()
-                    if self.enable_crop.get() and len(self.crop_points) == 4:
-                        temp_frame = self.perform_crop(frame)
+
+                    # Apply homography first if enabled
                     if self.enable_homography.get() and len(self.src_points) == 4:
                         temp_frame = self.perform_homography(temp_frame)
+
+                    # Apply crop after homography if enabled
+                    if self.enable_crop.get() and len(self.crop_points) == 4:
+                        temp_frame = self.perform_crop(temp_frame)
+
                     self.update_transformed_display(temp_frame)
                 await asyncio.sleep(0.033)  # Approx 30 FPS
             except Exception as e:

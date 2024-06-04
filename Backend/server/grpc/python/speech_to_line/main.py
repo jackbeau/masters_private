@@ -29,11 +29,26 @@ class SpeechToLine:
     def __init__(self,
                  mqtt_controller=None,
                  status_queue=None,
-                 input_device_index: int = 1,
+                 settings=None,
                  model_size="tiny.en",
                  json_data_file="server/storage/transcripts/output_extracted_data.json",
                 ):
-        self.input_device_index = input_device_index
+        """
+        Initialize the SpeechToText class with the specified model size and
+        paths to JSON data and WAV file.
+
+        Parameters:
+            mqtt_controller (MQTTController): Instance of the MQTTController class.
+            model_size (str): The size of the model to be used for
+                transcription. Defaults to 'tiny.en'.
+            json_data_file (str): The path to the JSON data file. Defaults to
+                'output_extracted_data.json'.
+            wave_file_path (str): The path to the output WAV file. Defaults to
+                'output.wav'.
+            status_queue (Queue): A queue to send status messages to the gRPC server.
+            settings (dict): A dictionary of settings.
+        """
+        self.input_device_index = settings['microphone']['microphone_device']
         self.model = WhisperModel(model_size, compute_type='float32')
         self.status_queue = status_queue
         self.stop = False
@@ -132,9 +147,9 @@ class SpeechToLine:
 
     def stop_recording(self):
         self.stop = True
-        # self.audio_buffer.stop()
-        # if self.status_queue:
-        #     self.status_queue.put("Stopped")
+        self.audio_buffer.stop()
+        if self.status_queue:
+            self.status_queue.put("Stopped")
 
 if __name__ == '__main__':
     from mqtt_controller.mqtt_controller import MQTTController  # Adjust the import based on your module structure

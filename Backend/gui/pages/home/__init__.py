@@ -15,7 +15,7 @@ from gui.pages.shared.video_utils import get_video_devices
 import grpc
 
 # Ensure the module path is correctly set
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../server/grpc/python')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../server/grpc/python/server')))
 
 import service_pb2
 import service_pb2_grpc

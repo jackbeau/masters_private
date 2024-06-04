@@ -24,7 +24,6 @@ class AnnotationsProvider implements AnnotationsProviderBase {
   AnnotationsProvider({this.onAnnotationsUpdated});
 
   Timer? _debounceTimer;
-  Timer? _throttleTimer;
 
   @override
   Future<void> init() async {
@@ -72,7 +71,7 @@ class AnnotationsProvider implements AnnotationsProviderBase {
         'timestamp': DateTime.now().millisecondsSinceEpoch
       });
       _pendingChanges.add(changeId);
-      _throttleSyncChanges();
+      _debounceSyncChanges();
     }
   }
 
@@ -109,7 +108,7 @@ class AnnotationsProvider implements AnnotationsProviderBase {
 
   void _applyRemoteAnnotations(List<dynamic> annotations) {
     _annotations = annotations.map((item) => _createAnnotationFromJson(item)).toList();
-    onAnnotationsUpdated?.call(_annotations);
+    // onAnnotationsUpdated?.call(_annotations);
   }
 
   void _applyRemoteChanges(List<dynamic> changes) {
@@ -127,8 +126,12 @@ class AnnotationsProvider implements AnnotationsProviderBase {
           final annotation = _createAnnotationFromJson(change['annotation']);
           if (_annotations.any((a) => a.id == annotation.id)) {
             final index = _annotations.indexWhere((a) => a.id == annotation.id);
-            _annotations[index] = annotation;
+            if (timestamp >= (_annotations[index].timestamp ?? 0)) {
+              _annotations[index] = annotation;
+              _annotations[index].timestamp = timestamp;
+            }
           } else {
+            annotation.timestamp = timestamp;
             _annotations.add(annotation);
           }
           break;
@@ -173,12 +176,7 @@ class AnnotationsProvider implements AnnotationsProviderBase {
 
   void _debounceSyncChanges() {
     if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
-    _debounceTimer = Timer(const Duration(milliseconds: 200), _syncChanges);
-  }
-
-  void _throttleSyncChanges() {
-    if (_throttleTimer?.isActive ?? false) return;
-    _throttleTimer = Timer(const Duration(milliseconds: 200), _syncChanges);
+    _debounceTimer = Timer(const Duration(milliseconds: 500), _syncChanges); // Increase debounce time
   }
 
   Annotation _createAnnotationFromJson(Map<String, dynamic> json) {

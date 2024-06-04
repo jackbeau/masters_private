@@ -1,11 +1,12 @@
 import numpy as np
 import cv2
 import logging
-from config.settings import SRC_POINTS, DST_POINTS
 
 logger = logging.getLogger(__name__)
 
-homography_matrix, _ = cv2.findHomography(np.array(SRC_POINTS), np.array(DST_POINTS))
+def compute_homography_matrix(src_points, dst_points):
+    homography_matrix, _ = cv2.findHomography(np.array(src_points), np.array(dst_points))
+    return homography_matrix
 
 def apply_homography(point, homography_matrix):
     point_homogeneous = np.append(point, 1)

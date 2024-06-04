@@ -160,10 +160,7 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
       );
 
       if (selectedAnnotation != null && affectedAnnotation != null) {
-        var updatedAnnotation = AnnotationInteractionHandler().move(displacement, selectedAnnotation!, affectedAnnotation!, page: event.page, controller: controller);
-        if (updatedAnnotation != null) {
-          _annotationsRepository.updateAnnotation(updatedAnnotation);
-        }
+        AnnotationInteractionHandler().move(displacement, selectedAnnotation!, affectedAnnotation!, page: event.page, controller: controller);
       }
       emit(ScriptCanvasReady(List.from(_annotations), indicatorYAxis: state is ScriptCanvasReady ? (state as ScriptCanvasReady).indicatorYAxis : 0.0));
     });
@@ -173,8 +170,11 @@ class ScriptCanvasBloc extends Bloc<ScriptCanvasEvent, ScriptCanvasState> {
       if (tap != 0) return;
 
       isDown = false;
+      if (affectedAnnotation != null) {
+        _annotationsRepository.updateAnnotation(affectedAnnotation!);
+        affectedAnnotation = null;
+      }
       selectedAnnotation = null;
-      affectedAnnotation = null;
       emit(ScriptCanvasReady(List.from(_annotations), indicatorYAxis: state is ScriptCanvasReady ? (state as ScriptCanvasReady).indicatorYAxis : 0.0));
     });
 

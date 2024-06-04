@@ -1,7 +1,7 @@
 {
     "camera": {
-        "video_device_id": "0x14410000291a3369",
-        "video_device_pos": 0,
+        "video_device_id": "116C1E56-0059-48C0-A6E2-BB4700000001",
+        "video_device_pos": 3,
         "resolution": [
             1920,
             1080
@@ -9,56 +9,75 @@
         "rotation": 0,
         "mirror_x": 0,
         "mirror_y": 0,
-        "clahe": 0,
-        "clahe_clip_limit": 40.0,
+        "hist_equalisation": 0,
         "brightness": 50.0,
         "exposure": 50.0,
         "contrast": 50.0,
         "saturation": 50.0
     },
     "microphone": {
-        "microphone_device": 1
+        "microphone_device": 0
     },
     "stage_zone": {
         "src_points": [
             [
+                400,
+                138
+            ],
+            [
                 202,
-                152
+                139
             ],
             [
-                428,
-                112
+                119,
+                286
             ],
             [
-                522,
-                245
-            ],
-            [
-                225,
-                312
+                475,
+                279
             ]
         ],
         "crop_points": [
             [
-                2,
-                191
+                299,
+                251
             ],
             [
-                599,
-                73
+                427,
+                242
             ],
             [
-                599,
+                371,
                 336
             ],
             [
-                0,
-                336
+                241,
+                331
             ]
         ],
         "enable_crop": 1,
         "enable_homography": 1,
-        "homography_width": "300",
-        "homography_height": "210"
+        "homography_width": "6096",
+        "homography_height": "6689"
+    },
+    "performer_tracker": {
+        "user_folder": "users",
+        "uncertain_folder": "uncertain",
+        "camera_id": 3,
+        "save_interval": 30,
+        "light_node_ip": "localhost",
+        "light_node_port": 6454,
+        "light_universe_id": 0,
+        "max_pan": 540,
+        "max_tilt": 270,
+        "kp": 0.1,
+        "show_window": true,
+        "logging_level": "DEBUG",
+        "tracked_user_id": "3",
+        "light_coords": [
+            0,
+            0,
+            5
+        ]
     }
 }
