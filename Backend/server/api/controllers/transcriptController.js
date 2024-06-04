@@ -8,7 +8,7 @@ exports.saveTranscript = (req, res) => {
     return res.status(400).json({ error: 'Filename and transcript are required' });
   }
 
-  const transcriptPath = path.join(__dirname, '../storage/transcripts', `${filename}.json`);
+  const transcriptPath = path.join(__dirname, '../../storage/transcripts', `${filename}.json`);
 
   fs.writeFile(transcriptPath, JSON.stringify(transcript), (err) => {
     if (err) {

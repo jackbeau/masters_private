@@ -49,7 +49,7 @@ class PDFTextExtractor:
         Returns:
             None
         """
-        ocrmypdf.ocr(self.pdf_path, output_pdf_path)
+        ocrmypdf.ocr(self.pdf_path, output_pdf_path, skip_text=True)
 
     @staticmethod
     def delete_file(self, file_path):
@@ -95,7 +95,7 @@ class PDFTextExtractor:
             output_pdf_path (str): Path to the OCR'd PDF file
         """
 
-        output_pdf_path = "ocr_" + self.pdf_path
+        output_pdf_path = self.pdf_path + "_ocr"
 
         if os.path.isfile(output_pdf_path) is True:
             logging.info("OCR of PDF already exists, skipping OCR generation")

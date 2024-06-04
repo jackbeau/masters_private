@@ -79,7 +79,7 @@ class _ScriptCanvasState extends State<ScriptCanvas> {
                     child: Stack(
                       children: [
                         PdfViewer.uri(
-                          Uri.parse("http://localhost:4000/download/output_with_margin.pdf"),
+                          Uri.parse("http://localhost:4000/api/script/download/output_with_margin.pdf"),
                           controller: widget.controller,
                           params: _buildPdfViewerParams(state),
                         ),

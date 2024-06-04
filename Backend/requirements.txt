@@ -16,3 +16,5 @@ opencv-python==4.9.0.80
 pyobjc-framework-AVFoundation==10.2
 PyPDF2==3.0.1
 webrtcvad==2.0.10
+ocrmypdf
+PyMuPDF

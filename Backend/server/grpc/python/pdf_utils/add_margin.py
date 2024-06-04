@@ -1,7 +1,7 @@
 import os
 import sys
 import json
-from PyPDF2 import PdfWriter, PdfReader
+from PyPDF2 import PdfWriter, PdfReader, PageObject
 
 def add_margin(file_path, margin_side, output_dir):
     input_pdf = PdfReader(file_path)
@@ -31,7 +31,7 @@ def add_margin(file_path, margin_side, output_dir):
             )
             page.mediabox.upper_right = (new_media_box[2], new_media_box[3])
             page.cropbox.upper_right = (new_media_box[2], new_media_box[3])
-        else:                       # This shoud just return the original file
+        else:  # This should just return the original file
             new_media_box = (
                 media_box.lower_left[0],
                 media_box.lower_left[1],
@@ -40,8 +40,15 @@ def add_margin(file_path, margin_side, output_dir):
             )
             page.mediabox.upper_right = (new_media_box[2], new_media_box[3])
             page.cropbox.upper_right = (new_media_box[2], new_media_box[3])
-        
-        output_pdf.add_page(page)
+
+        try:
+            output_pdf.add_page(page)
+        except AssertionError as e:
+            print(f"Error adding page {page_num}: {e}")
+            # Attempt to create a new page object and copy content manually
+            new_page = PageObject.create_blank_page(width=page.mediabox.width, height=page.mediabox.height)
+            new_page.merge_page(page)
+            output_pdf.add_page(new_page)
 
     FILE_NAME = 'output_with_margin.pdf'
     output_file_path = os.path.join(output_dir, FILE_NAME)

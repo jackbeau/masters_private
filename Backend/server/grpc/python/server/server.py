@@ -40,7 +40,7 @@ class ScriptService(service_pb2_grpc.ScriptServiceServicer):
         margin_side = request.margin_side
 
         result = subprocess.run(
-            [sys.executable, 'server/grpc/python/add_margin.py', file_path, margin_side, OUTPUT_DIR],
+            [sys.executable, 'server/grpc/python/pdf_utils/add_margin.py', file_path, margin_side, OUTPUT_DIR],
             capture_output=True,
             text=True
         )
@@ -50,14 +50,19 @@ class ScriptService(service_pb2_grpc.ScriptServiceServicer):
             context.set_code(grpc.StatusCode.INTERNAL)
             return service_pb2.AddMarginResponse()
 
-        response = json.loads(result.stdout)
-        return service_pb2.AddMarginResponse(file_path=response['file_path'])
+        try:
+            response = json.loads(result.stdout)
+            return service_pb2.AddMarginResponse(file_path=response['file_path'])
+        except json.JSONDecodeError as e:
+            context.set_details(f"JSON decode error: {e} - Output was: {result.stdout}")
+            context.set_code(grpc.StatusCode.INTERNAL)
+            return service_pb2.AddMarginResponse()
 
     def PerformOCR(self, request, context):
         file_path = request.file_path
 
         result = subprocess.run(
-            [sys.executable, 'server/grpc/python/perform_ocr.py', file_path],
+            [sys.executable, 'server/grpc/python/pdf_utils/perform_ocr/__init__.py', file_path],
             capture_output=True,
             text=True
         )
@@ -68,7 +73,7 @@ class ScriptService(service_pb2_grpc.ScriptServiceServicer):
             return service_pb2.OCRResponse()
 
         response = json.loads(result.stdout)
-        return service_pb2.OCRResponse(text=response['text'])
+        return service_pb2.OCRResponse(file_path=response['file_path'])
 
     def StartSpeechToLine(self, request, context):
         if self.speech_to_line_process and self.speech_to_line_process.is_alive():
@@ -109,7 +114,7 @@ class ScriptService(service_pb2_grpc.ScriptServiceServicer):
         self.performer_tracker_status = status
         return service_pb2.StartResponse(success=status == "Started")
 
-    def StopPerformerTracke(self, request, context):
+    def StopPerformerTracker(self, request, context):
         if self.performer_tracker_process and self.performer_tracker_process.is_alive():
             self.performer_tracker_process.terminate()
             self.performer_tracker_process.join()

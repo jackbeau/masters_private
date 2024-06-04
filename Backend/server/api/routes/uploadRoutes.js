@@ -5,7 +5,7 @@ const uploadController = require('../controllers/uploadController');
 const router = express.Router();
 const upload = multer({ dest: 'server/storage/pdfs/' });
 
-router.post('/upload', upload.single('file'), uploadController.uploadPDF);
-router.get('/download/:filename', uploadController.downloadPDF);
+router.post('/script/upload', upload.single('file'), uploadController.uploadPDF);
+router.get('/script/download/:filename', uploadController.downloadPDF);
 
 module.exports = router;

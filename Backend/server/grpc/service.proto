@@ -24,7 +24,7 @@ message OCRRequest {
 }
 
 message OCRResponse {
-  string text = 1;
+  string file_path = 1;
 }
 
 message StartRequest {}

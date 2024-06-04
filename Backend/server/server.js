@@ -9,13 +9,35 @@ const transcriptRoutes = require('./api/routes/transcriptRoutes');
 const speechToLineRoutes = require('./api/routes/speechToLineRoutes');
 const performerTrackerRoutes = require('./api/routes/performerTrackerRoutes');
 const errorHandler = require('./api/middlewares/errorHandler');
-const { doc, saveCues, convertTagsToList } = require('./api/utils/automergeUtils');
+
+const cuesFilePath = path.join(__dirname, 'storage', 'cues', 'cues.json');
 
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: '100mb' }));
 
+let doc = automerge.init();
 const clients = new Set();
+
+if (fs.existsSync(cuesFilePath)) {
+  const savedState = fs.readFileSync(cuesFilePath);
+  doc = automerge.load(savedState);
+} else {
+  doc = automerge.change(doc, d => {
+    d.annotations = [];
+  });
+  saveCues();
+}
+
+function saveCues() {
+  try {
+    fs.mkdirSync(path.dirname(cuesFilePath), { recursive: true });
+    const state = automerge.save(doc);
+    fs.writeFileSync(cuesFilePath, state);
+  } catch (error) {
+    console.error('Failed to save cues:', error);
+  }
+}
 
 app.use('/api', uploadRoutes);
 app.use('/api', transcriptRoutes);
@@ -24,7 +46,7 @@ app.use('/api', performerTrackerRoutes);
 
 app.get('/api/cues', (req, res) => {
   let annotations = doc.annotations.map(convertTagsToList);
-  res.status(200).json({ annotations });
+  res.status(200).json({ annotations: annotations });
 });
 
 app.get('/status', (req, res) => {
@@ -65,7 +87,7 @@ wss.on('connection', (ws) => {
       const data = JSON.parse(message);
       if (data && data.changes) {
         let newDoc = automerge.clone(doc);
-        newDoc = automerge.change(newDoc, d => {
+         newDoc = automerge.change(newDoc, d => {
           if (!d.annotations) d.annotations = [];
           data.changes.forEach(change => {
             change.annotation = convertTagsToList(change.annotation);
@@ -108,6 +130,11 @@ wss.on('connection', (ws) => {
       console.error('Failed to process message:', error);
     }
   });
-
-  const state = automerge.save(doc);
 });
+
+function convertTagsToList(annotation) {
+  if (annotation.tags && typeof annotation.tags === 'object' && !Array.isArray(annotation.tags)) {
+    annotation.tags = Object.values(annotation.tags);
+  }
+  return annotation;
+}

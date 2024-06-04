@@ -10,7 +10,7 @@ class PerformerTrackerProvider implements PerformerTrackerProviderBase {
 
   @override
   Future<String> startPerformerTracker() async {
-    final response = await http.post(Uri.parse('$baseUrl/pt/start'));
+    final response = await http.post(Uri.parse('$baseUrl/performer-tracker/start'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       return responseBody['message'];
@@ -21,7 +21,7 @@ class PerformerTrackerProvider implements PerformerTrackerProviderBase {
 
   @override
   Future<String> stopPerformerTracker() async {
-    final response = await http.post(Uri.parse('$baseUrl/pt/stop'));
+    final response = await http.post(Uri.parse('$baseUrl/performer-tracker/stop'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       return responseBody['message'];
