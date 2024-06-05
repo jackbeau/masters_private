@@ -34,15 +34,15 @@ def video_loop(frame_queue, stop_event, settings):
                 rotation=rotation,
                 resolution=resolution
             )
-            frame = resize_frame_for_canvas(frame)
+            frame, scaling_factor = resize_frame_for_canvas(frame)
             if not stop_event.is_set():  # Add this check before putting frame into the queue
-                frame_queue.put(frame)
+               frame_queue.put((frame, scaling_factor))
             time.sleep(0.001)
         else:
             frame = cv2.imread("gui/assets/no_input.png")
-            frame = resize_frame_for_canvas(frame)
+            frame, scaling_factor = resize_frame_for_canvas(frame)
             if not stop_event.is_set():  # Add this check before putting frame into the queue
-                frame_queue.put(frame)
+                frame_queue.put((frame, scaling_factor))
             time.sleep(1)
             print("No frame captured")
     stream.release()
@@ -54,4 +54,4 @@ def resize_frame_for_canvas(frame):
     new_width = int(w * scaling_factor)
     new_height = int(h * scaling_factor)
     frame = cv2.resize(frame, (new_width, new_height), interpolation=cv2.INTER_AREA)
-    return frame
+    return frame, scaling_factor

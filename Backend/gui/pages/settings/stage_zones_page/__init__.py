@@ -11,6 +11,7 @@ import logging
 from gui.pages.shared.settings_manager import CameraSettingsManager, StageZoneSettingsManager
 from multiprocessing import Manager
 from gui.pages.settings.shared.video_processing import video_loop
+import time
 
 class FloatEntry(ttk.Entry):
     def __init__(self, *args, **kwargs):
@@ -40,6 +41,7 @@ class StageZonesPage(tk.Frame):
         self.hist_queue = multiprocessing.Queue(maxsize=1)
         self.manager = Manager()
         self.settings = self.manager.dict()
+        self.scaling_factor = 1
         
         # Initialize settings managers
         self.camera_settings_manager = CameraSettingsManager(settings_file)
@@ -101,8 +103,9 @@ class StageZonesPage(tk.Frame):
 
         # Load stage zone settings
         stage_zone_settings = self.stage_zone_settings_manager.get_stage_zone_settings()
-        self.src_points = stage_zone_settings.get('src_points', [])
-        self.crop_points = stage_zone_settings.get('crop_points', [])
+        self.scaling_factor = stage_zone_settings.get('scaling_factor', 1)
+        self.src_points = [(int(point[0] * self.scaling_factor), int(point[1] * self.scaling_factor)) for point in stage_zone_settings.get('src_points', [])]
+        self.crop_points = [(int(point[0] * self.scaling_factor), int(point[1] * self.scaling_factor)) for point in stage_zone_settings.get('crop_points', [])]
         self.enable_crop = tk.IntVar(value=stage_zone_settings.get('enable_crop', 0))
         self.enable_homography = tk.IntVar(value=stage_zone_settings.get('enable_homography', 0))
         self.homography_width = tk.StringVar(value=stage_zone_settings.get('homography_width', ''))
@@ -116,6 +119,10 @@ class StageZonesPage(tk.Frame):
         """Save current settings to the settings managers."""
         if self.crop_points == []:
             self.reset_crop_points()
+
+        unscaled_src_points = [(int(point[0] / self.scaling_factor), int(point[1] / self.scaling_factor)) for point in self.src_points]
+        unscaled_crop_points = [(int(point[0] / self.scaling_factor), int(point[1] / self.scaling_factor)) for point in self.crop_points]
+
         # Save camera settings
         camera_settings = {
             'video_device_id': self.video_device_id,
@@ -135,14 +142,16 @@ class StageZonesPage(tk.Frame):
 
         # Save stage zone settings
         stage_zone_settings = {
-            'src_points': self.src_points,
-            'crop_points': self.crop_points,
+            'src_points': unscaled_src_points,
+            'crop_points': unscaled_crop_points,
             'enable_crop': self.enable_crop.get(),
             'enable_homography': self.enable_homography.get(),
             'homography_width': self.homography_width.get(),
             'homography_height': self.homography_height.get(),
+            'scaling_factor': self.scaling_factor,
         }
         self.stage_zone_settings_manager.save_stage_zone_settings(stage_zone_settings)
+
 
     def update_settings_queue(self):
         """Update the settings queue with current settings."""
@@ -177,7 +186,7 @@ class StageZonesPage(tk.Frame):
 
     def start_async_tasks(self):
         """Start asynchronous tasks for updating frame and plot."""
-        asyncio.create_task(self.update_frame())
+        asyncio.create_task(self.update_frames())
         
     def reset_homography(self):
         """Reset homography points."""
@@ -256,6 +265,15 @@ class StageZonesPage(tk.Frame):
             style="Label.TButton"
         )
         btn_rst_crop.pack(side="left", padx=(0, 8))
+
+        # Capture new frame button
+        btn_capture_frame = ttk.Button(
+            frm_settings,
+            text="Capture New Frame",
+            command=lambda: asyncio.create_task(self.apply_transformations()),
+            style="Label.TButton"
+        )
+        btn_capture_frame.pack(side="left", padx=(0, 8))
 
         # Frame for width and height inputs
         frm_size_inputs = tk.Frame(self, background=colours.off_black_80)
@@ -365,11 +383,22 @@ class StageZonesPage(tk.Frame):
 
             if self.dragging_point < 4:
                 self.src_points[self.dragging_point] = point
-               
             else:
                 self.crop_points[self.dragging_point - 4] = point
-            self.update_frame_display(self.current_frame, draw_points=True)
-            self.save_settings()
+
+            # Update display only if enough time has passed to reduce lag
+            current_time = time.time()
+            if current_time - getattr(self, '_last_update_time', 0) > 0.1:
+                self.update_frame_display(self.current_frame, draw_points=True)
+                self._last_update_time = current_time
+
+    def on_mouse_release(self, event):
+        """Handle mouse release to stop dragging points for homography and crop."""
+        self.dragging_point = None
+        self.update_frame_display(self.current_frame, draw_points=True)
+        self.save_settings()
+        asyncio.create_task(self.apply_transformations())
+
 
     def update_frame_display(self, frame, draw_points=False):
         """Update the displayed frame with optional points drawing."""
@@ -400,10 +429,6 @@ class StageZonesPage(tk.Frame):
         self.frm_video.pack_propagate(False)
         self.frm_video.config(width=image.width())
 
-    def on_mouse_release(self, event):
-        """Handle mouse release to stop dragging points for homography and crop."""
-        self.dragging_point = None
-
     def is_close(self, point1, point2, threshold=10):
         """Check if two points are within a certain threshold distance."""
         return np.linalg.norm(np.array(point1) - np.array(point2)) < threshold
@@ -411,110 +436,87 @@ class StageZonesPage(tk.Frame):
     def perform_homography(self, frame):
         """Perform homography transform and update the transformed image."""
         if len(self.src_points) == 4:
-            if (self.homography_width.get() == '' or self.homography_height.get() == ''):  # Check if width and height are empty
+            if not self.homography_width.get() or not self.homography_height.get():
                 logging.error("Width and height must be set.")
                 return frame
+
             try:
-                # Get the target dimensions from the user input
                 target_width = float(self.homography_width.get())
                 target_height = float(self.homography_height.get())
             except ValueError:
                 logging.error("Width and height must be valid numbers.")
                 return frame
+            
+            src_points = self.sort_points_clockwise(self.src_points)
 
-            src = np.array(self.src_points, dtype=np.float32)
+            src = np.array(src_points, dtype=np.float32)
             dst = np.array([
-                (0, 0), 
-                (target_width, 0), 
-                (target_width, target_height), 
-                (0, target_height)
+                [0, 0],
+                [target_width, 0],
+                [target_width, target_height],
+                [0, target_height]
             ], dtype=np.float32)
+
             h, status = cv2.findHomography(src, dst)
-            src = self.sort_points_clockwise(src)
 
-            try:
-                original_height, original_width = frame.shape[:2]
+            # Warp the image with the homography
+            transformed_frame = cv2.warpPerspective(frame, h, (int(target_width), int(target_height)))
 
-                # Apply homography to the frame to find the transformed corner points
-                corners = np.array([
-                    [0, 0],
-                    [original_width, 0],
-                    [original_width, original_height],
-                    [0, original_height]
-                ], dtype=np.float32).reshape(-1, 1, 2)
-                transformed_corners = cv2.perspectiveTransform(corners, h)
+            # Transform crop points using the same homography
+            self.transformed_crop_points = cv2.perspectiveTransform(np.array([self.crop_points], dtype=np.float32), h)[0]
 
-                # Calculate the bounding box of the transformed corners
-                x_min, y_min = np.min(transformed_corners, axis=0).ravel()
-                x_max, y_max = np.max(transformed_corners, axis=0).ravel()
-
-                # Calculate the scaling factor and translation to fit the transformed image within the original size
-                scale_x = original_width / (x_max - x_min)
-                scale_y = original_height / (y_max - y_min)
-                scale = min(scale_x, scale_y)
-
-                # Calculate the offsets to center the image
-                offset_x = (original_width - (x_max - x_min) * scale) / 2
-                offset_y = (original_height - (y_max - y_min) * scale) / 2
-
-                translation_matrix = np.array([
-                    [scale, 0, -x_min * scale + offset_x],
-                    [0, scale, -y_min * scale + offset_y],
-                    [0, 0, 1]
-                ])
-
-                # Combine the scaling and translation with the original homography
-                combined_h = translation_matrix @ h
-
-                # Warp the image with the combined homography
-                transformed_frame = cv2.warpPerspective(frame, combined_h, (original_width, original_height), flags=cv2.INTER_LINEAR)
-
-                return transformed_frame
-            except Exception as e:
-                logging.error(f"Error performing homography: {e}")
-                return frame
+            return transformed_frame
+        return frame
 
     def perform_crop(self, frame):
         """Perform cropping based on crop points and update the transformed image."""
-        if len(self.crop_points) == 4:
+        if self.enable_homography.get() and hasattr(self, 'transformed_crop_points') and len(self.transformed_crop_points) == 4:
+            crop_points = np.array(self.transformed_crop_points, dtype=np.float32)
+        else:
             crop_points = np.array(self.crop_points, dtype=np.float32)
-            rect = cv2.boundingRect(crop_points)
-            x, y, w, h = rect
-            cropped = frame[y:y+h, x:x+w].copy()
 
-            # Create mask
-            crop_points = crop_points - crop_points.min(axis=0)
-            mask = np.zeros(cropped.shape[:2], dtype=np.uint8)
-            cv2.drawContours(mask, [crop_points.astype(np.int32)], -1, (255, 255, 255), -1, cv2.LINE_AA)
+        # Ensure crop points are within the image bounds
+        crop_points[:, 0] = np.clip(crop_points[:, 0], 0, frame.shape[1] - 1)
+        crop_points[:, 1] = np.clip(crop_points[:, 1], 0, frame.shape[0] - 1)
 
-            # Bitwise AND to get the cropped region
-            result = cv2.bitwise_and(cropped, cropped, mask=mask)
+        rect = cv2.boundingRect(crop_points)
+        x, y, w, h = rect
+        cropped = frame[y:y+h, x:x+w].copy()
 
-            # Ensure the result fits the original frame size by adding black borders
-            frame_height, frame_width = frame.shape[:2]
-            result_height, result_width = result.shape[:2]
+        # Create mask
+        crop_points = crop_points - crop_points.min(axis=0)
+        mask = np.zeros(cropped.shape[:2], dtype=np.uint8)
+        cv2.drawContours(mask, [crop_points.astype(np.int32)], -1, (255, 255, 255), -1, cv2.LINE_AA)
 
-            # Calculate scale to fit the cropped result within the original frame
-            scale_x = frame_width / result_width
-            scale_y = frame_height / result_height
-            scale = min(scale_x, scale_y)
+        # Bitwise AND to get the cropped region
+        result = cv2.bitwise_and(cropped, cropped, mask=mask)
 
-            # Resize the cropped result
-            result_resized = cv2.resize(result, (int(result_width * scale), int(result_height * scale)), interpolation=cv2.INTER_LINEAR)
+        return result
 
-            # Create a new black frame of the same size as the original frame
-            final_frame = np.zeros((frame_height, frame_width, 3), dtype=np.uint8)
+    
+    def resize_to_original_frame(self, frame, original_width, original_height):
+        """Resize the frame to fit within the original frame dimensions, maintaining aspect ratio."""
+        result_height, result_width = frame.shape[:2]
 
-            # Calculate the offset to center the resized result within the final frame
-            offset_x = (frame_width - result_resized.shape[1]) // 2
-            offset_y = (frame_height - result_resized.shape[0]) // 2
+        # Calculate scale to fit the frame within the original dimensions
+        scale_x = original_width / result_width
+        scale_y = original_height / result_height
+        scale = min(scale_x, scale_y)
 
-            # Place the resized result in the center of the final frame
-            final_frame[offset_y:offset_y+result_resized.shape[0], offset_x:offset_x+result_resized.shape[1]] = result_resized
+        # Resize the frame
+        result_resized = cv2.resize(frame, (int(result_width * scale), int(result_height * scale)), interpolation=cv2.INTER_LINEAR)
 
-            return final_frame
-        return frame
+        # Create a new black frame of the original size
+        final_frame = np.zeros((original_height, original_width, 3), dtype=np.uint8)
 
+        # Calculate the offset to center the resized frame within the final frame
+        offset_x = (original_width - result_resized.shape[1]) // 2
+        offset_y = (original_height - result_resized.shape[0]) // 2
+
+        # Place the resized frame in the center of the final frame
+        final_frame[offset_y:offset_y+result_resized.shape[0], offset_x:offset_x+result_resized.shape[1]] = result_resized
+
+        return final_frame
 
     def update_transformed_display(self, frame):
         """Update the transformed frame displayed in the UI."""
@@ -533,27 +535,42 @@ class StageZonesPage(tk.Frame):
 
         sorted_pts = sorted(pts, key=angle_from_center)
         return sorted_pts
-    
-    async def update_frame(self):
+        
+
+    async def apply_transformations(self):
+        """Apply homography and crop transformations, then update the display."""
+        if self.current_frame is None:
+            return
+        
+        temp_frame = self.current_frame.copy()
+
+        original_width, original_height = self.current_frame.shape[1], self.current_frame.shape[0]
+
+        # Apply homography first if enabled
+        if self.enable_homography.get() and len(self.src_points) == 4:
+            temp_frame = self.perform_homography(temp_frame)
+
+        # Apply crop after homography if enabled
+        if self.enable_crop.get() and len(self.crop_points) == 4:
+            temp_frame = self.perform_crop(temp_frame)
+
+        # Resize to fit original frame dimensions
+        temp_frame = self.resize_to_original_frame(temp_frame, original_width, original_height)
+
+        self.update_transformed_display(temp_frame)
+
+    async def update_frames(self):
         """Update the frame displayed in the UI."""
         while not self.stop_event.is_set():
             try:
                 if not self.frame_queue.empty():
-                    frame = self.frame_queue.get()
+                    frame, scaling_factor = self.frame_queue.get()
                     self.current_frame = frame.copy()
+                    self.scaling_factor = scaling_factor
                     self.update_frame_display(frame, draw_points=True)
-                    temp_frame = frame.copy()
 
-                    # Apply homography first if enabled
-                    if self.enable_homography.get() and len(self.src_points) == 4:
-                        temp_frame = self.perform_homography(temp_frame)
-
-                    # Apply crop after homography if enabled
-                    if self.enable_crop.get() and len(self.crop_points) == 4:
-                        temp_frame = self.perform_crop(temp_frame)
-
-                    self.update_transformed_display(temp_frame)
                 await asyncio.sleep(0.033)  # Approx 30 FPS
             except Exception as e:
                 logging.error(f"Error updating frame: {e}")
                 await asyncio.sleep(1)  # Try again after 1 second if there's an error
+

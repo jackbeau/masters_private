@@ -21,44 +21,45 @@
     "stage_zone": {
         "src_points": [
             [
-                400,
-                138
+                1187,
+                438
             ],
             [
-                202,
-                139
+                624,
+                438
             ],
             [
-                119,
-                286
+                352,
+                928
             ],
             [
-                475,
-                279
+                1523,
+                902
             ]
         ],
         "crop_points": [
             [
-                299,
-                251
+                486,
+                105
             ],
             [
-                427,
-                242
+                1552,
+                83
             ],
             [
-                371,
-                336
+                1814,
+                1043
             ],
             [
-                241,
-                331
+                80,
+                1004
             ]
         ],
         "enable_crop": 1,
         "enable_homography": 1,
         "homography_width": "6096",
-        "homography_height": "6689"
+        "homography_height": "6689",
+        "scaling_factor": 0.3125
     },
     "performer_tracker": {
         "user_folder": "users",

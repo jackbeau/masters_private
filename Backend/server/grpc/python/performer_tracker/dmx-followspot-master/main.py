@@ -1,9 +1,10 @@
 import asyncio
-from camera.camera_stream import start_camera_stream
+from performer_tracker import PerformerTracker
 
 
 async def main():
-    await start_camera_stream()
+    tracker = PerformerTracker()
+    await tracker.start_camera_stream()
 
 if __name__ == '__main__':
     try:
