@@ -9,7 +9,8 @@
         "rotation": 0,
         "mirror_x": 0,
         "mirror_y": 0,
-        "hist_equalisation": 0,
+        "clahe": 1,
+        "clahe_clip_limit": 0.0,
         "brightness": 50.0,
         "exposure": 50.0,
         "contrast": 50.0,
@@ -21,45 +22,44 @@
     "stage_zone": {
         "src_points": [
             [
-                1187,
-                438
+                1180,
+                441
             ],
             [
                 624,
-                438
+                441
             ],
             [
-                352,
+                355,
                 928
             ],
             [
-                1523,
-                902
+                1526,
+                905
             ]
         ],
         "crop_points": [
             [
-                486,
-                105
+                181,
+                120
             ],
             [
-                1552,
-                83
+                384,
+                118
             ],
             [
-                1814,
-                1043
+                506,
+                295
             ],
             [
-                80,
-                1004
+                86,
+                303
             ]
         ],
-        "enable_crop": 1,
+        "enable_crop": 0,
         "enable_homography": 1,
         "homography_width": "6096",
-        "homography_height": "6689",
-        "scaling_factor": 0.3125
+        "homography_height": "6689"
     },
     "performer_tracker": {
         "user_folder": "users",
@@ -70,15 +70,15 @@
         "light_node_port": 6454,
         "light_universe_id": 0,
         "max_pan": 540,
-        "max_tilt": 270,
+        "max_tilt": 246,
         "kp": 0.1,
         "show_window": true,
         "logging_level": "DEBUG",
         "tracked_user_id": "3",
         "light_coords": [
+            3048,
             0,
-            0,
-            5
+            4500
         ]
     }
 }

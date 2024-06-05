@@ -5,6 +5,21 @@ brew install mosquitto
 source .venv/bin/activate
 pip install -r requirements.txt 
 
+
+
+actual list
+
+
+pip install -r requirements.txt
+
+git clone https://github.com/KaiyangZhou/deep-person-reid.git
+cd deep-person-reid/
+python setup.py develop
+
+
+
+also package.json for API
+
 # Setup instructions
 
 ## Poetry setup

@@ -17,7 +17,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from mqtt_controller.mqtt_controller import MQTTController
 from speech_to_script_pointer.main import SpeechToScriptPointer
-# from performer_tracker import PerformerTracker
+from performer_tracker.performer_tracker import PerformerTracker
 
 OUTPUT_DIR = 'server/storage/pdfs/'
 
@@ -87,6 +87,7 @@ class ScriptService(service_pb2_grpc.ScriptServiceServicer):
 
     def StopSpeechToScriptPointer(self, request, context):
         if self.speech_to_script_pointer_process and self.speech_to_script_pointer_process.is_alive():
+            # More graceful shutdown can be implemented here
             self.speech_to_script_pointer_process.terminate()
             self.speech_to_script_pointer_process.join()
             self.speech_to_script_pointer_status_queue.put("Stopped")  # Ensure stopped status is put in the queue
@@ -116,6 +117,7 @@ class ScriptService(service_pb2_grpc.ScriptServiceServicer):
 
     def StopPerformerTracker(self, request, context):
         if self.performer_tracker_process and self.performer_tracker_process.is_alive():
+            # More graceful shutdown can be implemented here
             self.performer_tracker_process.terminate()
             self.performer_tracker_process.join()
             self.performer_tracker_status_queue.put("Stopped")  # Ensure stopped status is put in the queue
@@ -127,8 +129,8 @@ class ScriptService(service_pb2_grpc.ScriptServiceServicer):
     def run_performer_tracker(self, status_queue, settings):
         try:
             print("hi")
-            # performer_tracker = PerformerTracker(status_queue=status_queue, settings=settings)
-            # performer_tracker.start()
+            performer_tracker = PerformerTracker(settings=settings, status_queue=status_queue)
+            performer_tracker.start()
         except Exception as e:
             status_queue.put("failed")
 

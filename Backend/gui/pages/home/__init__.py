@@ -107,7 +107,7 @@ class HomePage(Frame):
         if key in self.label_vars:
             self.label_vars[key].set(new_value)
         else:
-            print("Key not found.")
+            print("Key not found {key}")
 
     def gen_system_info(self, parent):
         frm_parameters = Frame(parent, background=colours.off_black_100)
