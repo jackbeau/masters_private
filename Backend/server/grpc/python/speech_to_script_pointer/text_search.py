@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO,
                     handlers=[logging.StreamHandler(sys.stdout)])
 
 # Use the same logger instance
-logger = logging.getLogger("speech_to_line")
+logger = logging.getLogger("speech_to_script_pointer")
 logger.setLevel(logging.INFO)
 
 MAX_FAILED_ATTEMPTS = 5

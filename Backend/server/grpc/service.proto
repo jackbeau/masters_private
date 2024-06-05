@@ -3,8 +3,8 @@ syntax = "proto3";
 service ScriptService {
   rpc AddMargin(AddMarginRequest) returns (AddMarginResponse);
   rpc PerformOCR(OCRRequest) returns (OCRResponse);
-  rpc StartSpeechToLine(StartRequest) returns (StartResponse);
-  rpc StopSpeechToLine(StopRequest) returns (StopResponse);
+  rpc StartSpeechToScriptPointer(StartRequest) returns (StartResponse);
+  rpc StopSpeechToScriptPointer(StopRequest) returns (StopResponse);
   rpc StartPerformerTracker(StartRequest) returns (StartResponse);
   rpc StopPerformerTracker(StopRequest) returns (StopResponse);
   rpc GetStatuses(StatusRequest) returns (StatusResponse);
@@ -43,6 +43,6 @@ message StatusRequest {}
 
 message StatusResponse {
   string rpc_status = 1;
-  string speech_to_line_status = 2;
+  string speech_to_script_pointer_status = 2;
   string performer_tracker_status = 3;
 }

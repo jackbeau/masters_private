@@ -9,24 +9,24 @@ class SpeechProvider implements SpeechProviderBase {
   SpeechProvider({required this.baseUrl});
 
   @override
-  Future<String> startSpeechToLine() async {
-    final response = await http.post(Uri.parse('$baseUrl/speech-to-line/start'));
+  Future<String> startSpeechToScriptPointer() async {
+    final response = await http.post(Uri.parse('$baseUrl/speech-to-script-pointer/start'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       return responseBody['message'];
     } else {
-      throw Exception('Failed to start SpeechToLine process');
+      throw Exception('Failed to start SpeechToScriptPointer process');
     }
   }
 
   @override
-  Future<String> stopSpeechToLine() async {
-    final response = await http.post(Uri.parse('$baseUrl/speech-to-line/stop'));
+  Future<String> stopSpeechToScriptPointer() async {
+    final response = await http.post(Uri.parse('$baseUrl/speech-to-script-pointer/stop'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       return responseBody['message'];
     } else {
-      throw Exception('Failed to stop SpeechToLine process');
+      throw Exception('Failed to stop SpeechToScriptPointer process');
     }
   }
 }

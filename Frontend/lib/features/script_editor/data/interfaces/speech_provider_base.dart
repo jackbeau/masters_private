@@ -1,4 +1,4 @@
 abstract class SpeechProviderBase {
-  Future<String> startSpeechToLine();
-  Future<String> stopSpeechToLine();
+  Future<String> startSpeechToScriptPointer();
+  Future<String> stopSpeechToScriptPointer();
 }

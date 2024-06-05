@@ -39,9 +39,9 @@ const performOCR = (filePath) => {
   });
 };
 
-const startSpeechToLine = () => {
+const startSpeechToScriptPointer = () => {
   return new Promise((resolve, reject) => {
-    client.StartSpeechToLine({}, (error, response) => {
+    client.StartSpeechToScriptPointer({}, (error, response) => {
       if (error) {
         reject(error);
       } else {
@@ -51,9 +51,9 @@ const startSpeechToLine = () => {
   });
 };
 
-const stopSpeechToLine = () => {
+const stopSpeechToScriptPointer = () => {
   return new Promise((resolve, reject) => {
-    client.StopSpeechToLine({}, (error, response) => {
+    client.StopSpeechToScriptPointer({}, (error, response) => {
       if (error) {
         reject(error);
       } else {
@@ -87,4 +87,4 @@ const stopPerformerTracker = () => {
   });
 };
 
-module.exports = { addMargin, performOCR, startSpeechToLine, stopSpeechToLine, startPerformerTracker, stopPerformerTracker};
+module.exports = { addMargin, performOCR, startSpeechToScriptPointer, stopSpeechToScriptPointer, startPerformerTracker, stopPerformerTracker};

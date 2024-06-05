@@ -8,8 +8,8 @@ import '../models/act.dart';  // Assuming data model exists
 abstract class SidebarEvent {}
 class LoadActs extends SidebarEvent {}
 class UpdateTime extends SidebarEvent {}
-class StartSpeechToLine extends SidebarEvent {}
-class StopSpeechToLine extends SidebarEvent {}
+class StartSpeechToScriptPointer extends SidebarEvent {}
+class StopSpeechToScriptPointer extends SidebarEvent {}
 class StartPerformerTracker extends SidebarEvent {}
 class StopPerformerTracker extends SidebarEvent {}
 
@@ -43,9 +43,9 @@ class SidebarBloc extends Bloc<SidebarEvent, SidebarState> {
       }
     });
 
-    on<StartSpeechToLine>((event, emit) async {
+    on<StartSpeechToScriptPointer>((event, emit) async {
       try {
-        final message = await speechRepository.startSpeechToLine();
+        final message = await speechRepository.startSpeechToScriptPointer();
         if (state is SidebarLoaded) {
           emit(SidebarLoaded((state as SidebarLoaded).acts, (state as SidebarLoaded).currentTime, message));
         }
@@ -56,9 +56,9 @@ class SidebarBloc extends Bloc<SidebarEvent, SidebarState> {
       }
     });
 
-    on<StopSpeechToLine>((event, emit) async {
+    on<StopSpeechToScriptPointer>((event, emit) async {
       try {
-        final message = await speechRepository.stopSpeechToLine();
+        final message = await speechRepository.stopSpeechToScriptPointer();
         if (state is SidebarLoaded) {
           emit(SidebarLoaded((state as SidebarLoaded).acts, (state as SidebarLoaded).currentTime, message));
         }

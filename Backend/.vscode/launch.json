@@ -30,10 +30,10 @@
             "projectName": "app"
         },
         {
-            "name": "Debug speech_to_line",
+            "name": "Debug speech_to_script_pointer",
             "type": "debugpy",
             "request": "launch",
-            "module": "speech_to_line.main",
+            "module": "speech_to_script_pointer.main",
             "args": ["{\"microphone\": {\"microphone_device\": 1}}"],  // Adjust your settings here
             "justMyCode": true,
             "env": {

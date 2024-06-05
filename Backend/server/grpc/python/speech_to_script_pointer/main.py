@@ -8,7 +8,7 @@ import wave
 import pyaudio
 import librosa
 from faster_whisper import WhisperModel
-from speech_to_line import ScriptDataHandler, TextSearch, AudioBuffer
+from speech_to_script_pointer import ScriptDataHandler, TextSearch, AudioBuffer
 
 # Configure logging for the main script
 logging.basicConfig(level=logging.INFO,
@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO,
                     handlers=[logging.StreamHandler(sys.stdout)])
 
 # Set logging level to the logger
-logger = logging.getLogger("speech_to_line")
+logger = logging.getLogger("speech_to_script_pointer")
 logger.setLevel(logging.INFO)
 
 SAMPLE_RATE = 16000
@@ -25,7 +25,7 @@ BUFFER_SIZE = 512
 def clear_console():
     os.system('clear' if os.name == 'posix' else 'cls')
 
-class SpeechToLine:
+class SpeechToScriptPointer:
     def __init__(self,
                  mqtt_controller=None,
                  status_queue=None,
@@ -153,7 +153,7 @@ class SpeechToLine:
 
 if __name__ == '__main__':
     from mqtt_controller.mqtt_controller import MQTTController  # Adjust the import based on your module structure
-    mqtt_controller = MQTTController('0.0.0.0', 1883, 'speech_to_line')
+    mqtt_controller = MQTTController('0.0.0.0', 1883, 'speech_to_script_pointer')
     mqtt_controller.connect()
-    speech_to_line = SpeechToLine(mqtt_controller=mqtt_controller)
-    speech_to_line.start()
+    speech_to_script_pointer = SpeechToScriptPointer(mqtt_controller=mqtt_controller)
+    speech_to_script_pointer.start()

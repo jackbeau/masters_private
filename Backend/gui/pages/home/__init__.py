@@ -40,7 +40,7 @@ class HomePage(Frame):
             "MQTT Server": "",
             "RPC Server": "n/a",
             "API Server": "n/a",
-            "Speech-to-line": "n/a",
+            "Speech-to-script-pointer": "n/a",
             "Performer Tracker": "n/a",
             "Camera": "",
             "Microphone": "",
@@ -188,7 +188,7 @@ class HomePage(Frame):
                     stub = service_pb2_grpc.ScriptServiceStub(channel)
                     response = stub.GetStatuses(service_pb2.StatusRequest())
                     self.update_system_info("RPC Server", response.rpc_status)
-                    self.update_system_info("Speech-to-line", response.speech_to_line_status)
+                    self.update_system_info("Speech-to-script-pointer", response.speech_to_script_pointer_status)
                     self.update_system_info("Performer Tracker", response.performer_tracker_status)         
             except grpc.RpcError:
                 self.update_system_info("RPC Server", "Stopped")

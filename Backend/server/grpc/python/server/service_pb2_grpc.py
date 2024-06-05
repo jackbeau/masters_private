@@ -49,13 +49,13 @@ class ScriptServiceStub(object):
                 request_serializer=service__pb2.OCRRequest.SerializeToString,
                 response_deserializer=service__pb2.OCRResponse.FromString,
                 _registered_method=True)
-        self.StartSpeechToLine = channel.unary_unary(
-                '/ScriptService/StartSpeechToLine',
+        self.StartSpeechToScriptPointer = channel.unary_unary(
+                '/ScriptService/StartSpeechToScriptPointer',
                 request_serializer=service__pb2.StartRequest.SerializeToString,
                 response_deserializer=service__pb2.StartResponse.FromString,
                 _registered_method=True)
-        self.StopSpeechToLine = channel.unary_unary(
-                '/ScriptService/StopSpeechToLine',
+        self.StopSpeechToScriptPointer = channel.unary_unary(
+                '/ScriptService/StopSpeechToScriptPointer',
                 request_serializer=service__pb2.StopRequest.SerializeToString,
                 response_deserializer=service__pb2.StopResponse.FromString,
                 _registered_method=True)
@@ -91,13 +91,13 @@ class ScriptServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def StartSpeechToLine(self, request, context):
+    def StartSpeechToScriptPointer(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def StopSpeechToLine(self, request, context):
+    def StopSpeechToScriptPointer(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -134,13 +134,13 @@ def add_ScriptServiceServicer_to_server(servicer, server):
                     request_deserializer=service__pb2.OCRRequest.FromString,
                     response_serializer=service__pb2.OCRResponse.SerializeToString,
             ),
-            'StartSpeechToLine': grpc.unary_unary_rpc_method_handler(
-                    servicer.StartSpeechToLine,
+            'StartSpeechToScriptPointer': grpc.unary_unary_rpc_method_handler(
+                    servicer.StartSpeechToScriptPointer,
                     request_deserializer=service__pb2.StartRequest.FromString,
                     response_serializer=service__pb2.StartResponse.SerializeToString,
             ),
-            'StopSpeechToLine': grpc.unary_unary_rpc_method_handler(
-                    servicer.StopSpeechToLine,
+            'StopSpeechToScriptPointer': grpc.unary_unary_rpc_method_handler(
+                    servicer.StopSpeechToScriptPointer,
                     request_deserializer=service__pb2.StopRequest.FromString,
                     response_serializer=service__pb2.StopResponse.SerializeToString,
             ),
@@ -225,7 +225,7 @@ class ScriptService(object):
             _registered_method=True)
 
     @staticmethod
-    def StartSpeechToLine(request,
+    def StartSpeechToScriptPointer(request,
             target,
             options=(),
             channel_credentials=None,
@@ -238,7 +238,7 @@ class ScriptService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/ScriptService/StartSpeechToLine',
+            '/ScriptService/StartSpeechToScriptPointer',
             service__pb2.StartRequest.SerializeToString,
             service__pb2.StartResponse.FromString,
             options,
@@ -252,7 +252,7 @@ class ScriptService(object):
             _registered_method=True)
 
     @staticmethod
-    def StopSpeechToLine(request,
+    def StopSpeechToScriptPointer(request,
             target,
             options=(),
             channel_credentials=None,
@@ -265,7 +265,7 @@ class ScriptService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/ScriptService/StopSpeechToLine',
+            '/ScriptService/StopSpeechToScriptPointer',
             service__pb2.StopRequest.SerializeToString,
             service__pb2.StopResponse.FromString,
             options,

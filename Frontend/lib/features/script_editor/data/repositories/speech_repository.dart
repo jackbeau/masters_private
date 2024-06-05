@@ -6,11 +6,11 @@ class SpeechRepository {
 
   SpeechRepository({required this.speechProvider});
 
-  Future<String> startSpeechToLine() async {
-    return await speechProvider.startSpeechToLine();
+  Future<String> startSpeechToScriptPointer() async {
+    return await speechProvider.startSpeechToScriptPointer();
   }
 
-  Future<String> stopSpeechToLine() async {
-    return await speechProvider.stopSpeechToLine();
+  Future<String> stopSpeechToScriptPointer() async {
+    return await speechProvider.stopSpeechToScriptPointer();
   }
 }

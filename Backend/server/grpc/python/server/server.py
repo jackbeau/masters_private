@@ -16,7 +16,7 @@ import service_pb2_grpc
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from mqtt_controller.mqtt_controller import MQTTController
-from speech_to_line.main import SpeechToLine
+from speech_to_script_pointer.main import SpeechToScriptPointer
 # from performer_tracker import PerformerTracker
 
 OUTPUT_DIR = 'server/storage/pdfs/'
@@ -24,15 +24,15 @@ OUTPUT_DIR = 'server/storage/pdfs/'
 class ScriptService(service_pb2_grpc.ScriptServiceServicer):
 
     def __init__(self, settings):
-        self.speech_to_line_process = None
+        self.speech_to_script_pointer_process = None
         self.performer_tracker_process = None
-        self.speech_to_line_status_queue = Queue()
+        self.speech_to_script_pointer_status_queue = Queue()
         self.performer_tracker_status_queue = Queue()
         self.settings = settings
 
         # Initialize statuses
         self.rpc_status = "Running"
-        self.speech_to_line_status = "Stopped"
+        self.speech_to_script_pointer_status = "Stopped"
         self.performer_tracker_status = "Stopped"
 
     def AddMargin(self, request, context):
@@ -75,32 +75,32 @@ class ScriptService(service_pb2_grpc.ScriptServiceServicer):
         response = json.loads(result.stdout)
         return service_pb2.OCRResponse(file_path=response['file_path'])
 
-    def StartSpeechToLine(self, request, context):
-        if self.speech_to_line_process and self.speech_to_line_process.is_alive():
+    def StartSpeechToScriptPointer(self, request, context):
+        if self.speech_to_script_pointer_process and self.speech_to_script_pointer_process.is_alive():
             return service_pb2.StartResponse(success=False)
 
-        self.speech_to_line_process = Process(target=self.run_speech_to_line, args=(self.speech_to_line_status_queue, self.settings))
-        self.speech_to_line_process.start()
-        status = self.speech_to_line_status_queue.get()  # Wait for acknowledgment
-        self.speech_to_line_status = status
+        self.speech_to_script_pointer_process = Process(target=self.run_speech_to_script_pointer, args=(self.speech_to_script_pointer_status_queue, self.settings))
+        self.speech_to_script_pointer_process.start()
+        status = self.speech_to_script_pointer_status_queue.get()  # Wait for acknowledgment
+        self.speech_to_script_pointer_status = status
         return service_pb2.StartResponse(success=status == "Started")
 
-    def StopSpeechToLine(self, request, context):
-        if self.speech_to_line_process and self.speech_to_line_process.is_alive():
-            self.speech_to_line_process.terminate()
-            self.speech_to_line_process.join()
-            self.speech_to_line_status_queue.put("Stopped")  # Ensure stopped status is put in the queue
-            status = self.speech_to_line_status_queue.get()  # Wait for acknowledgment
-            self.speech_to_line_status = status
+    def StopSpeechToScriptPointer(self, request, context):
+        if self.speech_to_script_pointer_process and self.speech_to_script_pointer_process.is_alive():
+            self.speech_to_script_pointer_process.terminate()
+            self.speech_to_script_pointer_process.join()
+            self.speech_to_script_pointer_status_queue.put("Stopped")  # Ensure stopped status is put in the queue
+            status = self.speech_to_script_pointer_status_queue.get()  # Wait for acknowledgment
+            self.speech_to_script_pointer_status = status
             return service_pb2.StopResponse(success=status == "Stopped")
         return service_pb2.StopResponse(success=False)
 
-    def run_speech_to_line(self, status_queue, settings):
+    def run_speech_to_script_pointer(self, status_queue, settings):
         try:
-            mqtt_controller = MQTTController('0.0.0.0', 1883, 'speech_to_line')
+            mqtt_controller = MQTTController('0.0.0.0', 1883, 'speech_to_script_pointer')
             mqtt_controller.connect()
-            speech_to_line = SpeechToLine(mqtt_controller=mqtt_controller, status_queue=status_queue, settings=settings)
-            speech_to_line.start()
+            speech_to_script_pointer = SpeechToScriptPointer(mqtt_controller=mqtt_controller, status_queue=status_queue, settings=settings)
+            speech_to_script_pointer.start()
         except Exception as e:
             status_queue.put("failed")
 
@@ -135,7 +135,7 @@ class ScriptService(service_pb2_grpc.ScriptServiceServicer):
     def GetStatuses(self, request, context):
         return service_pb2.StatusResponse(
             rpc_status=self.rpc_status,
-            speech_to_line_status=self.speech_to_line_status,
+            speech_to_script_pointer_status=self.speech_to_script_pointer_status,
             performer_tracker_status=self.performer_tracker_status
         )
     

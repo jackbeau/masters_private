@@ -12,9 +12,7 @@ class LightController:
         logger.info(f"LightController initialized with IP: {node_ip}, Port: {port}, Universe: {universe_id}")
 
     def add_channel(self, name, start, width=1):
-        self.channels[name] = self.universe.add_channel(
-            start=start, width=width
-        )
+        self.channels[name] = self.universe.add_channel(start=start, width=width)
         logger.info(f"Added channel {name} starting at {start} with width {width}")
 
     def set_channel_values(self, name, values):

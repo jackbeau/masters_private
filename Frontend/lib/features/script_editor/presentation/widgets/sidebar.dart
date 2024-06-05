@@ -67,13 +67,13 @@ class Sidebar extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          context.read<SidebarBloc>().add(StartSpeechToLine());
+                          context.read<SidebarBloc>().add(StartSpeechToScriptPointer());
                         },
                         child: const Text('Start'),
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          context.read<SidebarBloc>().add(StopSpeechToLine());
+                          context.read<SidebarBloc>().add(StopSpeechToScriptPointer());
                         },
                         child: const Text('Stop'),
                       ),

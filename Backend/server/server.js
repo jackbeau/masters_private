@@ -6,7 +6,7 @@ const WebSocket = require('ws');
 const automerge = require('@automerge/automerge');
 const uploadRoutes = require('./api/routes/uploadRoutes');
 const transcriptRoutes = require('./api/routes/transcriptRoutes');
-const speechToLineRoutes = require('./api/routes/speechToLineRoutes');
+const speechToScriptPointerRoutes = require('./api/routes/speechToScriptPointerRoutes');
 const performerTrackerRoutes = require('./api/routes/performerTrackerRoutes');
 const errorHandler = require('./api/middlewares/errorHandler');
 
@@ -41,7 +41,7 @@ function saveCues() {
 
 app.use('/api', uploadRoutes);
 app.use('/api', transcriptRoutes);
-app.use('/api', speechToLineRoutes);
+app.use('/api', speechToScriptPointerRoutes);
 app.use('/api', performerTrackerRoutes);
 
 app.get('/api/cues', (req, res) => {

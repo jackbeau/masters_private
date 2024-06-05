@@ -9,9 +9,10 @@ from ultralytics import YOLO
 from ultralytics.utils.plotting import Annotator, colors
 from reid.reid_model import extract_reid_features, load_database, match_descriptors
 from light_control.controller import LightController
-from light_control.pan_tilt_calculator import PanTiltCalculator
-from utils.homography import apply_homography, seg_to_bbox, get_lowest_point
+from light_control.pan_tilt_calculator import PanTiltCalculator, LightPositionUpdater
+from utils.homography import apply_homography, seg_to_bbox, get_center_point
 from video_processing import process_frame
+import asyncio
 
 class PerformerTracker:
     def __init__(self, settings_file="settings.json"):
@@ -23,6 +24,7 @@ class PerformerTracker:
         self.user_colors = {}
         self.yolo_id_to_user = {}
         self.real_world_point = None
+        self.light_controller = None
 
     def load_settings(self, settings_file):
         with open(settings_file, "r") as f:
@@ -77,8 +79,6 @@ class PerformerTracker:
             self.settings["performer_tracker"]["uncertain_folder"]
         )
 
-        self.light_controller = self.initialize_light_controller()
-
         frame_count = 0
         retry_count = 0
         max_retries = 5  # Set maximum retries
@@ -111,7 +111,7 @@ class PerformerTracker:
 
             if self.settings["performer_tracker"]["show_window"]:
                 cv2.imshow(
-                    "Real-Time Detection and Tracking", annotator.result()
+                    "Real-Time Detection and Tracking", annotator.result
                 )
 
             if cv2.waitKey(1) & 0xFF == ord("q"):
@@ -119,6 +119,8 @@ class PerformerTracker:
                 break
 
             frame_count += 1
+
+            await asyncio.sleep(0.01) # Sleep for a short time to allow other tasks to run
 
         cap.release()
         cv2.destroyAllWindows()
@@ -131,18 +133,6 @@ class PerformerTracker:
             self.settings["performer_tracker"]["uncertain_folder"],
             exist_ok=True,
         )
-
-    def initialize_light_controller(self):
-        light_controller = LightController(
-            self.settings["performer_tracker"]["light_node_ip"],
-            self.settings["performer_tracker"]["light_node_port"],
-            self.settings["performer_tracker"]["light_universe_id"],
-        )
-        light_controller.add_channel("pan", start=18)
-        light_controller.add_channel("tilt", start=20)
-        light_controller.add_channel("shutter", start=2)
-        light_controller.add_channel("dimmer", start=1)
-        return light_controller
 
     def process_and_transform_frame(self, frame):
         frame = process_frame(
@@ -164,17 +154,18 @@ class PerformerTracker:
         if self.settings["stage_zone"]["enable_homography"]:
             test = self.perform_homography(frame)
 
+            if self.real_world_point is not None:
+                # Convert real-world coordinates to the homography frame coordinates
+                cv2.circle(test, tuple(int(x) for x in self.real_world_point), 20, (0, 0, 255), -1)
+
+            test = self.resize_to_original_frame(
+                test, self.settings["camera"]["resolution"][0], self.settings["camera"]["resolution"][1]
+            )
+
+            cv2.imshow("Homography Transformed Frame", test)
+
         # if self.settings["stage_zone"]["enable_crop"]:
         #     frame = self.perform_crop(frame)
-
-        if self.real_world_point is not None:
-            cv2.circle(test, tuple(int(x) for x in self.real_world_point), 5, (0, 255, 0), -1)
-
-        test =  self.resize_to_original_frame(
-            test, self.settings["camera"]["resolution"][0], self.settings["camera"]["resolution"][1]
-        )
-
-        cv2.imshow("Homography Transformed Frame", test)
     
         return frame
 
@@ -255,7 +246,6 @@ class PerformerTracker:
             in self.yolo_id_to_user.values()
         ):
             self.update_light_position(track_masks, frame, annotator)
- 
 
     def is_bbox_valid(self, x1, y1, x2, y2, frame):
         return (
@@ -350,43 +340,63 @@ class PerformerTracker:
         self.yolo_id_to_user[track_id] = best_match_id
         self.user_colors[best_match_id] = colors(len(self.user_colors), True)
         return label
+    
+    def is_point_in_polygon(self, point, polygon):
+        result = cv2.pointPolygonTest(np.array(polygon, dtype=np.float32), point, False)
+        return result >= 0
+
+    def closest_point_on_segment(self, pt, v, w):
+        """Find the closest point on the line segment vw to point pt."""
+        l2 = np.sum((v - w) ** 2)
+        if l2 == 0:
+            return v
+        t = np.dot(pt - v, w - v) / l2
+        t = max(0, min(1, t))
+        projection = v + t * (w - v)
+        return projection
+
+    def closest_point_on_polygon(self, point, polygon):
+            min_dist = float('inf')
+            closest_point = None
+            for i in range(len(polygon)):
+                line_start = np.array(polygon[i], dtype=np.float32)
+                line_end = np.array(polygon[(i + 1) % len(polygon)], dtype=np.float32)
+                proj_point = self.closest_point_on_segment(point, line_start, line_end)
+                distance = np.linalg.norm(proj_point - point)
+                if distance < min_dist:
+                    min_dist = distance
+                    closest_point = proj_point
+            return closest_point
 
     def update_light_position(self, track_masks, frame, annotator):
+        frame_height = frame.shape[0]
         for track_id, mask in track_masks:
             if (
                 self.yolo_id_to_user.get(track_id)
                 == self.settings["performer_tracker"]["tracked_user_id"]
             ):
                 x1, y1, x2, y2 = map(int, seg_to_bbox(mask))  # Ensure coordinates are integers
-                lowest_point = np.array([[get_lowest_point([x1, y1, x2, y2])]], dtype=np.float32)  
-                real_world_coords = cv2.perspectiveTransform(lowest_point, self.h)[0][0]  # Adjust indexing
+                center_point = np.array([[get_center_point([x1, y1, x2, y2])]], dtype=np.float32)
+                
+                # Check if the lowest point is within the homography source points
+                # if not self.is_point_in_polygon(center_point[0][0], self.src_points):
+                #     closest_point = self.closest_point_on_polygon(center_point[0][0], self.src_points)
+                #     self.logger.debug(f"Lowest point {center_point[0][0]} is outside, swapping with closest boundary point {closest_point}")
+                #     center_point = np.array([[closest_point]], dtype=np.float32)
+                
+                real_world_coords = cv2.perspectiveTransform(center_point, self.h)[0][0]  # Adjust indexing
+                real_world_coords = np.round(real_world_coords, decimals=0)
 
                 self.logger.debug(
-                    f"Lowest point (image coords): {lowest_point}, Real-world coords: {real_world_coords}"
+                    f"Lowest point (image coords): {center_point}, Real-world coords: {real_world_coords}"
                 )
-
-                target_pan, target_tilt = PanTiltCalculator.calculate_pan_tilt(
-                    *self.settings["performer_tracker"]["light_coords"],
-                    real_world_coords[0],
-                    real_world_coords[1],
-                    0,
-                )
-
-                # Martin Mac 700 Profile
-
-                pan_dmx = PanTiltCalculator.pan_angle_to_dmx(
-                    target_pan, self.settings["performer_tracker"]["max_pan"]
-                )
-                tilt_dmx = PanTiltCalculator.tilt_angle_to_dmx(
-                    target_tilt, self.settings["performer_tracker"]["max_tilt"]
-                )
-
-                self.light_controller.set_channel_values("pan", [pan_dmx])
-                self.light_controller.set_channel_values("tilt", [tilt_dmx])
-                self.light_controller.set_channel_values("shutter", [254])
-                self.light_controller.set_channel_values("dimmer", [255])
 
                 self.real_world_point = real_world_coords
+
+                # Display the lowest point on the frame
+                cv2.circle(frame, (int(center_point[0][0][0]), int(center_point[0][0][1])), 5, (0, 255, 0), -1)
+                annotator.result = frame  # Update the annotator with the new frame
+
 
 
     def perform_homography(self, frame):
@@ -446,10 +456,45 @@ class PerformerTracker:
     @staticmethod
     def resize_to_original_frame(frame, original_width, original_height):
         return cv2.resize(frame, (original_width, original_height))
+    
+    async def light_control_loop(self):
+        x0, y0, z0 = self.settings["performer_tracker"]["light_coords"]
+        max_pan = self.settings["performer_tracker"]["max_pan"]
+        max_tilt = self.settings["performer_tracker"]["max_tilt"]
 
+        self.logger.info("Starting light control loop")
 
-# Instantiate and run the performer tracker
-if __name__ == "__main__":
-    tracker = PerformerTracker()
-    import asyncio
-    asyncio.run(tracker.start_camera_stream())
+        # Initialize the light controller inside the loop
+        self.light_controller = LightController(
+            self.settings["performer_tracker"]["light_node_ip"],
+            self.settings["performer_tracker"]["light_node_port"],
+            self.settings["performer_tracker"]["light_universe_id"],
+        )
+        self.light_controller.add_channel("pan", start=18)
+        self.light_controller.add_channel("tilt", start=20)
+        self.light_controller.add_channel("shutter", start=1)
+        self.light_controller.add_channel("dimmer", start=2)
+
+        try:
+            while True:
+                self.logger.debug("Light control loop running")
+                if self.real_world_point is not None:
+                    self.logger.debug("Updating DMX")
+                                    # Convert y-coordinate from top-left to bottom-left origin
+                    xt, yt, zt = self.real_world_point[0], int(self.settings["stage_zone"]["homography_height"]) - self.real_world_point[1], 0
+                    target_pan, target_tilt = PanTiltCalculator.calculate_pan_tilt(x0, y0, z0, xt, yt, zt)
+
+                    pan_dmx = PanTiltCalculator.pan_angle_to_dmx(target_pan, max_pan)
+                    tilt_dmx = PanTiltCalculator.tilt_angle_to_dmx(target_tilt, max_tilt)
+
+                    self.light_controller.set_channel_values("pan", [pan_dmx])
+                    self.light_controller.set_channel_values("tilt", [tilt_dmx])
+                    self.light_controller.set_channel_values("shutter", [25])
+                    self.light_controller.set_channel_values("dimmer", [255])
+
+                await asyncio.sleep(0.1)  # Keep the loop running
+        except asyncio.CancelledError as e:
+            self.logger.info("Light control loop cancelled")
+            self.logger.error(e)
+            pass  # Handle task cancellation gracefully
+
