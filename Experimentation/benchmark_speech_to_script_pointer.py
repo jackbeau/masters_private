@@ -8,13 +8,13 @@ plt.rcParams.update({
     "text.usetex": True,
     "font.family": "serif",
     "font.serif": ["Computer Modern Roman"],
-    "font.size": 18,
-    "axes.titlesize": 18,
-    "axes.labelsize": 18,
-    "xtick.labelsize": 18,
-    "ytick.labelsize": 18,
-    "legend.fontsize": 18,
-    "figure.titlesize": 18,
+    "font.size": 30,
+    "axes.titlesize": 30,
+    "axes.labelsize": 30,
+    "xtick.labelsize": 30,
+    "ytick.labelsize": 30,
+    "legend.fontsize": 30,
+    "figure.titlesize": 30,
     "text.latex.preamble": r"\usepackage{amsmath}"
 })
 

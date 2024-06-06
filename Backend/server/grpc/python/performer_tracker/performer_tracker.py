@@ -5,9 +5,12 @@ import sys
 import json
 import uuid
 import numpy as np
+import time
+import csv
 from collections import defaultdict, deque
 from ultralytics import YOLO
 from ultralytics.utils.plotting import Annotator, colors
+import asyncio
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__))))
 
@@ -16,7 +19,6 @@ from light_control.controller import LightController
 from light_control.pan_tilt_calculator import PanTiltCalculator, LightPositionUpdater
 from utils.homography import apply_homography, seg_to_bbox, get_center_point
 from video_processing import process_frame
-import asyncio
 
 class PerformerTracker:
     def __init__(self, settings, status_queue=None):
@@ -32,6 +34,21 @@ class PerformerTracker:
         self.light_controller = None
         self.stop = False
         self.reid_model = PersonReID()
+
+        # Initialize CSV file for timing data
+        self.csv_file = 'execution_times_performer.csv'
+        self.setup_csv()
+
+    def setup_csv(self):
+        with open(self.csv_file, 'w', newline='') as csvfile:
+            fieldnames = ['Step', 'Time (seconds)']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+
+    def save_timings_to_csv(self, step, timing):
+        with open(self.csv_file, 'a', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow([step, timing])
 
     def setup_logging(self):
         logging_level = getattr(
@@ -98,11 +115,23 @@ class PerformerTracker:
 
             retry_count = 0  # Reset retry count on successful frame read
 
+            # Measure time for processing frame
+            fetch_start_time = time.time()
             frame = self.process_and_transform_frame(frame)
+            fetch_time = time.time() - fetch_start_time
+            self.save_timings_to_csv('Fetch buffer', fetch_time)
+
             annotator = Annotator(frame.copy(), line_width=2)
+
+            # Measure time for detection
+            asr_start_time = time.time()
             results = model.track(source=frame, persist=True)
+            asr_time = time.time() - asr_start_time
+            self.save_timings_to_csv('Tracking', asr_time)
 
             if results[0].boxes.id is not None and results[0].masks is not None:
+                # Measure time for window search
+                
                 self.process_detections(
                     results[0],
                     frame,
@@ -185,6 +214,8 @@ class PerformerTracker:
         database,
         uncertain_database,
     ):
+        process_detections_start_time = time.time()
+
         masks = result.masks.xy
         track_ids = result.boxes.id.int().cpu().tolist()
         track_masks = zip(track_ids, masks)  # Combine track IDs and masks
@@ -248,11 +279,17 @@ class PerformerTracker:
                 color=self.user_colors.get(self.yolo_id_to_user.get(track_id, track_id), colors(track_id, True))
             )
 
+            process_detections_search_time = time.time() - process_detections_start_time
+            self.save_timings_to_csv('Re-ID', process_detections_search_time)
+
         if (
             self.settings["performer_tracker"]["tracked_user_id"]
             in self.yolo_id_to_user.values()
         ):
+            update_light_position_time_start = time.time
             self.update_light_position(track_masks, frame, annotator)
+            pdate_light_position_search_time = time.time() - update_light_position_time_start
+            self.save_timings_to_csv('Update light ps', pdate_light_position_search_time)
 
     def is_bbox_valid(self, x1, y1, x2, y2, frame):
         return (
@@ -403,8 +440,6 @@ class PerformerTracker:
                 # Display the lowest point on the frame
                 cv2.circle(frame, (int(center_point[0][0][0]), int(center_point[0][0][1])), 5, (0, 255, 0), -1)
                 annotator.result = frame  # Update the annotator with the new frame
-
-
 
     def perform_homography(self, frame):
         if len(self.src_points) == 4:

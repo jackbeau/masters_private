@@ -12,67 +12,36 @@ plt.rcParams.update({
     "text.usetex": True,
     "font.family": "serif",
     "font.serif": ["Computer Modern Roman"],
-    "font.size": 16,
-    "axes.titlesize": 16,
-    "axes.labelsize": 16,
-    "xtick.labelsize": 16,
-    "ytick.labelsize": 16,
-    "legend.fontsize": 16,
-    "figure.titlesize": 16,
+    "font.size": 38,
+    "axes.titlesize": 38,
+    "axes.labelsize": 38,
+    "xtick.labelsize": 38,
+    "ytick.labelsize": 38,
+    "legend.fontsize": 38,
+    "figure.titlesize": 38,
     "text.latex.preamble": r"\usepackage{amsmath}"
 })
 
 def load_results(summary_file):
     return pd.read_csv(summary_file)
 
-def generate_latency_vs_cpu_threads_plot(df_cpu):
-    plt.figure(figsize=(12, 8))
-    ax1 = sns.lineplot(data=df_cpu, x='cpu_threads', y='latency_mean', marker='o', label='Latency')
-    ax1.fill_between(df_cpu['cpu_threads'], 
-                     df_cpu['latency_mean'] - df_cpu['latency_std'], 
-                     df_cpu['latency_mean'] + df_cpu['latency_std'], alpha=0.2)
-    ax1.set_xlabel(r'\textbf{CPU Threads}', labelpad=14)
-    ax1.set_ylabel(r'\textbf{Latency (seconds)}', labelpad=14)
-    # ax1.set_title(r'Latency vs. CPU Threads for Faster Whisper Base with a Beam Size of 1')
-    ax1.set_title('')
-    ax1.legend(loc='upper left')
+def generate_plot(data, x, y1, y2, x_label, y1_label, y2_label, filename):
+    plt.figure(figsize=(14, 10))
+    ax = sns.lineplot(data=data, x=x, y=y1, marker='o', label='Latency (seconds)', legend=False)
+    ax.fill_between(data[x], data[y1] - data['latency_std'], data[y1] + data['latency_std'], alpha=0.2)
+    ax.set_xlabel(x_label, labelpad=20)
+    ax.set_ylabel(y1_label, labelpad=20)
     
-    ax2 = ax1.twinx()
-    sns.lineplot(data=df_cpu, x='cpu_threads', y='wer_mean', marker='o', color='orange', label='WER', ax=ax2)
-    # ax2.fill_between(df_cpu['cpu_threads'], 
-    #                  df_cpu['wer_mean'] - df_cpu['wer_std'], 
-    #                  df_cpu['wer_mean'] + df_cpu['wer_std'], color='orange', alpha=0.2)
-    ax2.set_ylabel(r'\textbf{WER}', labelpad=14)
-    ax2.legend(loc='upper right')
+    ax2 = ax.twinx()
+    sns.lineplot(data=data, x=x, y=y2, marker='o', color='orange', label="WER", ax=ax2, legend=False)
+    ax2.set_ylabel(y2_label, labelpad=20)
+
+    lines, labels = ax.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax2.legend(lines + lines2, labels + labels2, loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=2, frameon=False, prop={'weight': 'normal'})
     
     plt.tight_layout()
-    plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
-    plt.savefig(os.path.join(results_dir, 'latency_vs_cpu_threads.png'))
-    plt.show()
-
-def generate_latency_vs_beam_size_plot(df_beam):
-    plt.figure(figsize=(12, 8))
-    ax3 = sns.lineplot(data=df_beam, x='beam_size', y='latency_mean', marker='o', label='Latency')
-    ax3.fill_between(df_beam['beam_size'], 
-                     df_beam['latency_mean'] - df_beam['latency_std'], 
-                     df_beam['latency_mean'] + df_beam['latency_std'], alpha=0.2)
-    ax3.set_xlabel(r'\textbf{Beam Size}', labelpad=14)
-    ax3.set_ylabel(r'\textbf{Latency (seconds)}', labelpad=14)
-    # ax3.set_title(r'Latency vs. Beam Size for Faster Whisper Base with 4 Threads')
-    ax3.set_title('')
-    ax3.legend(loc='upper left')
-
-    ax4 = ax3.twinx()
-    sns.lineplot(data=df_beam, x='beam_size', y='wer_mean', marker='o', color='orange', label='WER', ax=ax4)
-    ax4.fill_between(df_beam['beam_size'], 
-                     df_beam['wer_mean'] - df_beam['wer_std'], 
-                     df_beam['wer_mean'] + df_beam['wer_std'], color='white', alpha=0)
-    ax4.set_ylabel(r'\textbf{WER}', labelpad=14)
-    ax4.legend(loc='upper right')
-
-    plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
-    plt.tight_layout()
-    plt.savefig(os.path.join(results_dir, 'latency_vs_beam_size.png'))
+    plt.savefig(os.path.join(results_dir, filename), bbox_inches='tight')
     plt.show()
 
 def main():
@@ -82,9 +51,13 @@ def main():
     df_cpu = results_df[results_df['beam_size'] == 1]
     df_beam = results_df[results_df['cpu_threads'] == 4]
     
-    # Generate plots
-    generate_latency_vs_cpu_threads_plot(df_cpu)
-    generate_latency_vs_beam_size_plot(df_beam)
+    # Generate plots with consistent sizes
+    generate_plot(df_cpu, 'cpu_threads', 'latency_mean', 'wer_mean', 
+                  r'\textbf{CPU Threads}', r'\textbf{Latency (seconds)}', r'\textbf{WER}', 
+                  'latency_vs_cpu_threads.png')
+    generate_plot(df_beam, 'beam_size', 'latency_mean', 'wer_mean', 
+                  r'\textbf{Beam Size}', r'\textbf{Latency (seconds)}', r'\textbf{WER}', 
+                  'latency_vs_beam_size.png')
 
 if __name__ == '__main__':
     main()
