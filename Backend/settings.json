@@ -9,8 +9,7 @@
         "rotation": 0,
         "mirror_x": 0,
         "mirror_y": 0,
-        "clahe": 1,
-        "clahe_clip_limit": 40.0,
+        "hist_equalisation": 0,
         "brightness": 50.0,
         "exposure": 50.0,
         "contrast": 50.0,
@@ -32,15 +31,15 @@
             ],
             [
                 1856,
-                1014
+                1011
             ],
             [
                 64,
-                1014
+                1011
             ]
         ],
         "enable_crop": 1,
-        "enable_homography": 0,
+        "enable_homography": 1,
         "homography_width": "6096",
         "homography_height": "6689",
         "scaling_factor": 0.3125
