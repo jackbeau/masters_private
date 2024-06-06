@@ -9,6 +9,21 @@ from pydub import AudioSegment
 results_dir = 'labs/results'
 data_dir = 'labs/experiment_dataset'
 
+# Configure Matplotlib to use LaTeX for text rendering
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.serif": ["Computer Modern Roman"],
+    "font.size": 12,
+    "axes.titlesize": 14,
+    "axes.labelsize": 12,
+    "xtick.labelsize": 10,
+    "ytick.labelsize": 10,
+    "legend.fontsize": 10,
+    "figure.titlesize": 14,
+    "text.latex.preamble": r"\usepackage{amsmath}"
+})
+
 def load_results(results_dir):
     all_results = []
     for file in os.listdir(results_dir):
@@ -66,7 +81,7 @@ def generate_plots(results_df, audio_lengths):
     plt.axhline(y=longest_length, color='b', linestyle='--', label='Longest Audio Length')
     plt.xlabel('Model')
     plt.ylabel('Latency (seconds)')
-    plt.title('Latency Distribution by Model with Audio Length Metrics')
+    plt.title(r'Latency Distribution by Model with Audio Length Metrics')
     plt.xticks(rotation=45, ha='right')
     plt.legend()
     plt.tight_layout()
@@ -81,7 +96,7 @@ def generate_plots(results_df, audio_lengths):
     plt.axhline(y=longest_length, color='b', linestyle='--', label='Longest Audio Length')
     plt.xlabel('Model')
     plt.ylabel('Latency (seconds)')
-    plt.title('Latency Distribution by Model with Audio Length Metrics')
+    plt.title(r'Latency Distribution by Model with Audio Length Metrics')
     plt.xticks(rotation=45, ha='right')
     plt.legend()
     plt.tight_layout()

@@ -86,8 +86,7 @@ wss.on('connection', (ws) => {
     try {
       const data = JSON.parse(message);
       if (data && data.changes) {
-        let newDoc = automerge.clone(doc);
-         newDoc = automerge.change(newDoc, d => {
+        let newDoc = automerge.change(doc, d => {
           if (!d.annotations) d.annotations = [];
           data.changes.forEach(change => {
             change.annotation = convertTagsToList(change.annotation);
@@ -120,8 +119,8 @@ wss.on('connection', (ws) => {
             }
           });
         });
-
-        doc = automerge.merge(doc, newDoc);
+  
+        doc = newDoc; // Assign the changed document
         saveCues();
         broadcastChanges(data.changes);
         ws.send(JSON.stringify({ ack: data.changes.map(change => change.id) }));
