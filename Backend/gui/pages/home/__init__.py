@@ -104,6 +104,8 @@ class HomePage(Frame):
         print("Reloaded settings")
 
     def update_system_info(self, key, new_value):
+        if self.label_vars == {}:
+            return
         if key in self.label_vars:
             self.label_vars[key].set(new_value)
         else:

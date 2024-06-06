@@ -466,7 +466,7 @@ class CameraPage(tk.Frame):
         while not self.stop_event.is_set():
             try:
                 if not self.frame_queue.empty():
-                    frame = self.frame_queue.get()
+                    frame, _ = self.frame_queue.get()
                     image = Image.fromarray(frame)
                     image = ImageTk.PhotoImage(image)
                     self.frm_video.configure(image=image)

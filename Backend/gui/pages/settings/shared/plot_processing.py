@@ -9,7 +9,7 @@ from gui.core.constants.styles import colours
 def plot_loop(hist_queue, frame_queue, stop_event, settings):
     """Main loop for processing histogram data."""
     while not stop_event.is_set():
-        frame = frame_queue.get()
+        frame, _ = frame_queue.get()
         if frame is not None:
             hist_image = create_histogram_image(frame)
             if hist_queue.empty():
