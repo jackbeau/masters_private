@@ -1,3 +1,8 @@
+/// ScriptCanvas Widget
+/// Author: Jack Beaumont
+/// Date: 06/06/2024
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pdfrx/pdfrx.dart';
@@ -36,24 +41,22 @@ class _ScriptCanvasState extends State<ScriptCanvas> {
     selectedTool = context.read<ScriptEditorBloc>().state.selectedTool;
   }
 
+  /// Handles updates from the PdfViewerController
   void _onControllerUpdate() {
     _bloc.add(ControllerUpdated());
   }
 
+  /// Extracts text from each page of the PDF document
   Future<void> _extractText() async {
     final document = widget.controller.document;
-      for (int pageIndex = 0; pageIndex < document.pages.length; pageIndex++) {
-        final page = document.pages[pageIndex];
-        final pageText = await page.loadText();
-        setState(() {
-          _pageTexts[pageIndex] = pageText;
-        });
-      }
+    for (int pageIndex = 0; pageIndex < document.pages.length; pageIndex++) {
+      final page = document.pages[pageIndex];
+      final pageText = await page.loadText();
+      setState(() {
+        _pageTexts[pageIndex] = pageText;
+      });
+    }
   }
-
-  // void _updateIndicator(int pageNumber, double yAxis) {
-  //   _bloc.add(UpdateIndicator(pageNumber, yAxis));
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +98,7 @@ class _ScriptCanvasState extends State<ScriptCanvas> {
     );
   }
 
+  /// Builds PdfViewerParams with custom configurations
   PdfViewerParams _buildPdfViewerParams(ScriptCanvasState state) {
     return PdfViewerParams(
       margin: 0,
@@ -102,11 +106,10 @@ class _ScriptCanvasState extends State<ScriptCanvas> {
       enableTextSelection: true,
       maxScale: 8,
       pagePaintCallbacks: [
-         _highlightSentences, // needs to be above to ensure this is painted on the right layer
+        _highlightSentences, // Needs to be above to ensure this is painted on the right layer
         if (state is ScriptCanvasReady)
           (Canvas canvas, Rect pageRect, PdfPage page) =>
               _drawAnnotations(canvas, pageRect, page, state.annotations),
-       
       ],
       pageOverlaysBuilder: (context, pageRect, page) => [
         Positioned.fill(
@@ -133,14 +136,14 @@ class _ScriptCanvasState extends State<ScriptCanvas> {
     );
   }
 
+  /// Builds the viewer overlays
   List<Widget> _buildViewerOverlays() {
     return [
       PdfViewerScrollThumb(
         controller: widget.controller,
         orientation: ScrollbarOrientation.right,
         thumbSize: const Size(40, 25),
-        thumbBuilder: (context, thumbSize, pageNumber, controller) =>
-            Container(
+        thumbBuilder: (context, thumbSize, pageNumber, controller) => Container(
           color: Colors.black,
           child: Center(
             child: Text(pageNumber.toString(),
@@ -152,14 +155,14 @@ class _ScriptCanvasState extends State<ScriptCanvas> {
         controller: widget.controller,
         orientation: ScrollbarOrientation.bottom,
         thumbSize: const Size(80, 30),
-        thumbBuilder: (context, thumbSize, pageNumber, controller) =>
-            Container(
+        thumbBuilder: (context, thumbSize, pageNumber, controller) => Container(
           color: Colors.red,
         ),
       ),
     ];
   }
 
+  /// Highlights sentences on a page
   void _highlightSentences(Canvas canvas, Rect pageRect, PdfPage page) {
     final pageIndex = page.pageNumber - 1;
     if (_pageTexts.containsKey(pageIndex)) {
@@ -169,15 +172,16 @@ class _ScriptCanvasState extends State<ScriptCanvas> {
         ..color = Colors.yellow.withAlpha(100)
         ..style = PaintingStyle.fill;
       for (final f in pageText.fragments) {
-          canvas.drawRect(
-            f.bounds.toRectInPageRect(page: page, pageRect: pageRect),
-            paint,
-          );
+        canvas.drawRect(
+          f.bounds.toRectInPageRect(page: page, pageRect: pageRect),
+          paint,
+        );
       }
     }
   }
 
-  void _drawAnnotations(Canvas canvas, Rect pageRect, PdfPage page, annotations) {
+  /// Draws annotations on a page
+  void _drawAnnotations(Canvas canvas, Rect pageRect, PdfPage page, List annotations) {
     canvas.saveLayer(pageRect, Paint());
     canvas.drawColor(Colors.transparent, BlendMode.src);
     for (final annotation in annotations) {
@@ -195,6 +199,7 @@ class _ScriptCanvasState extends State<ScriptCanvas> {
   }
 }
 
+/// Custom vertical progress indicator widget
 class VerticalProgressIndicator extends StatelessWidget {
   final double yAxis;
   final Color colorAbove;
@@ -220,6 +225,7 @@ class VerticalProgressIndicator extends StatelessWidget {
   }
 }
 
+/// Custom painter for vertical progress indicator
 class _VerticalProgressIndicatorPainter extends CustomPainter {
   final double yAxis;
   final Color colorAbove;

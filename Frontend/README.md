@@ -1,30 +1,28 @@
-# stage_assistant
+# Stage Assistant Frontend
 
-A new Flutter project.
+This directory contains the code for the frontend of the Stage Assistant application built using Flutter.
 
-## Getting Started
+NOTE this code has only been tested on MacOS on Google Chrome.
 
-This project is a starting point for a Flutter application that follows the
-[simple app state management
-tutorial](https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple).
+## Setup Instructions
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Prerequisites
 
-## Assets
+1. **Flutter SDK**: Ensure you have Flutter installed on your system. Follow the instructions on the [Flutter installation guide](https://flutter.dev/docs/get-started/install) for your operating system.
+2. **Dart SDK**: Flutter comes with the Dart SDK. Ensure that the Dart SDK is included in your system's PATH.
 
-The `assets` directory houses images, fonts, and any other files you want to
-include with your application.
+### Install Dependencies
 
-The `assets/images` directory contains [resolution-aware
-images](https://flutter.dev/docs/development/ui/assets-and-images#resolution-aware).
+Navigate to the project directory and install the required dependencies:
+' flutter pub get '
 
-## Localization
+### Running the Application
 
-This project generates localized messages based on arb files found in
-the `lib/src/localization` directory.
+To run the Flutter application on your preferred device (emulator or physical device), execute the following command:
+' flutter run '
 
-To support additional languages, please visit the tutorial on
-[Internationalizing Flutter
-apps](https://flutter.dev/docs/development/accessibility-and-localization/internationalization)
+### Building for Production
+
+To build the application for production, run:
+' flutter build apk '  # For Android
+' flutter build ios '  # For iOS

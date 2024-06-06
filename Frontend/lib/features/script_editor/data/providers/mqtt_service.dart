@@ -25,7 +25,7 @@ class MqttService implements MqttServiceBase {
   Future<void> connect() async {
     try {
       await client.connect();
-    } on Exception catch (e) {
+    } on Exception {
       // debugPrint('Exception: $e');
       client.disconnect();
     }

@@ -1,6 +1,9 @@
+/// Author: Jack Beaumont
+/// Date: 06/06/2024
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stage_assistant/features/script_editor/data/interfaces/performer_tracker_provider_base.dart';
 import 'package:stage_assistant/features/script_editor/data/providers/annotations_provider.dart';
 import 'package:stage_assistant/features/script_editor/data/providers/speech_provider.dart';
 import 'package:stage_assistant/features/script_editor/data/repositories/speech_repository.dart';
@@ -44,8 +47,10 @@ class _ScriptEditorPageState extends State<ScriptEditorPage> {
     _mqttRepository = MqttRepository(_mqttService);
     _speechProvider = SpeechProvider(baseUrl: 'http://localhost:4000');
     _speechRepository = SpeechRepository(speechProvider: _speechProvider);
-    _performerTrackerProvider = PerformerTrackerProvider(baseUrl: 'http://localhost:4000');
-    _performerTrackerRepository = PerformerTrackerRepository(performerTrackerProvider: _performerTrackerProvider);
+    _performerTrackerProvider =
+        PerformerTrackerProvider(baseUrl: 'http://localhost:4000');
+    _performerTrackerRepository = PerformerTrackerRepository(
+        performerTrackerProvider: _performerTrackerProvider);
 
     // Initialize annotationsRepository
     _initialization = _annotationsRepository.initialize();
@@ -76,7 +81,8 @@ class _ScriptEditorPageState extends State<ScriptEditorPage> {
               },
               child: BlocBuilder<ScriptEditorBloc, ScriptEditorState>(
                 builder: (context, state) {
-                  if (state is ScriptEditorLoaded && state.pdfController != null) {
+                  if (state is ScriptEditorLoaded &&
+                      state.pdfController != null) {
                     return Scaffold(
                       appBar: const PreferredSize(
                         preferredSize: Size.fromHeight(60.0),
@@ -102,6 +108,13 @@ class _ScriptEditorPageState extends State<ScriptEditorPage> {
     );
   }
 
+  /// Builds the main body of the script editor page.
+  ///
+  /// Parameters:
+  /// - [context]: Build context.
+  /// - [state]: Current state of the script editor.
+  ///
+  /// Returns: A widget containing the layout of the script editor page.
   Widget buildBody(BuildContext context, ScriptEditorLoaded state) {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -123,10 +136,12 @@ class _ScriptEditorPageState extends State<ScriptEditorPage> {
                       children: [
                         if (state.isCameraVisible)
                           LayoutBuilder(
-                            builder: (context, camConstraints) => CameraWidget(width: camConstraints.maxWidth),
+                            builder: (context, camConstraints) =>
+                                CameraWidget(width: camConstraints.maxWidth),
                           ),
                         Expanded(
-                          child: Inspector(selectedInspector: state.selectedInspector),
+                          child: Inspector(
+                              selectedInspector: state.selectedInspector),
                         ),
                       ],
                     ),

@@ -4,7 +4,7 @@ import 'package:pdfrx/pdfrx.dart';
 import 'package:stage_assistant/features/script_editor/domain/models/cue.dart';
 import '../../models/annotation.dart';
 import '../../repository/annotation_tool.dart';
-import '../../repository/pdf_utils.dart';
+import '../../use_cases/pdf_utils.dart';
 import '../../../data/repositories/annotations_repository.dart';
 import 'package:collection/collection.dart';
 import '../script_editor_bloc.dart';

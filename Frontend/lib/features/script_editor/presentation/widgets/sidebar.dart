@@ -1,3 +1,10 @@
+/// Sidebar Widget for the stage assistant application.
+/// 
+/// Author: Jack Beaumont
+/// Date: 06/06/2024
+/// 
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stage_assistant/features/script_editor/data/repositories/performer_tracker_repository.dart';
@@ -24,9 +31,9 @@ class Sidebar extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(
+                  const Center(
                     child: Column(
-                      children: const [
+                      children: [
                         Text('House Open', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
                         Divider(color: Colors.grey),
                         Text('Running Time', style: TextStyle(color: Colors.grey, fontSize: 16)),
@@ -38,9 +45,9 @@ class Sidebar extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
+                      const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text('Act Up', style: TextStyle(color: Colors.grey, fontSize: 14)),
                           SizedBox(height: 4), // Adding spacing to bring numbers closer
                           Text('00:17:27', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),

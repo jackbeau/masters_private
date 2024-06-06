@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -28,9 +27,9 @@ class AnnotationsProvider implements AnnotationsProviderBase {
   @override
   Future<void> init() async {
     final prefs = await SharedPreferences.getInstance();
-    _nodeId = prefs.getString('nodeId') ?? Uuid().v4();
+    _nodeId = prefs.getString('nodeId') ?? const Uuid().v4();
     if (_nodeId.isEmpty) {
-      _nodeId = Uuid().v4();
+      _nodeId = const Uuid().v4();
       await prefs.setString('nodeId', _nodeId);
     }
     await fetchAnnotationsFromAPI();
@@ -46,7 +45,7 @@ class AnnotationsProvider implements AnnotationsProviderBase {
 
   @override
   Future<void> addAnnotation(Annotation annotation) async {
-    final changeId = Uuid().v4();
+    final changeId = const Uuid().v4();
     _annotations.add(annotation);
     _queueChange({
       'id': changeId,
@@ -60,7 +59,7 @@ class AnnotationsProvider implements AnnotationsProviderBase {
 
   @override
   Future<void> updateAnnotation(Annotation annotation) async {
-    final changeId = Uuid().v4();
+    final changeId = const Uuid().v4();
     final index = _annotations.indexWhere((a) => a.id == annotation.id);
     if (index != -1) {
       _annotations[index] = annotation;
@@ -77,7 +76,7 @@ class AnnotationsProvider implements AnnotationsProviderBase {
 
   @override
   Future<void> removeAnnotation(Annotation annotation) async {
-    final changeId = Uuid().v4();
+    final changeId = const Uuid().v4();
     _annotations.removeWhere((a) => a.id == annotation.id);
     _queueChange({
       'id': changeId,

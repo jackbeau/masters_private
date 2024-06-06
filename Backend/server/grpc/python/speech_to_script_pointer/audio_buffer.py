@@ -1,3 +1,10 @@
+"""
+Audio Buffer Module
+
+This module provides a class to handle audio buffering and recording using
+PyAudio.
+"""
+
 import pyaudio
 import numpy as np
 from collections import deque
@@ -11,6 +18,19 @@ logging.basicConfig(level=logging.INFO)
 
 
 class AudioBuffer:
+    """
+    A class to handle audio buffering and recording using pyaudio.
+
+    Attributes:
+        RATE (int): The sample rate of the audio.
+        CHUNK (int): The number of frames in the buffer.
+        max_chunks (int): The maximum number of chunks to store in the buffer.
+        frames (deque): A deque to store audio frames.
+        pa (pyaudio.PyAudio): The PyAudio instance.
+        stream (pyaudio.Stream): The audio stream.
+        thread (threading.Thread): The thread to collect audio data.
+    """
+
     RATE = 44100  # Samples collected per second
     CHUNK = 2048  # Number of frames in the buffer
 
@@ -28,7 +48,7 @@ class AudioBuffer:
         self._open_stream()
         self.thread = threading.Thread(target=self._collect_data, daemon=True)
 
-    def _open_stream(self):
+    def _open_stream(self) -> None:
         """Helper method to open the audio stream."""
         self.stream = self.pa.open(
             format=pyaudio.paInt16,
@@ -36,10 +56,10 @@ class AudioBuffer:
             rate=self.RATE,
             input=True,
             frames_per_buffer=self.CHUNK,
-            input_device_index=1
+            input_device_index=1,
         )
 
-    def __call__(self):
+    def __call__(self) -> np.ndarray:
         """
         When the instance is called, concatenate the stored audio frames.
 
@@ -48,7 +68,7 @@ class AudioBuffer:
         """
         return np.concatenate(self.frames)
 
-    def __len__(self):
+    def __len__(self) -> int:
         """
         Define the length of the instance.
 
@@ -57,7 +77,7 @@ class AudioBuffer:
         """
         return self.CHUNK * self.max_chunks
 
-    def duration(self):
+    def duration(self) -> str:
         """
         Calculate and format the duration of audio.
 
@@ -68,13 +88,11 @@ class AudioBuffer:
         minutes, seconds = divmod(duration_seconds, 60)
         milliseconds = int((seconds - int(seconds)) * 1000)
         formatted_duration = "{:02}:{:02}.{:02}".format(
-            int(minutes),
-            int(seconds),
-            milliseconds
+            int(minutes), int(seconds), milliseconds
         )
         return formatted_duration
 
-    def is_full(self):
+    def is_full(self) -> bool:
         """
         Check if the deque is full.
 
@@ -83,13 +101,13 @@ class AudioBuffer:
         """
         return len(self.frames) == self.max_chunks
 
-    def start(self):
+    def start(self) -> None:
         """Start collecting audio data in a separate thread."""
         self.thread.start()
         while not self.is_full():
             time.sleep(0.1)
 
-    def stop(self):
+    def stop(self) -> None:
         """Stop the data collection thread and close the audio stream."""
         self.thread.join()  # Wait for the thread to finish before exiting
         if self.stream is not None:
@@ -97,7 +115,7 @@ class AudioBuffer:
             self.stream.close()
         self.pa.terminate()
 
-    def _collect_data(self):
+    def _collect_data(self) -> None:
         """Collect audio data in a separate thread."""
         try:
             while True:
@@ -110,13 +128,15 @@ class AudioBuffer:
                     if e.errno == pyaudio.paInputOverflowed:
                         logging.warning("Input overflowed. Frame dropped.")
                     elif e.errno == -9988:  # Stream closed error
-                        logging.warning("Stream closed. Attempting to restart.")
+                        logging.warning(
+                            "Stream closed. Attempting to restart."
+                        )
                         self._restart_stream()
                     else:
                         logging.error(f"Error during recording: {e}")
-                    tb_str = traceback.format_exc()
-                    logging.error(f"Traceback: {tb_str}")
-                    continue
+                        tb_str = traceback.format_exc()
+                        logging.error(f"Traceback: {tb_str}")
+                        continue
                 except Exception as e:
                     logging.error(f"Error during recording: {e}")
                     tb_str = traceback.format_exc()
@@ -125,13 +145,13 @@ class AudioBuffer:
         finally:
             self._close_stream()
 
-    def _restart_stream(self):
+    def _restart_stream(self) -> None:
         """Restart the audio stream after it has been closed."""
         self._close_stream()
         time.sleep(0.5)  # Delay before restarting the stream
         self._open_stream()
 
-    def _close_stream(self):
+    def _close_stream(self) -> None:
         """Helper method to close the audio stream."""
         try:
             if self.stream is not None:
@@ -140,7 +160,7 @@ class AudioBuffer:
         except OSError as e:
             logging.warning(f"Stream already closed: {e}")
 
-    def __del__(self):
+    def __del__(self) -> None:
         """Ensure resources are cleaned up on deletion."""
         self._close_stream()
         if self.pa is not None:

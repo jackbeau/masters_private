@@ -1,3 +1,8 @@
+/*
+ * Author: Jack Beaumont
+ * Date: 06/06/2024
+ */
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stage_assistant/features/script_editor/domain/models/cue.dart';
@@ -6,15 +11,17 @@ import '../../../domain/bloc/cue_editor_bloc.dart';
 import '../../../domain/models/tag.dart';
 import '../../../data/repositories/annotations_repository.dart';
 
+/// Controller for managing Tag-related text editing controllers.
 class TagController {
-  TextEditingController cueController;
-  TextEditingController descriptionController;
+  final TextEditingController cueController;
+  final TextEditingController descriptionController;
 
   TagController({String? cue, String? description})
       : cueController = TextEditingController(text: cue),
         descriptionController = TextEditingController(text: description);
 }
 
+/// The CueEditor widget allows editing of Cues and their associated Tags.
 class CueEditor extends StatefulWidget {
   final AnnotationsRepository annotationsRepository;
 
@@ -26,7 +33,7 @@ class CueEditor extends StatefulWidget {
 
 class CueEditorWidgetState extends State<CueEditor> {
   final _formKey = GlobalKey<FormState>();
-  late Cue _selectedCue; // the cue that is selected according to the script manager
+  late Cue _selectedCue;
   late List<TagController> _tagControllers;
   late TextEditingController _noteController;
   late TextEditingController _titleController;
@@ -215,6 +222,10 @@ class CueEditorWidgetState extends State<CueEditor> {
     );
   }
 
+  /// Builds the Tag controllers for the given list of tags.
+  /// 
+  /// Parameters:
+  /// - `tags`: The list of tags to build controllers for.
   void _buildTagControllers(List<Tag> tags) {
     _tagControllers = tags.map((tag) {
       return TagController(
@@ -224,16 +235,35 @@ class CueEditorWidgetState extends State<CueEditor> {
     }).toList();
   }
 
+  /// Adds a new Tag to the list of Tag controllers and updates the state.
+  /// 
+  /// Parameters:
+  /// - `context`: The BuildContext of the current widget.
   void _addNewTag(BuildContext context) {
     _tagControllers.add(TagController());
     context.read<CueEditorBloc>().add(AddTag(Tag()));
   }
 
+  /// Removes a Tag from the list of Tag controllers and updates the state.
+  /// 
+  /// Parameters:
+  /// - `context`: The BuildContext of the current widget.
+  /// - `tagController`: The TagController to remove.
+  /// - `index`: The index of the Tag to remove.
   void _removeTag(BuildContext context, TagController tagController, int index) {
     _tagControllers.removeWhere((controller) => controller == tagController);
     context.read<CueEditorBloc>().add(RemoveTag(index));
   }
 
+  /// Builds a widget for a given TagController.
+  /// 
+  /// Parameters:
+  /// - `context`: The BuildContext of the current widget.
+  /// - `tagController`: The TagController to build the widget for.
+  /// - `index`: The index of the TagController.
+  /// 
+  /// Returns:
+  /// A Widget representing the TagController.
   Widget _buildTagWidget(BuildContext context, TagController tagController, int index) {
     return Row(
       children: [
@@ -296,6 +326,12 @@ class CueEditorWidgetState extends State<CueEditor> {
   }
 }
 
+/// Custom form field widget for standardized input fields.
+///
+/// Parameters:
+/// - `label`: The label to display above the text field.
+/// - `controller`: The TextEditingController for managing the input text.
+/// - `onChanged`: The callback function to handle changes in the text field.
 class CustomFormField extends StatelessWidget {
   final String label;
   final TextEditingController controller;

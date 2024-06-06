@@ -6,11 +6,12 @@ Date: 2024-01-26
 Description: Convert pdf document to JSON array contextually encoding page and
 line data.
 """
+
 import json
-import os
 import sys
 
 from pdf_text_extractor import PDFTextExtractor
+
 
 def perfom_ocr(file_path):
     try:
@@ -20,6 +21,7 @@ def perfom_ocr(file_path):
         print(f"Error: {file_not_found_error}")
     except Exception as other_error:
         print(f"An unexpected error occurred: {other_error}")
+
 
 if __name__ == "__main__":
     file_path = sys.argv[1]

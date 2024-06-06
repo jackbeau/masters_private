@@ -1,23 +1,23 @@
+// Author: Jack Beaumont
+// Date: 06/06/2024
+
 import 'package:flutter/material.dart';
-// If you are going to use settings or any service that needs to be initialized, uncomment these:
-// import 'pages/settings/settings_controller.dart';
-// import 'pages/settings/settings_service.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'core/theme/theme.dart';
 import 'shared/routes/app_routes.dart';
-import 'package:flutter_web_plugins/url_strategy.dart';
 
-
-void main() async {
+/// Main entry point for the application.
+/// 
+/// This function ensures Flutter widgets are initialized, sets up URL strategy,
+/// and starts the app.
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Assuming SettingsService is what you might use for loading and saving settings
-  // final settingsService = SettingsService();
-  // final settingsController = SettingsController(settingsService);
-  // await settingsController.loadSettings();
 
-  usePathUrlStrategy();
+  usePathUrlStrategy(); // Enables path URL strategy for web apps.
   runApp(const MyApp());
 }
 
+/// Root widget of the application.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Stage Assistant Client',
-      themeMode: ThemeMode.light, // Or ThemeMode.dark, which could be dynamically determined
-      theme: GlobalThemeData.lightThemeData, 
+      themeMode: ThemeMode.light,
+      theme: GlobalThemeData.lightThemeData,
       darkTheme: GlobalThemeData.darkThemeData,
       routerConfig: AppRoutes.defineRoutes(),
     );

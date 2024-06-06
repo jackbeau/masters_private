@@ -1,12 +1,21 @@
+// Author: Jack Beaumont
+// Date: 06/06/2024
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/models/cue.dart'; // Update this path to wherever your Cue model is defined
 import '../../../domain/bloc/script_editor_bloc.dart';
 import '../../../domain/bloc/inspector_cues_bloc.dart';
+import 'package:logging/logging.dart';
 
+// Initialize logging
+final Logger _logger = Logger('CueTile');
+
+/// A custom painter for drawing a Cue object on a Canvas.
 class CuePainter extends CustomPainter {
   final Cue cue;
 
+  /// Constructs a [CuePainter] with a given [Cue].
   CuePainter(this.cue);
 
   @override
@@ -21,9 +30,11 @@ class CuePainter extends CustomPainter {
   }
 }
 
+/// A widget representing a tile for a [Cue] object.
 class CueTile extends StatelessWidget {
   final Cue cue;
 
+  /// Constructs a [CueTile] with a given [Cue].
   const CueTile({super.key, required this.cue});
 
   @override
@@ -39,6 +50,7 @@ class CueTile extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(5.0),
         onTap: () {
+          _logger.info('CueTile tapped');
           // Add functionality for tap if needed
         },
         child: Column(
@@ -94,6 +106,7 @@ class CueTile extends StatelessWidget {
                       iconSize: 20,
                       icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.onSurface),
                       onPressed: () {
+                        _logger.info('Edit button pressed for cue: ${cue.title}');
                         context.read<ScriptEditorBloc>().add(UpdateSelectedAnnotationEvent(cue));
                         context.read<ScriptEditorBloc>().add(EditorChanged(EditorPanel.addCue));
                       },
@@ -101,6 +114,7 @@ class CueTile extends StatelessWidget {
                     PopupMenuButton<String>(
                       onSelected: (value) {
                         if (value == 'Delete') {
+                          _logger.info('Delete option selected for cue: ${cue.title}');
                           _deleteCue(context, cue);
                         }
                       },
@@ -148,7 +162,12 @@ class CueTile extends StatelessWidget {
     );
   }
 
+  /// Deletes the given [Cue] and updates the state accordingly.
+  ///
+  /// This method reads the [InspectorCuesBloc] and [ScriptEditorBloc] from the [BuildContext]
+  /// to dispatch the appropriate events to delete the cue and update the selected annotation.
   void _deleteCue(BuildContext context, Cue cue) {
+    _logger.info('Deleting cue: ${cue.title}');
     context.read<InspectorCuesBloc>().add(DeleteAnnotationEvent(cue));
     context.read<ScriptEditorBloc>().add(UpdateSelectedAnnotationEvent(null));
   }

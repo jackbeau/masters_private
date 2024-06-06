@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class Annotation {
-  var timestamp;
+  DateTime? timestamp;
 
   void draw(Canvas canvas);
   bool isInObject(Annotation annotation, Offset interactionPosition);
