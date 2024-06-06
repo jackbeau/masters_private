@@ -21,8 +21,10 @@ Ensure you have the following installed on your system:
 ### Cloning the Repository
 
 Clone the master repository to your local machine:
-' git clone https://github.com/jackbeau/masters'
-' cd stage-assistant '
+```
+bash git clone https://github.com/jackbeau/masters
+ cd stage-assistant
+```
 
 ## Backend and Frontnd Setup
 
