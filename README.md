@@ -32,7 +32,7 @@ Ensure you have the following installed on your system:
 
 Clone the master repository to your local machine:
 ```bash
- git clone https://github.com/jackbeau/masters
+git clone https://github.com/jackbeau/masters
 cd stage-assistant
 ```
 
