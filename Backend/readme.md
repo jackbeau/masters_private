@@ -22,12 +22,12 @@ This directory contains the code for the backend of the Stage Assistant applicat
 ### Virtual Environment
 
 It is recommended to create a virtual environment in this directory with Python 3.12. To activate the virtual environment you created, run:
-```bash source .venv/bin/activate ```
+```source .venv/bin/activate ```
 
 ### Dependencies
 
 You can install all the Python dependencies with:
-```bash pip install -r requirements.txt ```
+```pip install -r requirements.txt ```
 
 Additionally, you will need to install `python-tk` and `mosquitto`.
 
@@ -53,7 +53,7 @@ To use the performer tracker, you will also need to install `deep-person-reid`:
 To run the backend server, you will need to install `npm` and `nodejs`. Please follow the instructions applicable for your system.
 
 Once installed, you will need to install the node packages:
-```bash npm install ```
+```npm install ```
 
 You will also need to install a Java Runtime Environment on your system to run HiveMQTT.
 
