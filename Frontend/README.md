@@ -14,7 +14,9 @@ NOTE this code has only been tested on MacOS on Google Chrome.
 ### Install Dependencies
 
 Navigate to the project directory and install the required dependencies:
-```bash flutter pub get```
+```bash
+flutter pub get
+```
 
 ### Running the Application
 
@@ -24,5 +26,5 @@ To run the Flutter application on your preferred device (emulator or physical de
 ### Building for Production
 
 To build the application for production, run:
-```bash flutter build apk ``` # For Android
-```bash flutter build ios ```  # For iOS
+```flutter build apk ``` # For Android
+```flutter build ios ```  # For iOS
