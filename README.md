@@ -2,6 +2,16 @@
 
 This repository contains the complete codebase for the Stage Assistant application, including both the backend and frontend components.
 
+Stage assistant is a real-time performer and script tracking tool for the performing arts. It provides the following key features:
+- Tracking the current location of a live performance in a script in real-time using speech recognition and NLP.
+- Tracking the current location of performers on stage in real-time, identifying them and providing coordinates in 3D space using solely a 2D video input.
+- A collaborative script annotation tool, designed for the demands of live performenaces.
+
+NOTE: This project is still in development.
+
+![Frontend UI](media/gui.png)
+![Backend UI](media/server_home.png)
+
 ## Repository Structure
 
 - `/Backend`: Contains the code for the backend of the Stage Assistant application.
